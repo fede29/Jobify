@@ -11,15 +11,11 @@ import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TableLayout;
-import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.fragment.ChatsFragment;
 import com.fiuba.taller2.jobify.fragment.ContactsFragment;
 import com.fiuba.taller2.jobify.fragment.ProfileFragment;
@@ -28,6 +24,12 @@ import com.taller2.fiuba.jobify.R;
 
 
 public class HomeActivity extends Activity {
+
+    private User user;
+
+    private static class ExtrasKeys {
+        public final static String USER = "user";
+    }
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -44,12 +46,18 @@ public class HomeActivity extends Activity {
      */
     ViewPager mViewPager;
 
+    public static Context getAppContext() {
+        return getAppContext();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         final ActionBar actionBar = getActionBar();
         actionBar.hide();
+
+        user = (User) getIntent().getExtras().getSerializable(ExtrasKeys.USER);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -61,7 +69,7 @@ public class HomeActivity extends Activity {
 
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(mViewPager);
-        tabs.setIndicatorColor(getResources().getColor(R.color.darkblue)); // TODO: update deprecated
+        tabs.setIndicatorColor(getResources().getColor(R.color.darkcyan));
     }
 
 
@@ -87,8 +95,10 @@ public class HomeActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent createIntent(Context ctx) {
-        return new Intent(ctx, HomeActivity.class);
+    public static Intent createIntent(Context ctx, User u) {
+        Intent intent = new Intent(ctx, HomeActivity.class);
+        intent.putExtra(ExtrasKeys.USER, u);
+        return intent;
     }
 
 
@@ -116,7 +126,7 @@ public class HomeActivity extends Activity {
                 case 1:
                     return ContactsFragment.newInstance();
                 case 2:
-                    return ProfileFragment.newInstance();
+                    return ProfileFragment.newInstance(user);
                 case 3:
                     return SearchFragment.newInstance();
             }

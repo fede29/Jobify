@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="darkblue">#FF2980B9</color>
+    <color name="cyan">#FF3498DB</color>
+    <color name="darkcyan">#FF2980B9</color>
+    <color name="darkercyan">#FF1E5675</color>
+
+    <color name="opaqueblue">#3a71a0</color>
+
+    <color name="darkwhite">#ffDFDFDF</color>
+    <color name="darkerwhite">#ffd0d0d0</color>
+    <color name="bluegrey">#ffaebaca</color>
+    <color name="grey">#ff858585</color>
+    <color name="darkbluegrey">#ff303045</color>
 
 </resources>

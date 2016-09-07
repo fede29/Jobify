@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Top and bottom paddings are useful to set a default padding between contacts texts
+    They are intended for setting visibility gone/visible when needed -->
+
+    <View android:id="@+id/top_padding"
+        android:visibility="gone"
+        android:layout_height="6dp"
+        android:layout_width="match_parent" />
+
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Left and right paddings are useful for setting default paddings in different contacts texts
+        They are intended for setting visibility gone/visible when needed -->
+
+        <View android:id="@+id/left_padding"
+            android:layout_weight="4"
+            android:layout_height="0dp"
+            android:layout_width="0dp" />
+
+        <TextView android:id="@+id/message_box"
+            android:padding="8dp"
+            android:layout_weight="6"
+            android:background="@color/darkcyan"
+            android:textColor="@color/darkwhite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="t" />
+
+        <View android:id="@+id/right_padding"
+            android:layout_weight="4"
+            android:visibility="gone"
+            android:layout_height="0dp"
+            android:layout_width="0dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

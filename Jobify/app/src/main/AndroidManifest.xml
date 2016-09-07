@@ -2,15 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.taller2.fiuba.jobify" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.fiuba.taller2.jobify.activity.HomeActivity" >
+        <activity android:name="com.fiuba.taller2.jobify.activity.HomeActivity" >
         </activity>
         <activity
             android:name="com.fiuba.taller2.jobify.activity.LoginActivity"
@@ -20,6 +19,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.fiuba.taller2.jobify.activity.EditProfileActivity"
+            android:label="@string/title_activity_edit_profile" >
         </activity>
     </application>
 

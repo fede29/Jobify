@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout android:id="@+id/chats_layout"
+    <ListView android:id="@+id/chats_list"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </LinearLayout>
+    </ListView>
 
 </ScrollView>

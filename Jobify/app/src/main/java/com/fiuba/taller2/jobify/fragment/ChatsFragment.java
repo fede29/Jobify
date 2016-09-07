@@ -31,4 +31,8 @@ public class ChatsFragment extends Fragment {
     }
 
 
+    /*************************************** PRIVATE STUFF ****************************************/
+
+
+
 }

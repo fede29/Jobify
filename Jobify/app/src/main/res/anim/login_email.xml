@@ -2,9 +2,10 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <translate
-        android:duration="750"
+        android:duration="500"
         android:toYDelta="0"
-        android:fromYDelta="@integer/logo_deltaY"
+        android:fromYDelta="@integer/email_deltaY"
+        android:startOffset="@integer/email_delay"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
 
 </set>
