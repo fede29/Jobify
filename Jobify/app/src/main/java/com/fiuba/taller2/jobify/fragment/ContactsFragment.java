@@ -56,7 +56,9 @@ public class ContactsFragment extends Fragment {
     }
 
 
-    /************************************** PRIVATE STUFF *****************************************/
+    /**
+     * *********************************** PRIVATE STUFF ****************************************
+     */
 
     private class ContactsListAdapter extends ArrayAdapter<User> {
 
@@ -84,3 +86,5 @@ public class ContactsFragment extends Fragment {
             super(context, resource, textViewResourceId, objects);
         }
     }
+
+}
