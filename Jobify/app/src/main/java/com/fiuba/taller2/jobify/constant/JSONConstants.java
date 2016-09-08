@@ -5,6 +5,10 @@ public class JSONConstants {
     public final static String ID = "id";
     public static final String TOKEN = "token";
 
+    public static class Arrays {
+        public static final String CONTANCTS = "contacts";
+    }
+
     public static class User {
         public final static String USER = "user";
         public final static String FIRST_NAME = "first_name";

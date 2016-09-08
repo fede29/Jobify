@@ -60,6 +60,11 @@ public abstract class HttpCallback implements Callback {
         showLongToast(message);
     }
 
+    protected void announceDefaultError() {
+        // TODO: Log
+        showLongToast("There was an error. Please, try again later");
+    }
+
     protected void showLongToast (final String message) {
         activity.runOnUiThread(new Runnable() {
             @Override
