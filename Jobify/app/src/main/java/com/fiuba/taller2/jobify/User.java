@@ -102,26 +102,4 @@ public class User implements Serializable {
 
     }
 
-    private class UserLoadCallback implements Callback {
-
-        private User userReference;
-
-        public UserLoadCallback (User u) {
-            userReference = u;
-        }
-
-        @Override
-        public void onFailure (Call call, IOException e) {}
-
-        @Override
-        public void onResponse (Call call, Response response) throws IOException {
-            try {
-                JSONObject jsonResponse = new JSONObject(response.body().string());
-                userReference.loadFrom(jsonResponse.getJSONObject(JSONConstants.User.USER));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }

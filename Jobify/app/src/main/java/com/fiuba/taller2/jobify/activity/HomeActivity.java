@@ -122,9 +122,9 @@ public class HomeActivity extends Activity {
             // FragmentPagerAdapter keeps things in memory, so there is no need to saved the instances
             switch (position) {
                 case 0:
-                    return ChatsFragment.newInstance();
+                    return ChatsFragment.newInstance(user);
                 case 1:
-                    return ContactsFragment.newInstance();
+                    return ContactsFragment.newInstance(user);
                 case 2:
                     return ProfileFragment.newInstance(user);
                 case 3:
