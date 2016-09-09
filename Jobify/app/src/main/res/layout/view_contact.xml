@@ -2,17 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="56dp">
+    android:layout_height="64dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/contact_pic"
         android:padding="8dp"
+        android:src="@drawable/default_user_pic"
         android:layout_width="56dp"
         android:layout_height="match_parent" />
 
     <LinearLayout android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:paddingEnd="8dp">
+        android:paddingEnd="8dp"
+        android:paddingLeft="8dp"
+        android:layout_gravity="center_vertical">
 
         <TextView android:id="@+id/contact_name"
             android:text="Contact's name"
@@ -29,10 +33,6 @@
             android:layout_weight="1"
             android:text="Job position"
             android:gravity="center_vertical" />
-
-        <View android:background="#ff808080"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
 
     </LinearLayout>
 

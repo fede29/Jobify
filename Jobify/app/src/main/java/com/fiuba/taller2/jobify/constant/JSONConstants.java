@@ -3,10 +3,10 @@ package com.fiuba.taller2.jobify.constant;
 public class JSONConstants {
 
     public final static String ID = "id";
-    public static final String TOKEN = "token";
+    public final static String TOKEN = "token";
 
     public static class Arrays {
-        public static final String CONTANCTS = "contacts";
+        public final static String CONTANCTS = "contacts";
     }
 
     public static class User {
@@ -18,9 +18,13 @@ public class JSONConstants {
     }
 
     public static class Chat {
-        public final static String CHAT = "chat";
         public final static String CONTACT = "contact";
-        public static final String LAST_MESSAGE = "last_message";
+        public final static String LAST_MESSAGE = "last_message";
     }
 
+    public class Contact {
+        public final static String FIRST_NAME = "first_name";
+        public final static String LAST_NAME = "last_name";
+        public static final String PROFILE_PIC = "profile_pic";
+    }
 }

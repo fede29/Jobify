@@ -23,18 +23,24 @@
 
         <EditText android:id="@+id/email_entry"
             android:hint="email"
-            android:textColor="@color/darkbluegrey"
+            android:text="juanlambre-27@hotmail.com"
+            android:textColor="@color/darkwhite"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:textColorHint="@color/darkwhite"
+            android:singleLine="true" />
 
         <EditText android:id="@+id/password_entry"
             android:hint="password"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:textColor="@color/darkwhite"
+            android:textColorHint="@color/darkwhite"
+            android:singleLine="true" />
 
         <Button android:id="@+id/login_btn"
             android:text="LOG IN"

@@ -1,38 +1,28 @@
 package com.fiuba.taller2.jobify;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.service.media.MediaBrowserService;
-import android.util.Log;
-import android.widget.ImageView;
-
-import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 public class User implements Serializable {
 
     private int id;
-    private String firstName, lastName, about, profilePicUrl;
+    private String firstName, lastName, about, pictureURL;
+    ArrayList<Contact> contacts;
 
 
     public User() {
         id = 0;
-        firstName = lastName = about = profilePicUrl = null;
+        firstName = lastName = about = pictureURL = null;
+        contacts = null;
     }
 
     public static User hydrate (JSONObject json) {
@@ -43,10 +33,11 @@ public class User implements Serializable {
 
     public void loadFrom (JSONObject jsonUser) {
         try {
+            id = jsonUser.getInt(JSONConstants.ID);
             firstName = jsonUser.getString(JSONConstants.User.FIRST_NAME);
             lastName = jsonUser.getString(JSONConstants.User.LAST_NAME);
             about = jsonUser.getString(JSONConstants.User.ABOUT);
-            profilePicUrl = jsonUser.getString(JSONConstants.User.PROFILE_PIC_URL);
+            pictureURL = jsonUser.getString(JSONConstants.User.PROFILE_PIC_URL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,8 +47,16 @@ public class User implements Serializable {
         return firstName + " " + lastName;
     }
 
-    public void loadProfilePic(ImageView img) {
-        new DownloadProfilePicTask(img).execute(profilePicUrl);
+    public Boolean hasContactsLoaded() {
+        return contacts != null;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public Integer getID() {
+        return id;
     }
 
     public static User _createDummyUser() {
@@ -73,33 +72,13 @@ public class User implements Serializable {
         }
     }
 
-
-    /*************************************** PRIVATE STUFF ****************************************/
-
-    private class DownloadProfilePicTask extends AsyncTask<String, Void, Bitmap> {
-
-        ImageView img;
-
-        public DownloadProfilePicTask(ImageView img) {
-            this.img = img;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String[] urls) {
-            Bitmap bitmap = null;
-            try {
-                URL url = new URL(urls[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                bitmap = BitmapFactory.decodeStream(connection.getInputStream());
-                img.setImageBitmap(bitmap);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
+    public void addContacts(Collection<Contact> c) {
+        if (contacts == null) contacts = new ArrayList<>(c.size());
+        contacts.addAll(c);
     }
 
+
+    public String getPictureURL() {
+        return pictureURL;
+    }
 }

@@ -154,24 +154,37 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        public void onFailure(Call call, IOException e) {
-            super.onFailure(call, e);
+        public void onPostFailure(Call call, IOException e) {
             showLongToast("Loading dummy user");
             startApplication(User._createDummyUser());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    toggleLoader();
+                }
+            });
         }
 
         @Override
-        public void onResponse(Call call, Response httpResponse) throws IOException {
-            super.onResponse(call, httpResponse);
+        public void onPostResponse(Call call, Response response) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    toggleLoader();
+                }
+            });
+        }
+
+        @Override
+        public void onStatus200(Call call, Response httpResponse) {
             try {
-                JSONObject response = new JSONObject(httpResponse.body().string());
+                JSONObject response = getJSONResponse();
                 AppServerRequest.updateToken(response.getString(JSONConstants.TOKEN));
                 User user = User.hydrate(response.getJSONObject(JSONConstants.User.USER));
                 startApplication(user);
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 announceError("There was a problem, please try again later");
-                toggleLoader();
             }
         }
     }

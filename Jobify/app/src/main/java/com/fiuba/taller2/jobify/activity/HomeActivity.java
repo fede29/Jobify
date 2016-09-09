@@ -55,7 +55,7 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         final ActionBar actionBar = getActionBar();
-        actionBar.hide();
+        if (actionBar != null) actionBar.hide();
 
         user = (User) getIntent().getExtras().getSerializable(ExtrasKeys.USER);
 

@@ -3,7 +3,6 @@ package com.fiuba.taller2.jobify.fragment;
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,10 @@ import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.EditProfileActivity;
+import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -22,7 +24,6 @@ public class ProfileFragment extends Fragment {
 
     private User user;
     private View parentView;
-    private ImageButton profilePic;
 
     private class ExtrasKeys {
         public final static String USER = "user";
@@ -60,12 +61,12 @@ public class ProfileFragment extends Fragment {
         TextView name = (TextView) parentView.findViewById(R.id.name),
                 jobPosition = (TextView) parentView.findViewById(R.id.job_position),
                 about = (TextView) parentView.findViewById(R.id.about_text);
-        profilePic = (ImageButton) parentView.findViewById(R.id.profile_pic);
+        CircleImageView profilePic = (CircleImageView) parentView.findViewById(R.id.profile_pic);
 
         name.setText(user.getFullname());
         ImageButton editProfile = (ImageButton) parentView.findViewById(R.id.edit_profile_btn);
         editProfile.setOnClickListener(new EditProfileOnClickListener());
-        user.loadProfilePic(profilePic);
+        Picasso.with(getActivity()).load(user.getPictureURL()).into(profilePic);
     }
 
 

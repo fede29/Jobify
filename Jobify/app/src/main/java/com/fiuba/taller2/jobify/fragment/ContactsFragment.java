@@ -5,27 +5,28 @@ import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.HttpCallback;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
+import com.fiuba.taller2.jobify.utils.AppServerRequest;
+import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Response;
 
 
@@ -61,28 +62,70 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
         ListView contactsList = (ListView) rootView.findViewById(R.id.contacts_list);
-        // First: check if user doesnt have contacts list. If not, do this:
-        // contactsList.setAdapter(new ContactsListAdapter(getContext());
-        // AppServerRequest.getContacts(user, new ContactsLoadCallback(this, contactsList.getAdapter()))
-        // Else, if has contacts list, add them to the adapter
+
+        if (user.hasContactsLoaded()) {
+            contactsList.setAdapter(new ContactsListAdapter(getActivity(), user.getContacts()));
+        } else {
+            ContactsListAdapter adapter = new ContactsListAdapter(getActivity());
+            contactsList.setAdapter(adapter);
+            AppServerRequest.getContacts(user, new ContactsLoadCallback(getActivity(), adapter));
+        }
 
         return rootView;
     }
 
 
-    /**
-     * *********************************** PRIVATE STUFF ****************************************
-     */
+    /************************************* PRIVATE STUFF ******************************************/
 
     private class ContactsListAdapter extends ArrayAdapter<Contact> {
+
+        private class ContactViewHolder {
+            private CircleImageView profilePic;
+            private TextView name, jobPosition;
+        }
+
 
         public ContactsListAdapter(Context context) {
             super(context, R.layout.view_contact);
         }
 
         public ContactsListAdapter(Context context, List<Contact> contacts) {
-            super(context, R.layout.view_contact, (Contact[]) contacts.toArray());
+            super(context, R.layout.view_contact, contacts.toArray(new Contact[0]));
         }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Contact contact = getItem(position);
+            ContactViewHolder holder;
+            if (convertView == null || true) {
+                LayoutInflater inflater = (LayoutInflater) getActivity()
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.view_contact, parent, false);
+
+                holder = new ContactViewHolder();
+                holder.profilePic = (CircleImageView) convertView.findViewById(R.id.contact_pic);
+                holder.name = (TextView) convertView.findViewById(R.id.contact_name);
+                holder.jobPosition = (TextView) convertView.findViewById(R.id.job_position);
+                convertView.setTag(holder);
+            } else {
+                holder = (ContactViewHolder) convertView.getTag();
+            }
+
+            holder.name.setText(contact.getFullName());
+            if (contact.hasProfilePic())
+                Picasso.with(getContext()).load(contact.getPictureURL()).into(holder.profilePic);
+
+            /*
+            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            convertView = inflater.inflate(R.layout.view_contact, parent, false);
+            ((TextView) convertView.findViewById(R.id.contact_name)).setText(contact.getFullName());
+            WebCircleImageView contactPic = (WebCircleImageView) convertView.findViewById(R.id.contact_pic);
+            contactPic.setImageFromURL(contact.getPictureURL());
+            //*/
+
+            return convertView;
+        }
+
     }
 
     private class ContactsLoadCallback extends HttpCallback {
@@ -95,17 +138,23 @@ public class ContactsFragment extends Fragment {
         }
 
         @Override
-        public void onResponse(Call call, Response httpResponse) throws IOException {
-            super.onResponse(call, httpResponse);
+        public void onStatus200(Call call, Response httpResponse) {
             try {
-                JSONObject response = new JSONObject(httpResponse.body().string());
-                JSONArray jsonContacts = response.getJSONArray(JSONConstants.Arrays.CONTANCTS);
+                JSONArray jsonContacts = getJSONResponse().getJSONArray(JSONConstants.Arrays.CONTANCTS);
+                ArrayList<Contact> contacts = new ArrayList<>();
                 for (int i = 0; i < jsonContacts.length(); ++i) {
-                    adapter.add(Contact.hydrate(jsonContacts.getJSONObject(i)));
+                    contacts.add(Contact.hydrate(jsonContacts.getJSONObject(i)));
                 }
+                user.addContacts(contacts);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.addAll(user.getContacts());
+                    }
+                });
             } catch (JSONException e) {
                 e.printStackTrace();
-                announceDefaultError();
+                announceError(e.getMessage());
             }
         }
     }

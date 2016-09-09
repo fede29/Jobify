@@ -41,12 +41,13 @@
 
             </LinearLayout>
 
-            <ImageButton android:id="@+id/profile_pic"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_pic"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_centerInParent="true"
                 android:scaleType="centerCrop"
-                android:background="@color/darkerwhite" />
+                android:src="@drawable/default_user_pic" />
 
             <ImageButton android:id="@+id/edit_profile_btn"
                 android:background="@drawable/round_btn"
