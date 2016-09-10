@@ -11,11 +11,21 @@
         android:id="@+id/tabs"
         app:pstsShouldExpand="true"
         android:layout_width="match_parent"
+        app:pstsIndicatorHeight="4dp"
+        app:pstsDividerColor="#00000000"
+        app:pstsIndicatorColor="@color/darkercyan"
         android:layout_height="56dp" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+    <!-- Necessary layout if you want to add the PSTS shadow -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

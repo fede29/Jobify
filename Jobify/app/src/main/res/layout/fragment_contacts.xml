@@ -4,6 +4,8 @@
     tools:context="com.fiuba.taller2.jobify.fragment.ContactsFragment">
 
     <ListView android:id="@+id/contacts_list"
+        android:divider="@drawable/list_divider"
+        android:dividerHeight="1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
