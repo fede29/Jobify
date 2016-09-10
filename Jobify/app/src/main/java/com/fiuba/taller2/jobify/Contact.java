@@ -1,5 +1,7 @@
 package com.fiuba.taller2.jobify;
 
+import android.util.Log;
+
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 
 import org.json.JSONException;
@@ -21,6 +23,7 @@ public class Contact implements Serializable {
                             null : thisJson.getString(JSONConstants.Contact.PROFILE_PIC)
             );
         } catch (JSONException e) {
+            Log.e("Contact", e.getMessage());
             e.printStackTrace();
         }
         return c;

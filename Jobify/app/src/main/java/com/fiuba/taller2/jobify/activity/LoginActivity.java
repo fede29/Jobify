@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -182,8 +183,8 @@ public class LoginActivity extends Activity {
                 AppServerRequest.updateToken(response.getString(JSONConstants.TOKEN));
                 User user = User.hydrate(response.getJSONObject(JSONConstants.User.USER));
                 startApplication(user);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (JSONException e) {
+                Log.e("Login", e.getMessage());
                 announceError("There was a problem, please try again later");
             }
         }

@@ -2,6 +2,7 @@ package com.fiuba.taller2.jobify;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.fiuba.taller2.jobify.constant.JSONConstants;
@@ -41,14 +42,14 @@ public abstract class HttpCallback implements Callback {
 
     @Override
     public void onFailure(Call call, IOException e) {
-        // TODO: Log error
+        Log.w("Request fail", e.getMessage());
         String message;
         if (e instanceof SocketTimeoutException) {
             message = "Connection failed. Please, check your Internet connection.";
         } else {
             message = "There was an error. Please try again later.";
         }
-        showLongToast(message);
+        announceError(message);
         onPostFailure(call, e);
     }
 
@@ -79,10 +80,12 @@ public abstract class HttpCallback implements Callback {
     protected void onStatus201(Call c, Response r) {}
 
     protected void onStatus404(Call c, Response r) {
+        Log.w("Server status", "404");
         announceDefaultError();
     }
 
     protected void onStatus500(Call c, Response r) {
+        Log.e("Server status", "500");
         announceDefaultError();
     }
 
@@ -93,12 +96,10 @@ public abstract class HttpCallback implements Callback {
     /*************************************** PRIVATE STUFF ****************************************/
 
     protected void announceError(String message) {
-        // TODO: Must log and show toast
         showLongToast(message);
     }
 
     protected void announceDefaultError() {
-        // TODO: Log
         showLongToast("There was an error. Please, try again later");
     }
 

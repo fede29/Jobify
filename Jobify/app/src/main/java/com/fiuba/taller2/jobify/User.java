@@ -1,6 +1,8 @@
 package com.fiuba.taller2.jobify;
 
 
+import android.util.Log;
+
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 
 import org.json.JSONException;
@@ -38,7 +40,8 @@ public class User implements Serializable {
             lastName = jsonUser.getString(JSONConstants.User.LAST_NAME);
             about = jsonUser.getString(JSONConstants.User.ABOUT);
             pictureURL = jsonUser.getString(JSONConstants.User.PROFILE_PIC_URL);
-        } catch (Exception e) {
+        } catch (JSONException e) {
+            Log.e("User load", e.getMessage());
             e.printStackTrace();
         }
     }
