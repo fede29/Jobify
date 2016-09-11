@@ -8,5 +8,6 @@
     <style name="ActionBar" parent="android:Widget.Material.Light">
         <item name="android:background">@color/darkcyan</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_left_white</item>
+        <item name="android:textColor">@color/darkwhite</item>
     </style>
 </resources>

@@ -24,6 +24,10 @@
             android:name="com.fiuba.taller2.jobify.activity.EditProfileActivity"
             android:label="@string/title_activity_edit_profile" >
         </activity>
+        <activity
+            android:name="com.fiuba.taller2.jobify.activity.ContactActivity"
+            android:label="@string/title_activity_contact" >
+        </activity>
     </application>
 
 </manifest>
