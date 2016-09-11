@@ -15,6 +15,7 @@ public class JSONConstants {
         public final static String LAST_NAME = "last_name";
         public final static String ABOUT = "about";
         public final static String PROFILE_PIC_URL = "profile_pic";
+        public static final String CONTACTS = "contacts";
     }
 
     public static class Chat {
@@ -26,5 +27,6 @@ public class JSONConstants {
         public final static String FIRST_NAME = "first_name";
         public final static String LAST_NAME = "last_name";
         public static final String PROFILE_PIC = "profile_pic";
+        public static final String USER_ID = "user_id";
     }
 }

@@ -1,6 +1,7 @@
 package com.fiuba.taller2.jobify.utils;
 
 
+import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.User;
 
 import org.json.JSONObject;
@@ -35,17 +36,22 @@ public class AppServerRequest {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, params.toString());
-        post(BASE_URL + RequestConstants.Routes.LOGIN, callback, body);
+        post(generateURL(RequestConstants.Routes.LOGIN), callback, body);
     }
 
-    public static void getContacts(User user, Callback contactsLoadCallback) {
-        String url = String.format(
-                BASE_URL + "%s/%d/%s",
-                RequestConstants.Routes.USERS,
-                user.getID(),
-                RequestConstants.Routes.CONTACTS
+    public static void getContacts(User user, Callback callback) {
+        get(
+                generateURL(
+                        RequestConstants.Routes.USERS,
+                        user.getID(),
+                        RequestConstants.Routes.CONTACTS
+                ),
+                callback
         );
-        get(url, contactsLoadCallback);
+    }
+
+    public static void getUser(int userID, Callback callback) {
+        get(generateURL(RequestConstants.Routes.USERS, userID), callback);
     }
 
     public static void get(String url, Callback callback) {
@@ -67,6 +73,15 @@ public class AppServerRequest {
     }
 
     /************************************** PRIVATE STUFF *****************************************/
+
+    private static String generateURL(Object... uris) {
+        String url = BASE_URL;
+        for (Object uri : uris) {
+            if (uris[0] != uri) url += "/";
+            url += String.valueOf(uri);
+        }
+        return url;
+    }
 
     private static class RequestConstants {
         public class Routes {

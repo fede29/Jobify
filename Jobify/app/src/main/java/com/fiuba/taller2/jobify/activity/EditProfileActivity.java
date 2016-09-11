@@ -26,10 +26,12 @@ public class EditProfileActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         final ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Edit profile");
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Edit profile");
+        }
 
         user = (User) getIntent().getExtras().getSerializable(ExtrasKeys.USER);
     }

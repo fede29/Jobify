@@ -65,14 +65,7 @@ public class ContactsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
         ListView contactsList = (ListView) rootView.findViewById(R.id.contacts_list);
 
-        if (user.hasContactsLoaded()) {
-            contactsList.setAdapter(new ContactsListAdapter(getActivity(), user.getContacts()));
-        } else {
-            ContactsListAdapter adapter = new ContactsListAdapter(getActivity());
-            contactsList.setAdapter(adapter);
-            AppServerRequest.getContacts(user, new ContactsLoadCallback(getActivity(), adapter));
-        }
-
+        contactsList.setAdapter(new ContactsListAdapter(getActivity(), user.getContacts()));
         contactsList.setOnItemClickListener(new OnContactClickListener());
 
         return rootView;
@@ -85,7 +78,7 @@ public class ContactsFragment extends Fragment {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Contact contact = (Contact) adapterView.getSelectedItem();
+            Contact contact = (Contact) adapterView.getItemAtPosition(i);
             startActivity(ContactActivity.createIntent(getContext(), contact));
         }
     }

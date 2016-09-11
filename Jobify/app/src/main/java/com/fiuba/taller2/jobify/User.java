@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +25,7 @@ public class User implements Serializable {
     public User() {
         id = 0;
         firstName = lastName = about = pictureURL = null;
-        contacts = null;
+        contacts = new ArrayList<>();
     }
 
     public static User hydrate (JSONObject json) {
@@ -40,6 +41,10 @@ public class User implements Serializable {
             lastName = jsonUser.getString(JSONConstants.User.LAST_NAME);
             about = jsonUser.getString(JSONConstants.User.ABOUT);
             pictureURL = jsonUser.getString(JSONConstants.User.PROFILE_PIC_URL);
+            JSONArray jsonContacts = jsonUser.getJSONArray(JSONConstants.User.CONTACTS);
+            for (int i = 0; i < jsonContacts.length(); ++i) {
+                contacts.add(Contact.hydrate(jsonContacts.getJSONObject(i)));
+            }
         } catch (JSONException e) {
             Log.e("User load", e.getMessage());
             e.printStackTrace();
@@ -48,10 +53,6 @@ public class User implements Serializable {
 
     public String getFullname() {
         return firstName + " " + lastName;
-    }
-
-    public Boolean hasContactsLoaded() {
-        return contacts != null;
     }
 
     public List<Contact> getContacts() {
@@ -83,5 +84,9 @@ public class User implements Serializable {
 
     public String getPictureURL() {
         return pictureURL;
+    }
+
+    public String getJobPosition() {
+        return "Brrom traffic consultant";
     }
 }
