@@ -41,6 +41,7 @@ public class LoginActivity extends Activity {
 
     ImageView logoName;
     EditText emailEntry, passEntry;
+    TextView createAccountText;
     Button loginButton;
     RelativeLayout loaderLayout;
 
@@ -57,7 +58,7 @@ public class LoginActivity extends Activity {
         emailEntry = (EditText) findViewById(R.id.email_entry);
         passEntry = (EditText) findViewById(R.id.password_entry);
         loginButton = (Button) findViewById(R.id.login_btn);
-        TextView createAccountText = (TextView) findViewById(R.id.create_account_text);
+        createAccountText = (TextView) findViewById(R.id.create_account_text);
         createAccountText.setPaintFlags(createAccountText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +72,8 @@ public class LoginActivity extends Activity {
                 );
             }
         });
+
+        createAccountText.setOnClickListener(new OnCreateAccountClickListener());
 
         new Handler().post(new Runnable() {
             @Override
@@ -127,21 +130,31 @@ public class LoginActivity extends Activity {
         logoName.startAnimation(logoAnim);
     }
 
+    private class OnCreateAccountClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            startActivity(RegistrationActivity.createIntent(LoginActivity.this));
+        }
+    }
+
     private class LogoNameAnimation implements Animation.AnimationListener {
         @Override
         public void onAnimationStart(Animation animation) {}
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            Animation emailAnim = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.login_email),
-                    passwordAnim = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.login_password),
-                    loginBtnAnim = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.login_btn);
-            emailAnim.setAnimationListener(new VisibilityAnimationListener(emailEntry));
-            passwordAnim.setAnimationListener(new VisibilityAnimationListener(passEntry));
-            loginBtnAnim.setAnimationListener(new VisibilityAnimationListener(loginButton));
-            emailEntry.startAnimation(emailAnim);
-            passEntry.startAnimation(passwordAnim);
-            loginButton.startAnimation(loginBtnAnim);
+            View[] views = {
+                    emailEntry, passEntry, loginButton, findViewById(R.id.or_layout_2),
+                    createAccountText
+            };
+            int delaySum = 0;
+            for (View view : views) {
+                Animation anim = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.login_view);
+                anim.setStartOffset(anim.getStartOffset() + delaySum);
+                delaySum += 100;
+                anim.setAnimationListener(new VisibilityAnimationListener(view));
+                view.startAnimation(anim);
+            }
         }
 
         @Override

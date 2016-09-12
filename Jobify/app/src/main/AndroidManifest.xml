@@ -28,6 +28,10 @@
             android:name="com.fiuba.taller2.jobify.activity.ContactActivity"
             android:label="@string/title_activity_contact" >
         </activity>
+        <activity
+            android:name="com.fiuba.taller2.jobify.activity.RegistrationActivity"
+            android:label="@string/title_activity_registration" >
+        </activity>
     </application>
 
 </manifest>
