@@ -1,6 +1,5 @@
 package com.fiuba.taller2.jobify.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -13,23 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.Contact;
-import com.fiuba.taller2.jobify.HttpCallback;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.ContactActivity;
-import com.fiuba.taller2.jobify.constant.JSONConstants;
-import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.Call;
-import okhttp3.Response;
 
 
 public class ContactsFragment extends Fragment {
@@ -90,11 +80,6 @@ public class ContactsFragment extends Fragment {
             private TextView name, jobPosition;
         }
 
-
-        public ContactsListAdapter(Context context) {
-            super(context, R.layout.view_contact);
-        }
-
         public ContactsListAdapter(Context context, List<Contact> contacts) {
             super(context, R.layout.view_contact, contacts.toArray(new Contact[0]));
         }
@@ -119,37 +104,6 @@ public class ContactsFragment extends Fragment {
             return convertView;
         }
 
-    }
-
-    private class ContactsLoadCallback extends HttpCallback {
-
-        ContactsListAdapter adapter;
-
-        public ContactsLoadCallback(Activity activity, ContactsListAdapter adapter) {
-            super(activity);
-            this.adapter = adapter;
-        }
-
-        @Override
-        public void onStatus200(Call call, Response httpResponse) {
-            try {
-                JSONArray jsonContacts = getJSONResponse().getJSONArray(JSONConstants.Arrays.CONTANCTS);
-                ArrayList<Contact> contacts = new ArrayList<>();
-                for (int i = 0; i < jsonContacts.length(); ++i) {
-                    contacts.add(Contact.hydrate(jsonContacts.getJSONObject(i)));
-                }
-                user.addContacts(contacts);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.addAll(user.getContacts());
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-                announceError(e.getMessage());
-            }
-        }
     }
 
 }

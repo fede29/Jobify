@@ -76,12 +76,6 @@ public class User implements Serializable {
         }
     }
 
-    public void addContacts(Collection<Contact> c) {
-        if (contacts == null) contacts = new ArrayList<>(c.size());
-        contacts.addAll(c);
-    }
-
-
     public String getPictureURL() {
         return pictureURL;
     }

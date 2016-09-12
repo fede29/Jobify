@@ -1,20 +1,14 @@
 package com.fiuba.taller2.jobify;
 
-import android.app.Activity;
 import android.util.Log;
 
 import com.fiuba.taller2.jobify.constant.JSONConstants;
-import com.fiuba.taller2.jobify.utils.AppServerRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.Serializable;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class Contact implements Serializable {
 

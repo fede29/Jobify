@@ -84,7 +84,8 @@ public class ContactActivity extends Activity {
         ((ProfileBasicLayout) findViewById(R.id.basic_layout)).setViews(contact.getUser());
         ((ProfileExtendedLayout) findViewById(R.id.extended_layout)).setViews(contact.getUser());
         CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
-        Picasso.with(this).load(contact.getPictureURL()).into(profilePic);
+        if (contact.hasProfilePic())
+            Picasso.with(this).load(contact.getPictureURL()).into(profilePic);
     }
 
     private class UserLoadCallback extends HttpCallback {

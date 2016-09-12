@@ -143,13 +143,13 @@ public class HomeActivity extends Activity {
         public int getPageIconResId(int position) {
             switch (position) {
                 case 0:
-                    return R.drawable.ic_chat_darkblue;
+                    return R.drawable.ic_chat_darkcyan;
                 case 1:
-                    return R.drawable.ic_dossier_darkblue;
+                    return R.drawable.ic_dossier_darkcyan;
                 case 2:
-                    return R.drawable.ic_user_darkblue;
+                    return R.drawable.ic_user_darkcyan;
                 case 3:
-                    return R.drawable.ic_search_darkblue;
+                    return R.drawable.ic_search_darkcyan;
             }
             return 0;
         }
