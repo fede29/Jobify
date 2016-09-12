@@ -43,8 +43,13 @@ public class ContactActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
         contact = (Contact) getIntent().getExtras().getSerializable(ExtrasKeys.CONTACT);
-        AppServerRequest.getUser(contact.getUserID(), new UserLoadCallback(this));
+        if (contact.getUser() == null)
+            AppServerRequest.getUser(contact.getUserID(), new UserLoadCallback(this));
+        else
+            setupContactView();
+
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(true);
@@ -97,7 +102,8 @@ public class ContactActivity extends Activity {
         @Override
         public void onStatus200(Call call, Response httpResponse) {
             try {
-                contact.setUser(User.hydrate(getJSONResponse().getJSONObject(JSONConstants.User.USER)));
+                JSONObject jsonUser = getJSONResponse().getJSONObject(JSONConstants.User.USER);
+                contact.setUser(User.hydrate(jsonUser));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
