@@ -3,13 +3,13 @@
     android:startOffset="500">
 
     <translate
-        android:duration="500"
+        android:duration="@integer/login_view_duration"
         android:toYDelta="0"
         android:fromYDelta="@integer/login_view_deltaY"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
 
     <alpha
-        android:duration="500"
+        android:duration="@integer/login_view_duration"
         android:fromAlpha="0"
         android:toAlpha="1"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator" />

@@ -4,5 +4,6 @@
     <integer name="logo_deltaY">250</integer>
     <integer name="login_view_deltaY">600</integer>
     <integer name="login_view_delay">800</integer>
+    <integer name="login_view_duration">370</integer>
 
 </resources>

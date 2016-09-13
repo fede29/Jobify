@@ -1,9 +1,13 @@
 package com.fiuba.taller2.jobify.utils;
 
 
+import android.util.Log;
+
 import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.User;
+import com.fiuba.taller2.jobify.fragment.NewCredentialsFragment;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Call;
@@ -37,6 +41,19 @@ public class AppServerRequest {
         }
         RequestBody body = RequestBody.create(JSON, params.toString());
         post(generateURL(RequestConstants.Routes.LOGIN), callback, body);
+    }
+
+    public static void register(String email, String password, Callback callback) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put(RequestConstants.UserParams.EMAIL, email);
+            params.put(RequestConstants.UserParams.PASSWORD, password);
+        } catch (JSONException e) {
+            Log.e("Register request", e.getMessage());
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, params.toString());
+        post(generateURL(RequestConstants.Routes.USERS), callback, body);
     }
 
     public static void getContacts(User user, Callback callback) {

@@ -11,11 +11,19 @@
     <string name="title_activity_splash">SplashActivity</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_edit_profile">EditProfile</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_contact">ContactActivity</string>
     <string name="title_activity_registration">RegistrationActivity</string>
+
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="hello_world">Hello world!</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

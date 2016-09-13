@@ -2,6 +2,7 @@ package com.fiuba.taller2.jobify.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Loader;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.listener.VisibilityAnimationListener;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
+import com.fiuba.taller2.jobify.view.LoaderLayout;
 import com.taller2.fiuba.jobify.R;
 
 import org.json.JSONException;
@@ -43,7 +45,7 @@ public class LoginActivity extends Activity {
     EditText emailEntry, passEntry;
     TextView createAccountText;
     Button loginButton;
-    RelativeLayout loaderLayout;
+    LoaderLayout loaderLayout;
 
 
     @Override
@@ -53,7 +55,7 @@ public class LoginActivity extends Activity {
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.hide();
 
-        loaderLayout = (RelativeLayout) findViewById(R.id.loader_layout);
+        loaderLayout = (LoaderLayout) findViewById(R.id.loader_layout);
         logoName = (ImageView) findViewById(R.id.logo_name);
         emailEntry = (EditText) findViewById(R.id.email_entry);
         passEntry = (EditText) findViewById(R.id.password_entry);
@@ -64,7 +66,7 @@ public class LoginActivity extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toggleLoader();
+                loaderLayout.toggleVisibility();
                 AppServerRequest.login(
                         emailEntry.getText().toString(),
                         passEntry.getText().toString(),
@@ -88,11 +90,6 @@ public class LoginActivity extends Activity {
     public void startApplication (User user) {
         startActivity(HomeActivity.createIntent(this, user));
         finish();
-    }
-
-    public void toggleLoader() {
-        if (loaderLayout.getVisibility() == View.GONE) loaderLayout.setVisibility(View.VISIBLE);
-        else loaderLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -174,7 +171,7 @@ public class LoginActivity extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    toggleLoader();
+                    loaderLayout.toggleVisibility();
                 }
             });
         }
@@ -184,7 +181,7 @@ public class LoginActivity extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    toggleLoader();
+                    loaderLayout.toggleVisibility();
                 }
             });
         }

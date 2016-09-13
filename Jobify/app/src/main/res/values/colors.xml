@@ -13,4 +13,6 @@
     <color name="grey">#ff858585</color>
     <color name="darkbluegrey">#ff303045</color>
 
+    <color name="loading_black">#aa000000</color>
+
 </resources>
