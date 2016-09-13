@@ -22,7 +22,7 @@
             android:scaleType="fitCenter"/>
 
         <EditText android:id="@+id/email_entry"
-            android:hint="email"
+            android:hint="Email"
             android:text="juanlambre-27@hotmail.com"
             android:textColor="@color/darkwhite"
             android:inputType="textEmailAddress"
@@ -33,7 +33,7 @@
             android:singleLine="true" />
 
         <EditText android:id="@+id/password_entry"
-            android:hint="password"
+            android:hint="Password"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,6 +130,6 @@
     <com.fiuba.taller2.jobify.view.LoaderLayout
         android:id="@+id/loader_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

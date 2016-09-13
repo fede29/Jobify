@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.fiuba.taller2.jobify.HttpCallback;
 import com.fiuba.taller2.jobify.User;
@@ -156,6 +157,9 @@ public class NewCredentialsFragment extends Fragment {
                     mListener.onFragmentInteraction(
                             User.hydrate(jsonResponse.getJSONObject(JSONConstants.User.USER))
                     );
+                } else {
+                    String message = jsonResponse.getString(JSONConstants.ERROR_MESSAGE);
+                    showToast(message);
                 }
             } catch (JSONException e) {
                 Log.e("JSON Load", e.getMessage());
@@ -169,6 +173,15 @@ public class NewCredentialsFragment extends Fragment {
                 @Override
                 public void run() {
                     loaderLayout.toggleVisibility();
+                }
+            });
+        }
+
+        private void showToast(final String msg) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
                 }
             });
         }

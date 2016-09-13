@@ -4,6 +4,7 @@ public class JSONConstants {
 
     public final static String ID = "id";
     public final static String TOKEN = "token";
+    public static final String ERROR_MESSAGE = "error";
 
     public static class Arrays {
         public final static String CONTANCTS = "contacts";
