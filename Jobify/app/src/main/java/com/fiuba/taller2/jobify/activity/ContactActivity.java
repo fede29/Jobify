@@ -6,13 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.fiuba.taller2.jobify.Contact;
-import com.fiuba.taller2.jobify.HttpCallback;
+import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
@@ -24,11 +22,7 @@ import com.taller2.fiuba.jobify.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class ContactActivity extends Activity {
 
@@ -46,7 +40,7 @@ public class ContactActivity extends Activity {
 
         contact = (Contact) getIntent().getExtras().getSerializable(ExtrasKeys.CONTACT);
         if (contact.getUser() == null)
-            AppServerRequest.getUser(contact.getUserID(), new UserLoadCallback(this));
+            AppServerRequest.getUser(contact.getUserID(), new UserLoadCallback());
         else
             setupContactView();
 
@@ -95,12 +89,8 @@ public class ContactActivity extends Activity {
 
     private class UserLoadCallback extends HttpCallback {
 
-        public UserLoadCallback(Activity a) {
-            super(a);
-        }
-
         @Override
-        public void onStatus200(Call call, Response httpResponse) {
+        public void onResponse() {
             try {
                 JSONObject jsonUser = getJSONResponse().getJSONObject(JSONConstants.User.USER);
                 contact.setUser(User.hydrate(jsonUser));

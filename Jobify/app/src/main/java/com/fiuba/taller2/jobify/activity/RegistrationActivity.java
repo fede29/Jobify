@@ -9,10 +9,6 @@ import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
@@ -20,19 +16,17 @@ import com.fiuba.taller2.jobify.fragment.NewCredentialsFragment;
 import com.fiuba.taller2.jobify.fragment.NewUserFragment;
 import com.fiuba.taller2.jobify.fragment.RegistrationCompleteFragment;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
+import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.view.LoaderLayout;
 import com.fiuba.taller2.jobify.view.NonSwipeableViewPager;
 import com.taller2.fiuba.jobify.R;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class RegistrationActivity extends Activity
         implements NewCredentialsFragment.OnRegistrationListener,
@@ -141,32 +135,26 @@ public class RegistrationActivity extends Activity
 
     /*************************************** PRIVATE STUFF ****************************************/
 
-    private class LoginCallback implements Callback {
+    private class LoginCallback extends HttpCallback {
         @Override
         public void onFailure(Call call, IOException e) {
-            Log.e("Registration login", e.getMessage());
-            e.printStackTrace();
+            super.onFailure(call, e);
             startActivity(LoginActivity.createIntent(RegistrationActivity.this));
             finish();
         }
 
         @Override
-        public void onResponse(Call call, Response httpResponse) throws IOException {
+        public void onResponse() {
             try {
-                JSONObject jsonResponse = new JSONObject(httpResponse.body().string());
-                if (httpResponse.code() == 200) {
-                    AppServerRequest.updateToken(jsonResponse.getString(JSONConstants.TOKEN));
-                    startActivity(
-                            HomeActivity.createIntent(
-                                    RegistrationActivity.this,
-                                    User.hydrate(jsonResponse.getJSONObject(JSONConstants.User.USER))
-                            )
-                    );
+                if (statusIs(200)) {
+                    AppServerRequest.updateToken(getJSONResponse().getString(JSONConstants.TOKEN));
+                    startHomeActivityWith(User.hydrate(getJSONObject(JSONConstants.User.USER)));
+
                 } else {
                     startActivity(LoginActivity.createIntent(RegistrationActivity.this));
                     Log.e(
                             "Registration login",
-                            String.format("code=%d, %s", httpResponse.code(), jsonResponse.getString(JSONConstants.ERROR_MESSAGE))
+                            String.format("code=%d, %s", getStatusCode(), getErrorMessage())
                     );
                 }
             } catch (JSONException e) {
@@ -175,6 +163,12 @@ public class RegistrationActivity extends Activity
                 startActivity(LoginActivity.createIntent(RegistrationActivity.this));
             }
             finish();
+        }
+
+        private void startHomeActivityWith(User u) {
+            startActivity(
+                    HomeActivity.createIntent(RegistrationActivity.this, u)
+            );
         }
     }
 

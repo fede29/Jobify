@@ -12,7 +12,10 @@ import android.widget.EditText;
 
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
+import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.taller2.fiuba.jobify.R;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 
@@ -101,25 +104,26 @@ public class NewUserFragment extends Fragment {
         }
     }
 
-    private class EditUserCallback implements Callback {
+    private class EditUserCallback extends HttpCallback {
         @Override
-        public void onFailure(Call call, IOException e) {
-            Log.w("Connection fail", e.getMessage());
-            e.printStackTrace();
-        }
-
-        @Override
-        public void onResponse(Call call, Response httpResponse) throws IOException {
-            if (httpResponse.code() == 200) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mListener.onUserEdit(newUser);
-                    }
-                });
-            } else {
-                // TODO: Message error
-                Log.w("Update user", "code = " + String.valueOf(httpResponse.code()));
+        public void onResponse() {
+            try {
+                if (statusIs(200)) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mListener.onUserEdit(newUser);
+                        }
+                    });
+                } else {
+                    showLongToast(getErrorMessage());
+                    Log.w(
+                            String.format("Update user, code = %d", getStatusCode()),
+                            getErrorMessage()
+                    );
+                }
+            } catch (JSONException e) {
+                Log.e("User edit registration", e.getMessage());
             }
             getActivity().runOnUiThread(new Runnable() {
                 @Override

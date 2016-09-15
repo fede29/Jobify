@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
+import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.view.LoaderLayout;
 import com.taller2.fiuba.jobify.R;
 
@@ -132,38 +133,24 @@ public class NewCredentialsFragment extends Fragment {
         }
     }
 
-    // TODO!!! Refactor class
-    private class RegisterCallback implements Callback {
+    private class RegisterCallback extends HttpCallback {
+
+        public RegisterCallback() { super(getActivity()); }
+
         @Override
         public void onFailure(Call call, IOException e) {
-            Log.e("Registration", e.getMessage());
-            e.printStackTrace();
+            super.onFailure(call, e);
             toggleLoader();
         }
 
         @Override
-        public void onResponse(Call call, Response httpResponse) throws IOException {
+        public void onResponse() {
             try {
-                final JSONObject jsonResponse = new JSONObject(httpResponse.body().string());
-                if (httpResponse.code() == 200) {
-                    AppServerRequest.updateToken(jsonResponse.getString(JSONConstants.TOKEN));
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                mListener.onRegistration(
-                                        User.hydrate(jsonResponse.getJSONObject(JSONConstants.User.USER)),
-                                        emailEntry.getText().toString(),
-                                        passwordEntry.getText().toString()
-                                );
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
+                if (statusIs(200)) {
+                    AppServerRequest.updateToken(getToken());
+                    onRegistrationAccepted();
                 } else {
-                    String message = jsonResponse.getString(JSONConstants.ERROR_MESSAGE);
-                    showToast(message);
+                    showLongToast(getErrorMessage());
                 }
             } catch (JSONException e) {
                 Log.e("JSON Load", e.getMessage());
@@ -172,20 +159,28 @@ public class NewCredentialsFragment extends Fragment {
             toggleLoader();
         }
 
+        private void onRegistrationAccepted() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        mListener.onRegistration(
+                                User.hydrate(getJSONObject(JSONConstants.User.USER)),
+                                emailEntry.getText().toString(),
+                                passwordEntry.getText().toString()
+                        );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
         private void toggleLoader() {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mListener.toggleLoader();
-                }
-            });
-        }
-
-        private void showToast(final String msg) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
                 }
             });
         }

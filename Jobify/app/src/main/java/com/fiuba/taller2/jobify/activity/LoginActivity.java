@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,10 +16,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fiuba.taller2.jobify.HttpCallback;
+import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.listener.VisibilityAnimationListener;
@@ -34,7 +32,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import okhttp3.Call;
-import okhttp3.Response;
 
 
 /**
@@ -72,7 +69,7 @@ public class LoginActivity extends Activity {
                 AppServerRequest.login(
                         emailEntry.getText().toString(),
                         passEntry.getText().toString(),
-                        new LoginCallback(LoginActivity.this)
+                        new LoginCallback()
                 );
             }
         });
@@ -167,13 +164,11 @@ public class LoginActivity extends Activity {
 
     private class LoginCallback extends HttpCallback {
 
-        public LoginCallback (Activity a) {
-            super(a);
-        }
+        public LoginCallback() { super(LoginActivity.this); }
 
         @Override
-        public void onPostFailure(Call call, IOException e) {
-            showLongToast("Loading dummy user");
+        public void onFailure(Call call, IOException e) {
+            showLongToast("Connection fail. Loading dummy user");
             startApplication(User._createDummyUser());
             runOnUiThread(new Runnable() {
                 @Override
@@ -184,17 +179,7 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        public void onPostResponse(Call call, Response response) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    loaderLayout.toggleVisibility();
-                }
-            });
-        }
-
-        @Override
-        public void onStatus200(Call call, Response httpResponse) {
+        public void onResponse() {
             try {
                 JSONObject response = getJSONResponse();
                 AppServerRequest.updateToken(response.getString(JSONConstants.TOKEN));
@@ -204,6 +189,12 @@ public class LoginActivity extends Activity {
                 Log.e("Login", e.getMessage());
                 announceError("There was a problem, please try again later");
             }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    loaderLayout.toggleVisibility();
+                }
+            });
         }
     }
 }
