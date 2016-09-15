@@ -2,6 +2,8 @@ package com.fiuba.taller2.jobify.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -114,6 +116,10 @@ public class LoginActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static Intent createIntent(Context ctx) {
+        return new Intent(ctx, LoginActivity.class);
+    }
+
 
     /*************************************** PRIVATE STUFF: ***************************************/
 
@@ -131,6 +137,7 @@ public class LoginActivity extends Activity {
         @Override
         public void onClick(View view) {
             startActivity(RegistrationActivity.createIntent(LoginActivity.this));
+            finish();
         }
     }
 

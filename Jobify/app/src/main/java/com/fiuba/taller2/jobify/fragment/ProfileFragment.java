@@ -66,7 +66,8 @@ public class ProfileFragment extends Fragment {
         name.setText(user.getFullname());
         ImageButton editProfile = (ImageButton) parentView.findViewById(R.id.edit_profile_btn);
         editProfile.setOnClickListener(new EditProfileOnClickListener());
-        Picasso.with(getActivity()).load(user.getPictureURL()).into(profilePic);
+        if (user.hasProfilePic())
+            Picasso.with(getActivity()).load(user.getPictureURL()).into(profilePic);
     }
 
 

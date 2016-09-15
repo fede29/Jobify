@@ -71,6 +71,16 @@ public class AppServerRequest {
         get(generateURL(RequestConstants.Routes.USERS, userID), callback);
     }
 
+    public static void updateUser(User user, Callback callback) {
+        RequestBody body = RequestBody.create(JSON, user.serialize());
+        put(
+                generateURL(RequestConstants.Routes.USERS, String.valueOf(user.getID())),
+                callback,
+                body
+        );
+    }
+
+
     public static void get(String url, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
@@ -84,6 +94,15 @@ public class AppServerRequest {
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+    }
+
+    public static void put(String url, Callback callback, RequestBody body) {
+        Request request = new Request.Builder()
+                .url(url)
+                .put(body)
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);

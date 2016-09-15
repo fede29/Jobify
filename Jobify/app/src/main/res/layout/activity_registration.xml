@@ -1,7 +1,28 @@
-<com.fiuba.taller2.jobify.view.NonSwipeableViewPager
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pager"
-    android:layout_width="match_parent"
+    tools:context="com.fiuba.taller2.jobify.activity.RegistrationActivity"
     android:layout_height="match_parent"
-    tools:context="com.fiuba.taller2.jobify.activity.RegistrationActivity" />
+    android:layout_width="match_parent">
+
+
+    <com.fiuba.taller2.jobify.view.NonSwipeableViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/page_indicator"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp" />
+
+    <com.fiuba.taller2.jobify.view.LoaderLayout
+        android:id="@+id/loader_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

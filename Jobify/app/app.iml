@@ -93,6 +93,7 @@
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="support-v13-24.1.1" level="project" />
     <orderEntry type="library" exported="" name="circleimageview-2.1.0" level="project" />
+    <orderEntry type="library" exported="" name="ViewPagerIndicator-2.4.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-24.1.1" level="project" />
   </component>
 </module>

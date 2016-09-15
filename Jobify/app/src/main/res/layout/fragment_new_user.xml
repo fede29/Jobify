@@ -1,0 +1,54 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.fiuba.taller2.jobify.activity.RegistrationActivity"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/cyan">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="80dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <TextView android:text="Finally, enter your names"
+            android:layout_gravity="center_horizontal"
+            android:textSize="24sp"
+            android:textColor="@color/darkwhite"
+            android:shadowColor="@color/darkbluegrey"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal" />
+
+        <EditText android:id="@+id/first_name_entry"
+            android:hint="First name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords" />
+
+        <EditText android:id="@+id/last_name_entry"
+            android:hint="Last name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords" />
+
+        <Button android:id="@+id/next_btn"
+            android:layout_marginTop="32dp"
+            android:text="NEXT"
+            android:textColor="@color/darkwhite"
+            android:background="@color/darkercyan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

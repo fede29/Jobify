@@ -3,36 +3,33 @@ package com.fiuba.taller2.jobify;
 import android.util.Log;
 
 import com.fiuba.taller2.jobify.constant.JSONConstants;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 
 
 public class Contact implements Serializable {
 
-    protected int userID;
-    protected String firstName, lastName, pictureURL;
-    protected User user;
+    @SerializedName("user_id")      int userID;
+    @SerializedName("first_name")   String firstName;
+    @SerializedName("last_name")    String lastName;
+    @SerializedName("profile_pic")  String pictureURL;
 
-    public static Contact hydrate(JSONObject thisJson) {
-        Contact c = new Contact();
-        c.loadFrom(thisJson);
-        return c;
-    }
+    @Expose(serialize = false, deserialize = false) User user;
 
-    public void loadFrom(JSONObject thisJson) {
-        try {
-            userID = thisJson.getInt(JSONConstants.Contact.USER_ID);
-            firstName = thisJson.getString(JSONConstants.Contact.FIRST_NAME);
-            lastName = thisJson.getString(JSONConstants.Contact.LAST_NAME);
-            pictureURL = thisJson.isNull(JSONConstants.Contact.PROFILE_PIC) ?
-                    null : thisJson.getString(JSONConstants.Contact.PROFILE_PIC);
-        } catch (JSONException e) {
-            Log.e("Contact", e.getMessage());
-            e.printStackTrace();
-        }
+
+    public static Contact hydrate(JSONObject json) {
+        return new Gson().fromJson(json.toString(), Contact.class);
     }
 
     public String getFullName() {
@@ -58,4 +55,5 @@ public class Contact implements Serializable {
     public User getUser() {
         return user;
     }
+
 }

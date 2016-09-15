@@ -1,25 +1,37 @@
 package com.fiuba.taller2.jobify;
 
 
-import android.util.Log;
-
 import com.fiuba.taller2.jobify.constant.JSONConstants;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 
 public class User implements Serializable {
 
-    private int id;
-    private String firstName, lastName, about, pictureURL;
-    ArrayList<Contact> contacts;
+    @SerializedName("id")           int id;
+    @SerializedName("first_name")   String firstName;
+    @SerializedName("last_name")    String lastName;
+    @SerializedName("about")        String about;
+    @SerializedName("profile_pic")  String pictureURL;
+    @SerializedName("contacts")
+    @Expose(serialize = false)      ArrayList<Contact> contacts;
 
 
     public User() {
@@ -29,26 +41,11 @@ public class User implements Serializable {
     }
 
     public static User hydrate (JSONObject json) {
-        User u = new User();
-        u.loadFrom(json);
-        return u;
+        return new Gson().fromJson(json.toString(), User.class);
     }
 
-    public void loadFrom (JSONObject jsonUser) {
-        try {
-            id = jsonUser.getInt(JSONConstants.ID);
-            firstName = jsonUser.getString(JSONConstants.User.FIRST_NAME);
-            lastName = jsonUser.getString(JSONConstants.User.LAST_NAME);
-            about = jsonUser.getString(JSONConstants.User.ABOUT);
-            pictureURL = jsonUser.getString(JSONConstants.User.PROFILE_PIC_URL);
-            JSONArray jsonContacts = jsonUser.getJSONArray(JSONConstants.User.CONTACTS);
-            for (int i = 0; i < jsonContacts.length(); ++i) {
-                contacts.add(Contact.hydrate(jsonContacts.getJSONObject(i)));
-            }
-        } catch (JSONException e) {
-            Log.e("User load", e.getMessage());
-            e.printStackTrace();
-        }
+    public String serialize() {
+        return new Gson().toJson(this);
     }
 
     public String getFullname() {
@@ -83,4 +80,21 @@ public class User implements Serializable {
     public String getJobPosition() {
         return "Brrom traffic consultant";
     }
+
+    public void setFirstName(String first_name) {
+        this.firstName = first_name;
+    }
+
+    public void setLastName(String last_name) {
+        this.lastName = last_name;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public Boolean hasProfilePic() {
+        return pictureURL != null && !pictureURL.isEmpty();
+    }
+
 }
