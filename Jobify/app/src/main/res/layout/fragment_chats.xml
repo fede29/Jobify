@@ -1,16 +1,17 @@
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.fiuba.taller2.jobify.fragment.ChatsFragment"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ListView android:id="@+id/chats_list"
+        android:divider="@drawable/list_divider"
+        android:dividerHeight="1dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </ListView>
 
-</ScrollView>
+</RelativeLayout>

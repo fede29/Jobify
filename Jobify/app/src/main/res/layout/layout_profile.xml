@@ -25,6 +25,16 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 
+            <ImageButton android:id="@+id/message_contact_btn"
+                android:background="@drawable/round_btn"
+                android:src="@drawable/ic_message_white"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:visibility="invisible" />
+
         </RelativeLayout>
 
         <include layout="@layout/view_profile_basic_info"/>

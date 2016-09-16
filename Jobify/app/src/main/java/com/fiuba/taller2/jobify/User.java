@@ -4,6 +4,7 @@ package com.fiuba.taller2.jobify;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -13,7 +14,9 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +35,8 @@ public class User implements Serializable {
     @SerializedName("profile_pic")  String pictureURL;
     @SerializedName("contacts")
     @Expose(serialize = false)      ArrayList<Contact> contacts;
+    @Expose(serialize = false, deserialize = false)
+                                    ArrayList<Chat> chats;
 
 
     public User() {
@@ -46,6 +51,11 @@ public class User implements Serializable {
 
     public String serialize() {
         return new Gson().toJson(this);
+    }
+
+    public void hydrateChats(JSONArray jsonChats) {
+        Type listType = new TypeToken<ArrayList<Chat>>(){}.getType();
+        chats = new Gson().fromJson(jsonChats.toString(), listType);
     }
 
     public String getFullname() {
@@ -97,4 +107,11 @@ public class User implements Serializable {
         return pictureURL != null && !pictureURL.isEmpty();
     }
 
+    public Boolean hasChatsLoaded() {
+        return chats != null;
+    }
+
+    public ArrayList<Chat> getChats() {
+        return chats;
+    }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.User;
+import com.fiuba.taller2.jobify.fragment.ContactsFragment;
 import com.fiuba.taller2.jobify.fragment.NewCredentialsFragment;
 
 import org.json.JSONException;
@@ -35,8 +36,8 @@ public class AppServerRequest {
         try {
             params.put(RequestConstants.UserParams.EMAIL, email);
             params.put(RequestConstants.UserParams.PASSWORD, password);
-        } catch (Exception e) {
-            // TODO: Log
+        } catch (JSONException e) {
+            Log.e("Login request", e.getMessage());
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, params.toString());
@@ -56,11 +57,11 @@ public class AppServerRequest {
         post(generateURL(RequestConstants.Routes.USERS), callback, body);
     }
 
-    public static void getContacts(User user, Callback callback) {
+    public static void getContacts(int userID, Callback callback) {
         get(
                 generateURL(
                         RequestConstants.Routes.USERS,
-                        user.getID(),
+                        userID,
                         RequestConstants.Routes.CONTACTS
                 ),
                 callback
@@ -78,6 +79,15 @@ public class AppServerRequest {
                 callback,
                 body
         );
+    }
+
+    public static void getChats(int userID, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS,
+                userID,
+                RequestConstants.Routes.CHATS
+        );
+        get(route, callback);
     }
 
 
@@ -124,6 +134,7 @@ public class AppServerRequest {
             public final static String LOGIN = "session";
             public final static String USERS = "users";
             public final static String CONTACTS = "contacts";
+            public final static String CHATS = "chats";
         }
 
         public class UserParams {

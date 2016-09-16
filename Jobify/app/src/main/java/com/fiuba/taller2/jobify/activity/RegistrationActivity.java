@@ -149,7 +149,6 @@ public class RegistrationActivity extends Activity
                 if (statusIs(200)) {
                     AppServerRequest.updateToken(getJSONResponse().getString(JSONConstants.TOKEN));
                     startHomeActivityWith(User.hydrate(getJSONObject(JSONConstants.User.USER)));
-
                 } else {
                     startActivity(LoginActivity.createIntent(RegistrationActivity.this));
                     Log.e(

@@ -56,4 +56,8 @@ public class Contact implements Serializable {
         return user;
     }
 
+    public String getFullname() {
+        return firstName + " " + lastName;
+    }
+
 }

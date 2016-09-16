@@ -1,28 +1,26 @@
 package com.fiuba.taller2.jobify;
 
-import android.util.Log;
+import com.google.gson.annotations.SerializedName;
 
-import com.fiuba.taller2.jobify.constant.JSONConstants;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class Chat {
-
-    private int id;
-    private User contact;
-    private String lastMsg;
+import java.io.Serializable;
 
 
-    public void loadFrom (JSONObject jsonChat) {
-        try {
-            id = jsonChat.getInt(JSONConstants.ID);
-            contact = User.hydrate(jsonChat.getJSONObject(JSONConstants.Chat.CONTACT));
-            lastMsg = jsonChat.getString(JSONConstants.Chat.LAST_MESSAGE);
-        } catch (JSONException e) {
-            Log.e("Chat", e.getMessage());
-            e.printStackTrace();
-        }
+public class Chat implements Serializable {
+
+    @SerializedName("id")           int id;
+    @SerializedName("contact")      Contact contact;
+    @SerializedName("last_message") String lastMessage;
+    @SerializedName("is_read")      Boolean isRead;
+
+    public Contact getContact() {
+        return contact;
     }
 
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
 }

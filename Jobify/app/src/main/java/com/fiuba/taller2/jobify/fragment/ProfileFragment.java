@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        parentView = inflater.inflate(R.layout.fragment_profile, container, false);
+        parentView = inflater.inflate(R.layout.layout_profile, container, false);
         setUserViews();
         return parentView;
     }

@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="56dp">
+    android:layout_height="64dp"
+    android:paddingLeft="4dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/chat_pic"
+        android:src="@drawable/default_user_pic"
         android:padding="8dp"
         android:layout_width="56dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:civ_border_width="3dp"
+        app:civ_border_color="#00000000"
+        app:civ_border_overlay="true"/>
 
     <LinearLayout android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:paddingEnd="8dp">
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:layout_gravity="center_vertical">
 
         <TextView android:id="@+id/contact_name"
             android:text="Contact's name"
@@ -21,18 +30,17 @@
             android:textStyle="bold"
             android:layout_weight="1"
             android:textColor="#FF000000"
-            android:gravity="bottom" />
+            android:gravity="bottom"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp" />
 
         <TextView android:id="@+id/last_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Last message"
-            android:gravity="center_vertical" />
-
-        <View android:background="#ff808080"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
 
