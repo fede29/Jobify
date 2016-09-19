@@ -56,6 +56,7 @@ public class User implements Serializable {
     public void hydrateChats(JSONArray jsonChats) {
         Type listType = new TypeToken<ArrayList<Chat>>(){}.getType();
         chats = new Gson().fromJson(jsonChats.toString(), listType);
+        for (Chat chat : chats) chat.setUser(this);
     }
 
     public String getFullname() {
@@ -68,19 +69,6 @@ public class User implements Serializable {
 
     public Integer getID() {
         return id;
-    }
-
-    public static User _createDummyUser() {
-        String jsonString = "{ \"id\": 1, \"first_name\": \"Dummy\", \"last_name\": \"User\", " +
-                "\"email\": \"dummy@email.com\", \"about\": \"Lorem ipsum blah blah asda...\", " +
-                "\"profile_pic\": \"https://slm-assets1.secondlife.com/assets/9889950/view_large/(GL)_training_dummy_3.jpg?1403622529\"}";
-        try {
-            JSONObject jsonUser = new JSONObject(jsonString);
-            return User.hydrate(jsonUser);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     public String getPictureURL() {

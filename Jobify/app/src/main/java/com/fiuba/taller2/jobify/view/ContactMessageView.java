@@ -2,23 +2,25 @@ package com.fiuba.taller2.jobify.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.taller2.fiuba.jobify.R;
 
-public class ContactMessage extends Message {
+public class ContactMessageView extends MessageView {
 
-    public ContactMessage(Context context) {
+    public ContactMessageView(Context context) {
         super(context);
         initialize();
     }
 
-    public ContactMessage(Context context, AttributeSet attrs) {
+    public ContactMessageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize();
     }
 
-    public ContactMessage(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ContactMessageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialize();
     }
@@ -31,7 +33,8 @@ public class ContactMessage extends Message {
         super.initialize();
         findViewById(R.id.left_padding).setVisibility(GONE);
         findViewById(R.id.right_padding).setVisibility(VISIBLE);
-        TextView messageBox = (TextView) findViewById(R.id.message_box);
+        ((LinearLayout) findViewById(R.id.message_layout)).setGravity(Gravity.START);
+        TextView messageBox = (TextView) findViewById(R.id.message_text);
         messageBox.setBackgroundColor(getResources().getColor(R.color.darkwhite));
         messageBox.setTextColor(getResources().getColor(android.R.color.black));
     }

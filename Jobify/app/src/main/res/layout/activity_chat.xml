@@ -1,0 +1,44 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fiuba.taller2.jobify.activity.ChatActivity"
+    android:orientation="vertical">
+
+    <ListView android:id="@+id/messages_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@color/trasparent"
+        android:dividerHeight="4dp"
+        android:stackFromBottom="true"/>
+
+    <LinearLayout
+        android:background="@color/white95"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center">
+
+        <!-- Dummy view to gain autofocus instead of new_message_text -->
+        <View
+            android:focusableInTouchMode="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+
+        <EditText android:id="@+id/new_message_text"
+            android:hint="Write a message..."
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <ImageButton android:id="@+id/send_btn"
+            android:background="@color/trasparent"
+            android:src="@drawable/ic_paper_plane_cyan"
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

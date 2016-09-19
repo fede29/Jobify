@@ -1,6 +1,8 @@
 package com.fiuba.taller2.jobify.fragment;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -8,12 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.User;
+import com.fiuba.taller2.jobify.activity.ChatActivity;
 import com.fiuba.taller2.jobify.adapter.ChatsListAdapter;
+import com.fiuba.taller2.jobify.adapter.MessagesListAdapter;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.utils.HttpCallback;
@@ -28,6 +33,9 @@ public class ChatsFragment extends Fragment {
 
     User user;
     ChatsListAdapter chatsListAdapter;
+
+    public final static int CHAT_ACTIVITY_REQUEST_CODE = 1;
+
 
     private class ExtrasKeys {
         public final static String USER = "user";
@@ -68,8 +76,14 @@ public class ChatsFragment extends Fragment {
             chatsList.setAdapter(chatsListAdapter);
             AppServerRequest.getChats(user.getID(), new GetChatsCallback());
         }
+        chatsList.setOnItemClickListener(new OnChatClickListener());
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO for ChatActivity
     }
 
 
@@ -98,6 +112,18 @@ public class ChatsFragment extends Fragment {
             }
         }
     }
+
+    private class OnChatClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            Chat chat = (Chat) adapterView.getItemAtPosition(i);
+            startActivityForResult(
+                    ChatActivity.createIntent(getContext(), chat),
+                    CHAT_ACTIVITY_REQUEST_CODE
+            );
+        }
+    }
+
 
 
 }

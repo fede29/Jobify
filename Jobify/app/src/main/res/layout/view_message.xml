@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
@@ -15,33 +15,35 @@
         android:layout_height="6dp"
         android:layout_width="match_parent" />
 
-    <LinearLayout android:orientation="horizontal"
+    <LinearLayout android:id="@+id/message_layout"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:gravity="end">
 
         <!-- Left and right paddings are useful for setting default paddings in different contacts texts
         They are intended for setting visibility gone/visible when needed -->
 
-        <View android:id="@+id/left_padding"
-            android:layout_weight="4"
+        <View
+            android:visibility="visible"
+            android:id="@+id/left_padding"
             android:layout_height="0dp"
-            android:layout_width="0dp" />
+            android:layout_width="92dp" />
 
-        <TextView android:id="@+id/message_box"
+        <TextView android:id="@+id/message_text"
             android:padding="8dp"
-            android:layout_weight="6"
             android:background="@color/darkcyan"
             android:textColor="@color/darkwhite"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="t" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <View android:id="@+id/right_padding"
-            android:layout_weight="4"
-            android:visibility="gone"
             android:layout_height="0dp"
-            android:layout_width="0dp" />
+            android:layout_width="92dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
-</LinearLayout>
+</merge>

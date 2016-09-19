@@ -3,8 +3,10 @@ package com.fiuba.taller2.jobify.utils;
 
 import android.util.Log;
 
+import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.User;
+import com.fiuba.taller2.jobify.activity.ChatActivity;
 import com.fiuba.taller2.jobify.fragment.ContactsFragment;
 import com.fiuba.taller2.jobify.fragment.NewCredentialsFragment;
 
@@ -118,6 +120,18 @@ public class AppServerRequest {
         call.enqueue(callback);
     }
 
+    public static void getMessages(Chat chat, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS,
+                chat.getUserID(),
+                RequestConstants.Routes.CHATS,
+                chat.getID(),
+                RequestConstants.Routes.MESSAGES
+        );
+        get(route, callback);
+    }
+
+
     /************************************** PRIVATE STUFF *****************************************/
 
     private static String generateURL(Object... uris) {
@@ -135,6 +149,7 @@ public class AppServerRequest {
             public final static String USERS = "users";
             public final static String CONTACTS = "contacts";
             public final static String CHATS = "chats";
+            public final static String MESSAGES = "messages";
         }
 
         public class UserParams {

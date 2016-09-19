@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="trasparent">#00000000</color>
+
     <color name="cyan">#FF3498DB</color>
     <color name="darkcyan">#FF2980B9</color>
     <color name="darkercyan">#FF1E5675</color>
@@ -12,6 +14,8 @@
     <color name="bluegrey">#ffaebaca</color>
     <color name="grey">#ff858585</color>
     <color name="darkbluegrey">#ff303045</color>
+
+    <color name="white95">#fff3f3f3</color>
 
     <color name="loading_black">#aa000000</color>
 

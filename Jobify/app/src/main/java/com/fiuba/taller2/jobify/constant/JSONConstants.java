@@ -23,6 +23,7 @@ public class JSONConstants {
         public static final String CHATS = "chats";
         public final static String CONTACT = "contact";
         public final static String LAST_MESSAGE = "last_message";
+        public final static String MESSAGES = "messages";
     }
 
     public class Contact {
