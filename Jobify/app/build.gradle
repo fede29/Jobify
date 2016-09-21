@@ -28,4 +28,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+    compile 'org.apmem.tools:layouts:1.10@aar'
 }

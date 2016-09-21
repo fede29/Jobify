@@ -1,17 +1,7 @@
 package com.fiuba.taller2.jobify;
 
 
-import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
@@ -37,13 +27,9 @@ public class User implements Serializable {
     @Expose(serialize = false)      ArrayList<Contact> contacts;
     @Expose(serialize = false, deserialize = false)
                                     ArrayList<Chat> chats;
+    @SerializedName("skills")
+    @Expose(serialize = false)      ArrayList<Skill> skills;
 
-
-    public User() {
-        id = 0;
-        firstName = lastName = about = pictureURL = null;
-        contacts = new ArrayList<>();
-    }
 
     public static User hydrate (JSONObject json) {
         return new Gson().fromJson(json.toString(), User.class);
@@ -113,5 +99,9 @@ public class User implements Serializable {
 
     public ArrayList<Chat> getChats() {
         return chats;
+    }
+
+    public ArrayList<Skill> getSkills() {
+        return skills;
     }
 }
