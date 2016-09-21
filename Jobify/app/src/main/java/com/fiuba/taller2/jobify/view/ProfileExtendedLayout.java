@@ -4,13 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.Skill;
 import com.fiuba.taller2.jobify.User;
+import com.google.android.gms.maps.MapFragment;
 import com.taller2.fiuba.jobify.R;
 
 import org.apmem.tools.layouts.FlowLayout;
@@ -51,5 +50,6 @@ public class ProfileExtendedLayout extends RelativeLayout {
     private void initialize() {
         inflate(getContext(), R.layout.view_profile_extended_info, this);
         skillsLayout = (FlowLayout) findViewById(R.id.skills_layout);
+
     }
 }

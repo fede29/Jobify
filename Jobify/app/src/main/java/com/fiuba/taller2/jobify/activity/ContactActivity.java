@@ -16,6 +16,11 @@ import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.view.ProfileBasicLayout;
 import com.fiuba.taller2.jobify.view.ProfileExtendedLayout;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
@@ -50,6 +55,16 @@ public class ContactActivity extends Activity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(contact.getFullName() + "'s profile");
         }
+
+        // TODO: Move from here
+        //*
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMap().getUiSettings().setAllGesturesEnabled(false);
+        mapFragment.getMap().moveCamera(
+                CameraUpdateFactory.newLatLngZoom(new LatLng(-34.617841, -58.368551), 14.0f)
+        );
+        //*/
+        // mapFragment.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(xxxx,xxxx) , 14.0f) );
     }
 
     @Override

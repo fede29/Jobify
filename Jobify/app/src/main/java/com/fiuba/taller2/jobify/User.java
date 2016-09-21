@@ -23,6 +23,8 @@ public class User implements Serializable {
     @SerializedName("last_name")    String lastName;
     @SerializedName("about")        String about;
     @SerializedName("profile_pic")  String pictureURL;
+    @SerializedName("last_location")
+    @Expose(serialize = false)      Location lastLocation;
     @SerializedName("contacts")
     @Expose(serialize = false)      ArrayList<Contact> contacts;
     @Expose(serialize = false, deserialize = false)
@@ -104,4 +106,6 @@ public class User implements Serializable {
     public ArrayList<Skill> getSkills() {
         return skills;
     }
+
+    public Location getLastLocation() { return lastLocation; }
 }

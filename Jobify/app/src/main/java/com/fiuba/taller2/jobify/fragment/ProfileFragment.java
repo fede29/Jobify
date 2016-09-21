@@ -68,6 +68,7 @@ public class ProfileFragment extends Fragment {
         editProfile.setOnClickListener(new EditProfileOnClickListener());
         if (user.hasProfilePic())
             Picasso.with(getActivity()).load(user.getPictureURL()).into(profilePic);
+
     }
 
 

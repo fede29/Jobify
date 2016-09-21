@@ -46,9 +46,6 @@ public class HomeActivity extends Activity {
      */
     ViewPager mViewPager;
 
-    public static Context getAppContext() {
-        return getAppContext();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
