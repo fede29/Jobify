@@ -3,6 +3,12 @@
     package="com.taller2.fiuba.jobify" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Erase
+    <uses-permission android:name="com.taller2.fiuba.jobify.permission.MAPS_RECEIVE"/>
+    <permission
+        android:name="com.taller2.fiuba.jobify.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+        -->
 
     <application
         android:allowBackup="true"
@@ -32,6 +38,14 @@
             android:name="com.fiuba.taller2.jobify.activity.RegistrationActivity"
             android:label="@string/title_activity_registration" >
         </activity>
+
+        <!--Google MAP API key-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDYEHWhpobIUdWb-VQPdK7cX0N-2pND38g" />
+
+
+
     </application>
 
 </manifest>

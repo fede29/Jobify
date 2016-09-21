@@ -89,6 +89,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <fragment android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"/>
+
     </LinearLayout>
 
 </LinearLayout>
