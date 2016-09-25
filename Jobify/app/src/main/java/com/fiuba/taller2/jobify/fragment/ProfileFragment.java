@@ -1,6 +1,8 @@
 package com.fiuba.taller2.jobify.fragment;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +23,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
+
+    public final static int EDIT_USER_REQUEST_CODE = 1;
 
     private User user;
     private View parentView;
@@ -62,12 +66,21 @@ public class ProfileFragment extends Fragment {
                 jobPosition = (TextView) parentView.findViewById(R.id.job_position),
                 about = (TextView) parentView.findViewById(R.id.about_text);
         CircleImageView profilePic = (CircleImageView) parentView.findViewById(R.id.profile_pic);
+        ImageButton editProfile = (ImageButton) parentView.findViewById(R.id.edit_profile_btn);
 
         name.setText(user.getFullname());
-        ImageButton editProfile = (ImageButton) parentView.findViewById(R.id.edit_profile_btn);
+        about.setText(user.getAbout());
         editProfile.setOnClickListener(new EditProfileOnClickListener());
         if (user.hasProfilePic())
             Picasso.with(getActivity()).load(user.getPictureURL()).into(profilePic);
+    }
+
+    @Override
+    public void onActivityResult(int request, int result, Intent resultIntent) {
+        if (result == Activity.RESULT_OK && request == EDIT_USER_REQUEST_CODE) {
+            user = (User) resultIntent.getExtras().getSerializable(EditProfileActivity.ExtrasKeys.USER);
+            setUserViews();
+        }
     }
 
 
@@ -76,7 +89,10 @@ public class ProfileFragment extends Fragment {
     private class EditProfileOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            startActivity(EditProfileActivity.createIntent(getContext(), user));
+            startActivityForResult(
+                    EditProfileActivity.createIntent(getContext(), user),
+                    EDIT_USER_REQUEST_CODE
+            );
         }
     }
 

@@ -104,4 +104,16 @@ public class User implements Serializable {
     public ArrayList<Skill> getSkills() {
         return skills;
     }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 }

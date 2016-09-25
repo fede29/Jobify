@@ -20,7 +20,6 @@
             android:layout_height="wrap_content" />
 
         <TextView android:id="@+id/about_text"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vulputate orci elit, feugiat dictum ex vulputate et."
             android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -46,9 +45,7 @@
             android:id="@+id/skills_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start|top">
-
-        </org.apmem.tools.layouts.FlowLayout>
+            android:gravity="start|top" />
 
     </LinearLayout>
 
