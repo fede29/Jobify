@@ -1,36 +1,56 @@
 package com.fiuba.taller2.jobify.adapter;
 
-import android.content.Context;
-import android.view.View;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.view.MessageView;
 import com.taller2.fiuba.jobify.R;
 
-import java.util.Collection;
+import java.util.List;
 
 
-public class MessagesListAdapter extends ArrayAdapter<Message> {
+public class MessagesListAdapter extends RecyclerView.Adapter<MessagesListAdapter.ViewHolder> {
 
-    public MessagesListAdapter(Context context) {
-        super(context, R.layout.view_message);
+    private List<Message> messages;
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public MessageView messageView;
+
+        public ViewHolder(MessageView view) {
+            super(view);
+            messageView = view;
+        }
     }
 
-    public MessagesListAdapter(Context context, Collection<Message> messages) {
-        super(context, R.layout.view_message, messages.toArray(new Message[messages.size()]));
+
+    public MessagesListAdapter(List<Message> msgs) {
+        messages = msgs;
+    }
+
+    public void add(Message msg) {
+        messages.add(msg);
+        notifyItemChanged(messages.size() - 1);
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        // TODO: Implement ViewHolder pattern
-        MessageView messageView;
+    public MessagesListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        MessageView v = new MessageView(parent.getContext());
+        return new ViewHolder(v);
+    }
 
-        Message message = getItem(position);
-        messageView = MessageView.instantiateFrom(getContext(), message);
-        messageView.setupView(message);
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int i) {
+        Message message = messages.get(i);
+        if (message.sentByUser()) holder.messageView.setupAsUsers();
+        else holder.messageView.setupAsContacts();
+        holder.messageView.setupView(message);
+    }
 
-        return messageView;
+    @Override
+    public int getItemCount() {
+        return messages.size();
     }
 }

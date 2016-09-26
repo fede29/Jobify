@@ -6,19 +6,21 @@
     tools:context="com.fiuba.taller2.jobify.activity.ChatActivity"
     android:orientation="vertical">
 
-    <ListView android:id="@+id/messages_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/messages_list"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="@color/trasparent"
-        android:dividerHeight="4dp"
-        android:stackFromBottom="true"/>
+        android:dividerHeight="4dp"/>
 
     <LinearLayout
         android:background="@color/white95"
-        android:padding="8dp"
+        android:padding="4dp"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
         android:gravity="center">
 
         <!-- Dummy view to gain autofocus instead of new_message_text -->
@@ -31,7 +33,10 @@
             android:hint="Write a message..."
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="4"
+            android:singleLine="false" />
 
         <ImageButton android:id="@+id/send_btn"
             android:background="@color/trasparent"

@@ -5,13 +5,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.fiuba.taller2.jobify.Chat;
+import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.adapter.MessagesListAdapter;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
@@ -23,6 +26,8 @@ import org.json.JSONException;
 public class ChatActivity extends Activity {
 
     Chat chat;
+    RecyclerView messagesList;
+    EditText newMessage;
     MessagesListAdapter messagesAdapter;
 
     static class ExtrasKeys {
@@ -44,15 +49,20 @@ public class ChatActivity extends Activity {
             actionBar.setTitle(chat.getContact().getFullName());
         }
 
+        newMessage = (EditText) findViewById(R.id.new_message_text);
         findViewById(R.id.new_message_text).getBackground().clearColorFilter();
-        ListView messagesList = (ListView) findViewById(R.id.messages_list);
+        findViewById(R.id.send_btn).setOnClickListener(new SendMessageListener());
+
+        messagesList = (RecyclerView) findViewById(R.id.messages_list);
         if (chat.hasMessagesLoaded()) {
-            messagesAdapter = new MessagesListAdapter(this, chat.getMessages());
+            messagesAdapter = new MessagesListAdapter(chat.getMessages());
+            messagesList.setAdapter(messagesAdapter);
         } else {
-            messagesAdapter = new MessagesListAdapter(this);
             AppServerRequest.getMessages(chat, new MessagesLoadCallback());
         }
-        messagesList.setAdapter(messagesAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
+        messagesList.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -76,7 +86,8 @@ public class ChatActivity extends Activity {
     /*************************************** PRIVATE STUFF ****************************************/
 
     private void setupMessages() {
-        messagesAdapter.addAll(chat.getMessages());
+        messagesAdapter = new MessagesListAdapter(chat.getMessages());
+        messagesList.setAdapter(messagesAdapter);
     }
 
     private class MessagesLoadCallback extends HttpCallback {
@@ -100,6 +111,19 @@ public class ChatActivity extends Activity {
             @Override
             public void run() {
                 setupMessages();
+            }
+        }
+    }
+
+    private class SendMessageListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            String text = newMessage.getText().toString();
+            if (! text.isEmpty()) {
+                messagesAdapter.add(Message.newFromUser(text));
+                // TODO: AppServerRequest.sendMessage(...)
+                newMessage.setText("");
+                messagesList.scrollToPosition(messagesAdapter.getItemCount() - 1);
             }
         }
     }

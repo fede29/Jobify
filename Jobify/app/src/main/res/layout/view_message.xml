@@ -3,7 +3,6 @@
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="2dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -21,20 +20,21 @@
         android:layout_height="wrap_content"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
+        android:paddingBottom="2dp"
         android:gravity="end">
 
-        <!-- Left and right paddings are useful for setting default paddings in different contacts texts
+        <!-- Left and right paddings are useful for setting default paddings in different senders texts
         They are intended for setting visibility gone/visible when needed -->
 
-        <View
+        <View android:id="@+id/left_padding"
             android:visibility="visible"
-            android:id="@+id/left_padding"
             android:layout_height="0dp"
             android:layout_width="92dp" />
 
         <TextView android:id="@+id/message_text"
+            android:textSize="16sp"
             android:padding="8dp"
-            android:background="@color/darkcyan"
+            android:background="@drawable/message_box_darkcyan"
             android:textColor="@color/darkwhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
