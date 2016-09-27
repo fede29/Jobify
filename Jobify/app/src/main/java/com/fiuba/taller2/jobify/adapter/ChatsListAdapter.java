@@ -83,14 +83,11 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.View
     }
 
     public void update(Chat modifiedChat) {
-        /* Enhancement
         for (Chat chat : chats)
             if (chat.equals(modifiedChat)) {
-                chats.remove(chat);
+                chats.set(chats.indexOf(chat), modifiedChat);
                 break; // OMG! Tengo miedo
             }
-        chats.add(modifiedChat);
-        */
         notifyDataSetChanged();
     }
 
