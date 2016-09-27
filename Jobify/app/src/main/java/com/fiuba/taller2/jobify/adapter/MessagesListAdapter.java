@@ -1,12 +1,10 @@
 package com.fiuba.taller2.jobify.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.view.MessageView;
-import com.taller2.fiuba.jobify.R;
 
 import java.util.List;
 

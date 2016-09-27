@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ public class ChatsFragment extends Fragment {
 
     User user;
     ChatsListAdapter chatsListAdapter;
+    RecyclerView chatsList;
 
     public final static int CHAT_ACTIVITY_REQUEST_CODE = 1;
 
@@ -67,16 +70,15 @@ public class ChatsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_chats, container, false);
 
-        ListView chatsList = (ListView) rootView.findViewById(R.id.chats_list);
+        chatsList = (RecyclerView) rootView.findViewById(R.id.chats_list);
         if (user.hasChatsLoaded()) {
-            chatsListAdapter = new ChatsListAdapter(getActivity(), user.getChats());
+            chatsListAdapter = new ChatsListAdapter(user.getChats());
             chatsList.setAdapter(chatsListAdapter);
         } else {
-            chatsListAdapter = new ChatsListAdapter(getActivity());
-            chatsList.setAdapter(chatsListAdapter);
             AppServerRequest.getChats(user.getID(), new GetChatsCallback());
         }
-        chatsList.setOnItemClickListener(new OnChatClickListener());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        chatsList.setLayoutManager(layoutManager);
 
         return rootView;
     }
@@ -93,7 +95,8 @@ public class ChatsFragment extends Fragment {
     /*************************************** PRIVATE STUFF ****************************************/
 
     private void setupView() {
-        chatsListAdapter.addAll(user.getChats());
+        chatsListAdapter = new ChatsListAdapter(user.getChats());
+        chatsList.setAdapter(chatsListAdapter);
     }
 
     private class GetChatsCallback extends HttpCallback {
