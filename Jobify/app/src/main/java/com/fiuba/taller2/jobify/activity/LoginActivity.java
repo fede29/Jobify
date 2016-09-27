@@ -168,8 +168,7 @@ public class LoginActivity extends Activity {
 
         @Override
         public void onFailure(Call call, IOException e) {
-            showLongToast("Connection fail. Loading dummy user");
-            startApplication(User._createDummyUser());
+            super.onFailure(call, e);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

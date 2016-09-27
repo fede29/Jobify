@@ -1,21 +1,12 @@
 package com.fiuba.taller2.jobify;
 
-import android.util.Log;
-
-import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
 
 
 public class Contact implements Serializable {
@@ -58,6 +49,10 @@ public class Contact implements Serializable {
 
     public String getFullname() {
         return firstName + " " + lastName;
+    }
+
+    public Boolean equals(Contact that) {
+        return this.userID == that.userID;
     }
 
 }

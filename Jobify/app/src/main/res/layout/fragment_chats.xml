@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView android:id="@+id/chats_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chats_list"
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </ListView>
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

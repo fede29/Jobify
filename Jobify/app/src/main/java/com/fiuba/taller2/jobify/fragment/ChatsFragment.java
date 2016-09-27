@@ -1,18 +1,21 @@
 package com.fiuba.taller2.jobify.fragment;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.AdapterView;
 
 import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.User;
+import com.fiuba.taller2.jobify.activity.ChatActivity;
 import com.fiuba.taller2.jobify.adapter.ChatsListAdapter;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
@@ -28,6 +31,10 @@ public class ChatsFragment extends Fragment {
 
     User user;
     ChatsListAdapter chatsListAdapter;
+    RecyclerView chatsList;
+
+    public final static int CHAT_ACTIVITY_REQUEST_CODE = 1;
+
 
     private class ExtrasKeys {
         public final static String USER = "user";
@@ -59,24 +66,35 @@ public class ChatsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_chats, container, false);
 
-        ListView chatsList = (ListView) rootView.findViewById(R.id.chats_list);
+        chatsList = (RecyclerView) rootView.findViewById(R.id.chats_list);
         if (user.hasChatsLoaded()) {
-            chatsListAdapter = new ChatsListAdapter(getActivity(), user.getChats());
+            chatsListAdapter = new ChatsListAdapter(this, user.getChats());
             chatsList.setAdapter(chatsListAdapter);
         } else {
-            chatsListAdapter = new ChatsListAdapter(getActivity());
-            chatsList.setAdapter(chatsListAdapter);
             AppServerRequest.getChats(user.getID(), new GetChatsCallback());
         }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        chatsList.setLayoutManager(layoutManager);
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int reqCode, int result, Intent data) {
+        if (reqCode == CHAT_ACTIVITY_REQUEST_CODE && result == Activity.RESULT_OK) {
+            Chat modifiedChat = (Chat) data.getExtras().getSerializable(ChatActivity.ExtrasKeys.CHAT);
+            chatsListAdapter.update(modifiedChat);
+        }
     }
 
 
     /*************************************** PRIVATE STUFF ****************************************/
 
     private void setupView() {
-        chatsListAdapter.addAll(user.getChats());
+        chatsListAdapter = new ChatsListAdapter(this, user.getChats());
+        chatsList.setAdapter(chatsListAdapter);
     }
 
     private class GetChatsCallback extends HttpCallback {
@@ -98,6 +116,5 @@ public class ChatsFragment extends Fragment {
             }
         }
     }
-
 
 }
