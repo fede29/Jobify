@@ -91,6 +91,7 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.View
         notifyDataSetChanged();
     }
 
+
     /**************************************** PRIVATE STUFF ***************************************/
 
     private class OnChatClickListener implements View.OnClickListener {
