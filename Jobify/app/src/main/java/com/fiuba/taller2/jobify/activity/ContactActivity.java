@@ -80,6 +80,7 @@ public class ContactActivity extends Activity {
     private void setupContactView() {
         findViewById(R.id.progress_bar).setVisibility(View.GONE);
         findViewById(R.id.profile_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.message_contact_btn).setVisibility(View.VISIBLE);
         ((ProfileBasicLayout) findViewById(R.id.basic_layout)).setViews(contact.getUser());
         ((ProfileExtendedLayout) findViewById(R.id.extended_layout)).setViews(contact.getUser());
         CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);

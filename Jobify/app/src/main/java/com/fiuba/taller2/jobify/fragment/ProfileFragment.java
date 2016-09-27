@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.EditProfileActivity;
+import com.fiuba.taller2.jobify.view.ProfileBasicLayout;
+import com.fiuba.taller2.jobify.view.ProfileExtendedLayout;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
@@ -62,14 +64,14 @@ public class ProfileFragment extends Fragment {
     }
 
     public void setUserViews() {
-        TextView name = (TextView) parentView.findViewById(R.id.name),
-                jobPosition = (TextView) parentView.findViewById(R.id.job_position),
-                about = (TextView) parentView.findViewById(R.id.about_text);
         CircleImageView profilePic = (CircleImageView) parentView.findViewById(R.id.profile_pic);
         ImageButton editProfile = (ImageButton) parentView.findViewById(R.id.edit_profile_btn);
+        ProfileBasicLayout basicLayout = (ProfileBasicLayout) parentView.findViewById(R.id.basic_layout);
+        ProfileExtendedLayout extendedLayout = (ProfileExtendedLayout) parentView.findViewById(R.id.extended_layout);
 
-        name.setText(user.getFullname());
-        about.setText(user.getAbout());
+        basicLayout.setViews(user);
+        extendedLayout.setViews(user);
+        editProfile.setVisibility(View.VISIBLE);
         editProfile.setOnClickListener(new EditProfileOnClickListener());
         if (user.hasProfilePic())
             Picasso.with(getActivity()).load(user.getPictureURL()).into(profilePic);

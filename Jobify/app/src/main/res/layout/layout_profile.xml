@@ -23,7 +23,8 @@
                 android:layout_height="48dp"
                 android:layout_margin="8dp"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:visibility="invisible"/>
 
             <ImageButton android:id="@+id/message_contact_btn"
                 android:background="@drawable/round_btn"
@@ -37,9 +38,15 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/view_profile_basic_info"/>
+        <com.fiuba.taller2.jobify.view.ProfileBasicLayout
+            android:id="@+id/basic_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <include layout="@layout/view_profile_extended_info"/>
+        <com.fiuba.taller2.jobify.view.ProfileExtendedLayout
+            android:id="@+id/extended_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
