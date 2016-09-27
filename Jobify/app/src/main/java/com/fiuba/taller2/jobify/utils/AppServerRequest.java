@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.Contact;
+import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.ChatActivity;
 import com.fiuba.taller2.jobify.fragment.ContactsFragment;
@@ -24,7 +25,7 @@ import okhttp3.RequestBody;
 
 public class AppServerRequest {
 
-    private static final String BASE_URL = "http://192.168.0.100:5000/";
+    private static final String BASE_URL = "http://192.168.0.107:5000/";
     private static final OkHttpClient client = new OkHttpClient();
     private static String token;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -62,8 +63,7 @@ public class AppServerRequest {
     public static void getContacts(int userID, Callback callback) {
         get(
                 generateURL(
-                        RequestConstants.Routes.USERS,
-                        userID,
+                        RequestConstants.Routes.USERS, userID,
                         RequestConstants.Routes.CONTACTS
                 ),
                 callback
@@ -85,11 +85,20 @@ public class AppServerRequest {
 
     public static void getChats(int userID, Callback callback) {
         String route = generateURL(
-                RequestConstants.Routes.USERS,
-                userID,
+                RequestConstants.Routes.USERS, userID,
                 RequestConstants.Routes.CHATS
         );
         get(route, callback);
+    }
+
+    public static void sendMessage(Chat chat, Message newMessage, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS, chat.getUserID(),
+                RequestConstants.Routes.CHATS, chat.getID(),
+                RequestConstants.Routes.MESSAGES
+        );
+        RequestBody body = RequestBody.create(JSON, newMessage.serialize());
+        post(route, callback, body);
     }
 
 

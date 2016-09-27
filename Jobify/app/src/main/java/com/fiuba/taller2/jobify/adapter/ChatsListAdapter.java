@@ -49,4 +49,15 @@ public class ChatsListAdapter extends ArrayAdapter<Chat> {
         return convertView;
     }
 
+    public void update(Chat chat) {
+        add(chat);
+        for (int i = 0; i < getCount(); ++i) {
+            Chat actualChat = (Chat) getItem(i);
+            if (actualChat.equals(chat)) {
+                remove(actualChat);
+                return;
+            }
+        }
+    }
+
 }

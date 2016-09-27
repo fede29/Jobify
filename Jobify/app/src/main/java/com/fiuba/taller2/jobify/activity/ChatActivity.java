@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.Message;
@@ -19,6 +18,7 @@ import com.fiuba.taller2.jobify.adapter.MessagesListAdapter;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.utils.HttpCallback;
+import com.fiuba.taller2.jobify.utils.NonResponsiveCallback;
 import com.taller2.fiuba.jobify.R;
 
 import org.json.JSONException;
@@ -30,7 +30,7 @@ public class ChatActivity extends Activity {
     EditText newMessage;
     MessagesListAdapter messagesAdapter;
 
-    static class ExtrasKeys {
+    public static class ExtrasKeys {
         public final static String CHAT = "chat";
     }
 
@@ -69,6 +69,7 @@ public class ChatActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setChatResult();
                 finish();
                 return true;
         }
@@ -88,6 +89,12 @@ public class ChatActivity extends Activity {
     private void setupMessages() {
         messagesAdapter = new MessagesListAdapter(chat.getMessages());
         messagesList.setAdapter(messagesAdapter);
+    }
+
+    private void setChatResult() {
+        Intent chatIntent = new Intent();
+        chatIntent.putExtra(ExtrasKeys.CHAT, chat);
+        setResult(Activity.RESULT_OK, chatIntent);
     }
 
     private class MessagesLoadCallback extends HttpCallback {
@@ -120,8 +127,9 @@ public class ChatActivity extends Activity {
         public void onClick(View view) {
             String text = newMessage.getText().toString();
             if (! text.isEmpty()) {
-                messagesAdapter.add(Message.newFromUser(text));
-                // TODO: AppServerRequest.sendMessage(...)
+                Message sentMessage = Message.newFromUser(text);
+                AppServerRequest.sendMessage(chat, sentMessage, new NonResponsiveCallback());
+                chat.addMessage(sentMessage);
                 newMessage.setText("");
                 messagesList.scrollToPosition(messagesAdapter.getItemCount() - 1);
             }

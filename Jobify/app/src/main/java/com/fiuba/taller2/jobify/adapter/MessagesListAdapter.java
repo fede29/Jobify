@@ -30,11 +30,6 @@ public class MessagesListAdapter extends RecyclerView.Adapter<MessagesListAdapte
         messages = msgs;
     }
 
-    public void add(Message msg) {
-        messages.add(msg);
-        notifyItemChanged(messages.size() - 1);
-    }
-
     @Override
     public MessagesListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MessageView v = new MessageView(parent.getContext());
@@ -53,4 +48,5 @@ public class MessagesListAdapter extends RecyclerView.Adapter<MessagesListAdapte
     public int getItemCount() {
         return messages.size();
     }
+
 }

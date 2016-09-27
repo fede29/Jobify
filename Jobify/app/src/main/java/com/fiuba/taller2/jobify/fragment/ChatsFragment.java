@@ -82,8 +82,11 @@ public class ChatsFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO for ChatActivity
+    public void onActivityResult(int reqCode, int result, Intent data) {
+        if (reqCode == CHAT_ACTIVITY_REQUEST_CODE && result == Activity.RESULT_OK) {
+            Chat modifiedChat = (Chat) data.getExtras().getSerializable(ChatActivity.ExtrasKeys.CHAT);
+            // TODO: Update chat list
+        }
     }
 
 

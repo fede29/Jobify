@@ -1,9 +1,12 @@
 package com.fiuba.taller2.jobify;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 
-public class Message {
+
+public class Message implements Serializable {
 
     @SerializedName("id")           int id;
     @SerializedName("text")         String text;
@@ -24,5 +27,9 @@ public class Message {
 
     public String getText() {
         return text;
+    }
+
+    public String serialize() {
+        return new Gson().toJson(this);
     }
 }

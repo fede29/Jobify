@@ -58,4 +58,9 @@ public class Chat implements Serializable {
     public Integer getID() {
         return id;
     }
+
+    public void addMessage(Message msg) {
+        messages.add(msg);
+        lastMessage = msg.getText();
+    }
 }
