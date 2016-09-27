@@ -63,4 +63,8 @@ public class Chat implements Serializable {
         messages.add(msg);
         lastMessage = msg.getText();
     }
+
+    public Boolean equals(Chat that) {
+        return this.id == that.id;
+    }
 }

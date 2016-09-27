@@ -69,12 +69,17 @@ public class ChatActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                setChatResult();
-                finish();
+                onBackPressed();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setChatResult();
+        finish();
     }
 
     public static Intent createIntent(Context ctx, Chat chat) {
