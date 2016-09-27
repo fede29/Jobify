@@ -1,6 +1,7 @@
 package com.fiuba.taller2.jobify;
 
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +24,7 @@ public class User implements Serializable {
     @SerializedName("last_name")    String lastName;
     @SerializedName("about")        String about;
     @SerializedName("profile_pic")  String pictureURL;
+    @SerializedName("location")     Position position;
     @SerializedName("contacts")
     @Expose(serialize = false)      ArrayList<Contact> contacts;
     @Expose(serialize = false, deserialize = false)
@@ -104,4 +106,10 @@ public class User implements Serializable {
     public String getLastName() {
         return lastName;
     }
+
+    public void updatePosition(double latitude, double longitude) {
+        position = new Position(latitude, longitude);
+    }
+
+    public Position getPosition() { return position; }
 }

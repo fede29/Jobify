@@ -25,7 +25,7 @@ import okhttp3.RequestBody;
 
 public class AppServerRequest {
 
-    private static final String BASE_URL = "http://192.168.0.107:5000/";
+    private static final String BASE_URL = "http://192.168.0.107:5000";
     private static final OkHttpClient client = new OkHttpClient();
     private static String token;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -101,6 +101,24 @@ public class AppServerRequest {
         post(route, callback, body);
     }
 
+    public static void getMessages(Chat chat, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS, chat.getUserID(),
+                RequestConstants.Routes.CHATS, chat.getID(),
+                RequestConstants.Routes.MESSAGES
+        );
+        get(route, callback);
+    }
+
+    public static void updateLocation(User user, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS, user.getID(),
+                RequestConstants.Routes.LOCATION
+        );
+        RequestBody body = RequestBody.create(JSON, user.getPosition().serialize());
+        post(route, callback, body);
+    }
+
 
     public static void get(String url, Callback callback) {
         Request request = new Request.Builder()
@@ -129,26 +147,13 @@ public class AppServerRequest {
         call.enqueue(callback);
     }
 
-    public static void getMessages(Chat chat, Callback callback) {
-        String route = generateURL(
-                RequestConstants.Routes.USERS,
-                chat.getUserID(),
-                RequestConstants.Routes.CHATS,
-                chat.getID(),
-                RequestConstants.Routes.MESSAGES
-        );
-        get(route, callback);
-    }
-
 
     /************************************** PRIVATE STUFF *****************************************/
 
     private static String generateURL(Object... uris) {
         String url = BASE_URL;
-        for (Object uri : uris) {
-            if (uris[0] != uri) url += "/";
-            url += String.valueOf(uri);
-        }
+        for (Object uri : uris)
+            url += String.format("/%s", uri);
         return url;
     }
 
@@ -159,6 +164,7 @@ public class AppServerRequest {
             public final static String CONTACTS = "contacts";
             public final static String CHATS = "chats";
             public final static String MESSAGES = "messages";
+            public final static String LOCATION = "location";
         }
 
         public class UserParams {

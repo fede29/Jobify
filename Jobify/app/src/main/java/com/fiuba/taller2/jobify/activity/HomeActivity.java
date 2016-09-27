@@ -1,6 +1,7 @@
 package com.fiuba.taller2.jobify.activity;
 
 import java.util.Locale;
+import java.util.jar.Manifest;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -8,13 +9,19 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.support.v13.app.ActivityCompat;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.fiuba.taller2.jobify.PositionManager;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.fragment.ChatsFragment;
 import com.fiuba.taller2.jobify.fragment.ContactsFragment;
@@ -25,7 +32,10 @@ import com.taller2.fiuba.jobify.R;
 
 public class HomeActivity extends Activity {
 
-    private User user;
+    User user;
+    PositionManager positionManager;
+
+    public final static int LOCATION_PERMISSION_CODE = 1;
 
     private static class ExtrasKeys {
         public final static String USER = "user";
@@ -46,9 +56,6 @@ public class HomeActivity extends Activity {
      */
     ViewPager mViewPager;
 
-    public static Context getAppContext() {
-        return getAppContext();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +76,11 @@ public class HomeActivity extends Activity {
 
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(mViewPager);
-        tabs.setIndicatorColor(getResources().getColor(R.color.darkcyan));
+        tabs.setIndicatorColor(ContextCompat.getColor(this, R.color.darkcyan));
+
+        positionManager = new PositionManager
+                ((LocationManager) getSystemService(Context.LOCATION_SERVICE), user);
+        askLocationPermission();
     }
 
 
@@ -95,12 +106,36 @@ public class HomeActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int request, String permissions[], int[] results) {
+        if (request == LOCATION_PERMISSION_CODE) {
+            if (results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
+                positionManager.initiate();
+            } else {
+                Toast.makeText(this, "Location permission denied, wont be saved", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     public static Intent createIntent(Context ctx, User u) {
         Intent intent = new Intent(ctx, HomeActivity.class);
         intent.putExtra(ExtrasKeys.USER, u);
         return intent;
     }
 
+
+    /**********************************************************************************************/
+
+    private void askLocationPermission() {
+        int permission = ActivityCompat.checkSelfPermission
+                (this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (permission != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(
+                    this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_CODE
+            );
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
