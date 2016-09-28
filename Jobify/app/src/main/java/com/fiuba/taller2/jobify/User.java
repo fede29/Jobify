@@ -1,14 +1,13 @@
 package com.fiuba.taller2.jobify;
 
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -19,18 +18,17 @@ import java.util.List;
 
 public class User implements Serializable {
 
-    @SerializedName("id")           int id;
-    @SerializedName("first_name")   String firstName;
-    @SerializedName("last_name")    String lastName;
-    @SerializedName("about")        String about;
-    @SerializedName("profile_pic")  String pictureURL;
-    @SerializedName("location")     Position position;
-    @SerializedName("contacts")
-    @Expose(serialize = false)      ArrayList<Contact> contacts;
-    @Expose(serialize = false, deserialize = false)
-                                    ArrayList<Chat> chats;
-    @SerializedName("skills")
-    @Expose(serialize = false)      ArrayList<Skill> skills;
+    @Expose                     @SerializedName("id")           int id;
+    @Expose                     @SerializedName("first_name")   String firstName;
+    @Expose                     @SerializedName("last_name")    String lastName;
+    @Expose                     @SerializedName("about")        String about;
+    @Expose                     @SerializedName("profile_pic")  String pictureURL;
+    @Expose                     @SerializedName("job_position") JobPosition jobPosition;
+    @Expose(serialize=false)    @SerializedName("location")     Position position;
+    @Expose(serialize=false)    @SerializedName("contacts")     ArrayList<Contact> contacts;
+    @Expose(serialize=false)    @SerializedName("skills")       ArrayList<Skill> skills;
+
+    private ArrayList<Chat> chats;
 
 
     public static User hydrate (JSONObject json) {
@@ -38,7 +36,7 @@ public class User implements Serializable {
     }
 
     public String serialize() {
-        return new Gson().toJson(this);
+        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(this);
     }
 
     public void hydrateChats(JSONArray jsonChats) {
@@ -64,7 +62,7 @@ public class User implements Serializable {
     }
 
     public String getJobPosition() {
-        return "Brrom traffic consultant";
+        return jobPosition.getName();
     }
 
     public void setFirstName(String first_name) {

@@ -11,12 +11,12 @@ import java.io.Serializable;
 
 public class Contact implements Serializable {
 
-    @SerializedName("user_id")      int userID;
-    @SerializedName("first_name")   String firstName;
-    @SerializedName("last_name")    String lastName;
-    @SerializedName("profile_pic")  String pictureURL;
+    @Expose @SerializedName("user_id")      int userID;
+    @Expose @SerializedName("first_name")   String firstName;
+    @Expose @SerializedName("last_name")    String lastName;
+    @Expose @SerializedName("profile_pic")  String pictureURL;
 
-    @Expose(serialize = false, deserialize = false) User user;
+    private User user;
 
 
     public static Contact hydrate(JSONObject json) {

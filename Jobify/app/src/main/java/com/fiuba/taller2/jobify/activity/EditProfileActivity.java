@@ -23,7 +23,6 @@ import com.fiuba.taller2.jobify.view.LoaderLayout;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -90,6 +89,7 @@ public class EditProfileActivity extends Activity {
                 return true;
             case R.id.save_edit:
                 editUser();
+                // TODO: upload image
                 AppServerRequest.updateUser(user, new EditUserCallback());
                 loader.setVisible(true);
                 return true;
