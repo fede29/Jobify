@@ -5,30 +5,16 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Skill implements Serializable {
+public class JobPosition implements Serializable {
 
-    @Expose @SerializedName("id")           int id;
+    @Expose @SerializedName("id")           private int id;
     @Expose @SerializedName("name")         String name;
     @Expose @SerializedName("description")  String description;
     @Expose @SerializedName("category")     String category;
 
 
-    public String getCategory() {
-        return category;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public String getName() {
         return name;
     }
-
-    public int getID() {
-        return id;
-    }
-
-    public String toString() { return name; }
 
 }
