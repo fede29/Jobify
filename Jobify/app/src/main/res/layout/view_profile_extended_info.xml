@@ -64,10 +64,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView android:id="@+id/experience"
-            android:layout_marginLeft="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <com.fiuba.taller2.jobify.view.ExperiencesLayout
+            android:id="@+id/experiences_layout"
+            android:orientation="vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
 
     </LinearLayout>
 

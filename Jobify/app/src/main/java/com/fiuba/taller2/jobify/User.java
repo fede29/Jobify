@@ -24,9 +24,10 @@ public class User implements Serializable {
     @Expose                     @SerializedName("about")        String about;
     @Expose                     @SerializedName("profile_pic")  String pictureURL;
     @Expose                     @SerializedName("job_position") JobPosition jobPosition;
-    @Expose(serialize=false)    @SerializedName("location")     Position position;
-    @Expose(serialize=false)    @SerializedName("contacts")     ArrayList<Contact> contacts;
-    @Expose(serialize=false)    @SerializedName("skills")       ArrayList<Skill> skills;
+    @Expose(serialize = false)  @SerializedName("location")     Position position;
+    @Expose(serialize = false)  @SerializedName("contacts")     ArrayList<Contact> contacts;
+    @Expose(serialize = false)  @SerializedName("skills")       ArrayList<Skill> skills;
+    @Expose(serialize = false)  @SerializedName("experiences")  ArrayList<Experience> experiences;
 
     private ArrayList<Chat> chats;
 
@@ -110,4 +111,9 @@ public class User implements Serializable {
     }
 
     public Position getPosition() { return position; }
+
+    public ArrayList<Experience> getExperiences() {
+        return experiences;
+    }
+
 }
