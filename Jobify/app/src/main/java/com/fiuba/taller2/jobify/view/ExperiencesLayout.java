@@ -32,7 +32,7 @@ public class ExperiencesLayout extends LinearLayout {
         int xpNo = 0;
         for (Experience experience : experiences) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_experience, null);
-            if (++xpNo % 2 == 1) view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey));
+            if (++xpNo % 2 == 1) view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.lightestgrey));
             else view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.bluegrey));
             ((TextView) view.findViewById(R.id.where)).setText(experience.getPlace());
             ((TextView) view.findViewById(R.id.job_position)).setText(experience.getJobPosition().getName());
