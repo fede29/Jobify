@@ -9,6 +9,7 @@
 
     <color name="opaqueblue">#3a71a0</color>
 
+    <color name="dirtywhite">#ffEEEEEE</color>
     <color name="darkwhite">#ffDFDFDF</color>
     <color name="darkerwhite">#ffd0d0d0</color>
     <color name="lightestgrey">#ffb8b8b8</color>

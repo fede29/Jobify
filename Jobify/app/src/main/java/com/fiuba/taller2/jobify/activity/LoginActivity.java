@@ -81,7 +81,7 @@ public class LoginActivity extends Activity {
             public void run() {
                 // TODO: if user is logged, loadApp() and startApplication(), else animateViews()
                 loadApplication();
-                animateViews();
+                //animateViews();
             }
         });
     }

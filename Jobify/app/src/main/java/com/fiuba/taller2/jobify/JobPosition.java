@@ -17,4 +17,6 @@ public class JobPosition implements Serializable {
         return name;
     }
 
+    public String toString() { return name; }
+
 }

@@ -8,6 +8,7 @@ public class JSONConstants {
 
     public static class Arrays {
         public final static String CONTANCTS = "contacts";
+        public final static String USERS = "users";
     }
 
     public static class User {

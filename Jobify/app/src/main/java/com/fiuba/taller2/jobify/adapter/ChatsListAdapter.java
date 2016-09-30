@@ -35,7 +35,6 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.View
             chatPic = (CircleImageView) itemView.findViewById(R.id.chat_pic);
             contactName = (TextView) itemView.findViewById(R.id.contact_name);
             lastMessage = (TextView) itemView.findViewById(R.id.last_message);
-
         }
 
         public void setOnClickListener(View.OnClickListener listener) {

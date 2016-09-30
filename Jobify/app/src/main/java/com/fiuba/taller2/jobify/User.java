@@ -8,11 +8,13 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -116,4 +118,7 @@ public class User implements Serializable {
         return experiences;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }

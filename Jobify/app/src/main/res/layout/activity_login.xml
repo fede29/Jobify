@@ -28,7 +28,6 @@
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:textColorHint="@color/darkwhite"
             android:singleLine="true" />
 
@@ -37,7 +36,6 @@
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:textColor="@color/darkwhite"
             android:textColorHint="@color/darkwhite"
             android:singleLine="true" />
@@ -49,8 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:visibility="gone" />
+            android:layout_marginTop="16dp" />
 
         <LinearLayout android:orientation="horizontal"
             android:gravity="center"
@@ -58,8 +55,8 @@
             android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:id="@+id/or_layout_1">
+            android:id="@+id/or_layout_1"
+            android:visibility="gone">
 
             <View android:layout_weight="10"
                 android:background="#ff000000"
@@ -94,7 +91,6 @@
             android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:id="@+id/or_layout_2">
 
             <View android:layout_weight="10"
@@ -122,8 +118,7 @@
             android:textSize="22sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/create_account_text"
-            android:visibility="gone" />
+            android:id="@+id/create_account_text" />
 
     </LinearLayout>
 

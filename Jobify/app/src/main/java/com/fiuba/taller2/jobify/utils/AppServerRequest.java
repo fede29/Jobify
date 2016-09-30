@@ -4,19 +4,14 @@ package com.fiuba.taller2.jobify.utils;
 import android.util.Log;
 
 import com.fiuba.taller2.jobify.Chat;
-import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.User;
-import com.fiuba.taller2.jobify.activity.ChatActivity;
-import com.fiuba.taller2.jobify.fragment.ContactsFragment;
-import com.fiuba.taller2.jobify.fragment.NewCredentialsFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,7 +20,7 @@ import okhttp3.RequestBody;
 
 public class AppServerRequest {
 
-    private static final String BASE_URL = "http://192.168.0.106:5000";
+    private static final String BASE_URL = "http://192.168.0.104:5000";
     private static final OkHttpClient client = new OkHttpClient();
     private static String token;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -119,6 +114,11 @@ public class AppServerRequest {
         post(route, callback, body);
     }
 
+    public static void searchUsers(String query, Callback callback) {
+        String route = addParameters(generateURL(RequestConstants.Routes.USERS), "query", query);
+        get(route, callback);
+    }
+
 
     public static void get(String url, Callback callback) {
         Request request = new Request.Builder()
@@ -155,6 +155,13 @@ public class AppServerRequest {
         for (Object uri : uris)
             url += String.format("/%s", uri);
         return url;
+    }
+
+    private static String addParameters(String route, Object... params) {
+        route += "?";
+        for (int i = 0; i < params.length; i += 2)
+            route += String.format("%s=%s", params[i], params[i+1]);
+        return route;
     }
 
     private static class RequestConstants {
