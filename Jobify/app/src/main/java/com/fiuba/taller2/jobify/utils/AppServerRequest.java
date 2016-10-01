@@ -6,6 +6,7 @@ import android.util.Log;
 import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.User;
+import com.fiuba.taller2.jobify.activity.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +21,7 @@ import okhttp3.RequestBody;
 
 public class AppServerRequest {
 
-    private static final String BASE_URL = "http://192.168.0.104:5000";
+    private static final String BASE_URL = "http://192.168.0.100:5000";
     private static final OkHttpClient client = new OkHttpClient();
     private static String token;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -30,52 +31,46 @@ public class AppServerRequest {
     }
 
     public static void login(String email, String password, Callback callback) {
-        JSONObject params = new JSONObject();
-        try {
-            params.put(RequestConstants.UserParams.EMAIL, email);
-            params.put(RequestConstants.UserParams.PASSWORD, password);
-        } catch (JSONException e) {
-            Log.e("Login request", e.getMessage());
-            e.printStackTrace();
-        }
+        JSONObject params = generateJSON(
+                RequestConstants.UserParams.EMAIL, email,
+                RequestConstants.UserParams.PASSWORD, password
+        );
+        RequestBody body = RequestBody.create(JSON, params.toString());
+        post(generateURL(RequestConstants.Routes.LOGIN), callback, body);
+    }
+
+    public static void facebookLogin(String fbToken, Callback callback) {
+        JSONObject params = generateJSON(RequestConstants.UserParams.FB_TOKEN, fbToken);
         RequestBody body = RequestBody.create(JSON, params.toString());
         post(generateURL(RequestConstants.Routes.LOGIN), callback, body);
     }
 
     public static void register(String email, String password, Callback callback) {
-        JSONObject params = new JSONObject();
-        try {
-            params.put(RequestConstants.UserParams.EMAIL, email);
-            params.put(RequestConstants.UserParams.PASSWORD, password);
-        } catch (JSONException e) {
-            Log.e("Register request", e.getMessage());
-            e.printStackTrace();
-        }
+        JSONObject params = generateJSON(
+                RequestConstants.UserParams.EMAIL, email,
+                RequestConstants.UserParams.PASSWORD, password
+        );
         RequestBody body = RequestBody.create(JSON, params.toString());
         post(generateURL(RequestConstants.Routes.USERS), callback, body);
     }
 
     public static void getContacts(int userID, Callback callback) {
-        get(
-                generateURL(
-                        RequestConstants.Routes.USERS, userID,
-                        RequestConstants.Routes.CONTACTS
-                ),
-                callback
-        );
+        String route = generateURL(
+                RequestConstants.Routes.USERS, userID,
+                RequestConstants.Routes.CONTACTS
+        ) ;
+        get(route, callback);
     }
 
     public static void getUser(int userID, Callback callback) {
-        get(generateURL(RequestConstants.Routes.USERS, userID), callback);
+        String route = generateURL(RequestConstants.Routes.USERS, userID);
+        get(route, callback);
     }
 
     public static void updateUser(User user, Callback callback) {
+        String route = generateURL(RequestConstants.Routes.USERS, String.valueOf(user.getID()));
         RequestBody body = RequestBody.create(JSON, user.serialize());
-        put(
-                generateURL(RequestConstants.Routes.USERS, String.valueOf(user.getID())),
-                callback,
-                body
-        );
+        put(route, callback, body);
     }
 
     public static void getChats(int userID, Callback callback) {
@@ -164,6 +159,18 @@ public class AppServerRequest {
         return route;
     }
 
+    private static JSONObject generateJSON(Object... attributes) {
+        JSONObject json = new JSONObject();
+        try {
+            for (int i = 0; i < attributes.length; i += 2)
+                json.put(attributes[i].toString(), attributes[i+1]);
+        } catch (JSONException e) {
+            Log.e("JSON build", e.getMessage());
+            e.printStackTrace();
+        }
+        return json;
+    }
+
     private static class RequestConstants {
         public class Routes {
             public final static String LOGIN = "session";
@@ -177,6 +184,7 @@ public class AppServerRequest {
         public class UserParams {
             public final static String EMAIL = "email";
             public final static String PASSWORD = "password";
+            public final static String FB_TOKEN = "token";
         }
     }
 }

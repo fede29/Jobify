@@ -18,6 +18,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
@@ -45,23 +51,28 @@ public class LoginActivity extends Activity {
     TextView createAccountText;
     Button loginButton;
     LoaderLayout loaderLayout;
+    CallbackManager callbackManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.hide();
 
+        LoginButton fbLoginButton = (LoginButton) findViewById(R.id.fb_login_button);
         loaderLayout = (LoaderLayout) findViewById(R.id.loader_layout);
         logoName = (ImageView) findViewById(R.id.logo_name);
         emailEntry = (EditText) findViewById(R.id.email_entry);
         passEntry = (EditText) findViewById(R.id.password_entry);
         loginButton = (Button) findViewById(R.id.login_btn);
         createAccountText = (TextView) findViewById(R.id.create_account_text);
-        createAccountText.setPaintFlags(createAccountText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+        callbackManager = CallbackManager.Factory.create();
+        fbLoginButton.registerCallback(callbackManager, new FacebookLoginCallback());
+        createAccountText.setPaintFlags(createAccountText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +122,11 @@ public class LoginActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int request, int result, Intent data) {
+        callbackManager.onActivityResult(request, result, data);
     }
 
     public static Intent createIntent(Context ctx) {
@@ -172,7 +188,7 @@ public class LoginActivity extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    loaderLayout.toggleVisibility();
+                    loaderLayout.setVisible(false);
                 }
             });
         }
@@ -186,14 +202,28 @@ public class LoginActivity extends Activity {
                 startApplication(user);
             } catch (JSONException e) {
                 Log.e("Login", e.getMessage());
-                announceError("There was a problem, please try again later");
+            } finally {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loaderLayout.setVisible(false);
+                    }
+                });
             }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    loaderLayout.toggleVisibility();
-                }
-            });
         }
+    }
+
+    private class FacebookLoginCallback implements FacebookCallback<LoginResult> {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            String fbToken = loginResult.getAccessToken().getToken();
+            AppServerRequest.facebookLogin(fbToken, new LoginCallback());
+        }
+
+        @Override
+        public void onCancel() {}
+
+        @Override
+        public void onError(FacebookException e) {}
     }
 }

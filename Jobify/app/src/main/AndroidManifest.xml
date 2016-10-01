@@ -11,34 +11,27 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity android:name="com.fiuba.taller2.jobify.activity.HomeActivity" >
-        </activity>
+        android:theme="@style/AppTheme">
         <activity
             android:name="com.fiuba.taller2.jobify.activity.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.fiuba.taller2.jobify.activity.EditProfileActivity"
-            android:label="@string/title_activity_edit_profile" >
-        </activity>
-        <activity
-            android:name="com.fiuba.taller2.jobify.activity.ContactActivity"
-            android:label="@string/title_activity_contact" >
-        </activity>
-        <activity
-            android:name="com.fiuba.taller2.jobify.activity.RegistrationActivity"
-            android:label="@string/title_activity_registration" >
-        </activity>
-        <activity
-            android:name="com.fiuba.taller2.jobify.activity.ChatActivity"
-            android:label="@string/title_activity_chat" >
-        </activity>
+
+        <activity android:name="com.fiuba.taller2.jobify.activity.HomeActivity" />
+        <activity android:name="com.fiuba.taller2.jobify.activity.EditProfileActivity" />
+        <activity android:name="com.fiuba.taller2.jobify.activity.ContactActivity"/>
+        <activity android:name="com.fiuba.taller2.jobify.activity.RegistrationActivity"/>
+        <activity android:name="com.fiuba.taller2.jobify.activity.ChatActivity" />
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
     </application>
 
 </manifest>
