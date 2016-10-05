@@ -202,6 +202,7 @@ public class LoginActivity extends Activity {
                 startApplication(user);
             } catch (JSONException e) {
                 Log.e("Login", e.getMessage());
+                e.printStackTrace();
             } finally {
                 runOnUiThread(new Runnable() {
                     @Override
