@@ -165,7 +165,7 @@ public class NewCredentialsFragment extends Fragment {
                 public void run() {
                     try {
                         mListener.onRegistration(
-                                User.hydrate(getJSONObject(JSONConstants.User.USER)),
+                                new User(emailEntry.getText().toString()),
                                 emailEntry.getText().toString(),
                                 passwordEntry.getText().toString()
                         );

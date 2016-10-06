@@ -20,7 +20,7 @@ import java.util.List;
 
 public class User implements Serializable {
 
-    @Expose                     @SerializedName("id")           int id;
+    @Expose                     @SerializedName("email")        String email;
     @Expose                     @SerializedName("first_name")   String firstName;
     @Expose                     @SerializedName("last_name")    String lastName;
     @Expose                     @SerializedName("about")        String about;
@@ -33,6 +33,10 @@ public class User implements Serializable {
 
     private ArrayList<Chat> chats;
 
+
+    public User(String email) {
+        this.email = email;
+    }
 
     public static User hydrate (JSONObject json) {
         return new Gson().fromJson(json.toString(), User.class);
@@ -56,8 +60,8 @@ public class User implements Serializable {
         return contacts;
     }
 
-    public Integer getID() {
-        return id;
+    public String getID() {
+        return email;
     }
 
     public String getPictureURL() {

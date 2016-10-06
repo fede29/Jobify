@@ -71,7 +71,7 @@ public class ChatsFragment extends Fragment {
             chatsListAdapter = new ChatsListAdapter(this, user.getChats());
             chatsList.setAdapter(chatsListAdapter);
         } else {
-            AppServerRequest.getChats(user.getID(), new GetChatsCallback());
+            AppServerRequest.getChats(user, new GetChatsCallback());
         }
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setReverseLayout(true);

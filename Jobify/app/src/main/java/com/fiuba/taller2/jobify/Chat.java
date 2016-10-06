@@ -51,7 +51,7 @@ public class Chat implements Serializable {
         messages = new Gson().fromJson(jsonMessages.toString(), listType);
     }
 
-    public Integer getUserID() {
+    public String getUserID() {
         return user.getID();
     }
 
