@@ -26,7 +26,7 @@ public class User implements Serializable {
     @Expose                     @SerializedName("job_position") JobPosition jobPosition;
     @Expose(serialize = false)  @SerializedName("location")     Position position;
     @Expose(serialize = false)  @SerializedName("contacts")     ArrayList<Contact> contacts;
-    @Expose(serialize = false)  @SerializedName("skills")       ArrayList<Skill> skills;
+    @Expose                     @SerializedName("skills")       ArrayList<Skill> skills;
     @Expose(serialize = false)  @SerializedName("experiences")  ArrayList<Experience> experiences;
 
     private ArrayList<Chat> chats;
@@ -120,4 +120,8 @@ public class User implements Serializable {
         return experiences != null ? experiences : new ArrayList<Experience>();
     }
 
+    public void addSkills(ArrayList<Skill> newSkills) {
+        if (skills != null) skills.addAll(newSkills);
+        else skills = newSkills;
+    }
 }

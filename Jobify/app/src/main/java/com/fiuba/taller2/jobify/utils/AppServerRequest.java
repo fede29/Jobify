@@ -6,6 +6,7 @@ import android.util.Log;
 import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.User;
+import com.fiuba.taller2.jobify.activity.EditProfileActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -190,6 +191,10 @@ public class AppServerRequest {
         return route;
     }
 
+    public static void getSkills(Callback callback) {
+        get(generateURL(RequestConstants.Routes.SKILLS), callback);
+    }
+
     private static class RequestConstants {
         public class Routes {
             public final static String LOGIN = "session";
@@ -198,6 +203,7 @@ public class AppServerRequest {
             public final static String CHATS = "chats";
             public final static String MESSAGES = "messages";
             public final static String LOCATION = "location";
+            public final static String SKILLS = "skills";
         }
 
         public class UserParams {
