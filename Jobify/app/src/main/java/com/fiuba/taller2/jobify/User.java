@@ -8,13 +8,11 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -57,7 +55,7 @@ public class User implements Serializable {
     }
 
     public List<Contact> getContacts() {
-        return contacts;
+        return contacts == null ? new ArrayList<Contact>() : contacts;
     }
 
     public String getID() {
@@ -68,8 +66,8 @@ public class User implements Serializable {
         return pictureURL;
     }
 
-    public String getJobPosition() {
-        return jobPosition.getName();
+    public JobPosition getJobPosition() {
+        return jobPosition != null ? jobPosition : new JobPosition();
     }
 
     public void setFirstName(String first_name) {
@@ -97,7 +95,7 @@ public class User implements Serializable {
     }
 
     public ArrayList<Skill> getSkills() {
-        return skills;
+        return skills != null ? skills : new ArrayList<Skill>();
     }
 
     public void setAbout(String about) {
@@ -119,10 +117,7 @@ public class User implements Serializable {
     public Position getPosition() { return position; }
 
     public ArrayList<Experience> getExperiences() {
-        return experiences;
+        return experiences != null ? experiences : new ArrayList<Experience>();
     }
 
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
 }

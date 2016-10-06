@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.User;
@@ -32,6 +33,7 @@ public class ChatsFragment extends Fragment {
     User user;
     ChatsListAdapter chatsListAdapter;
     RecyclerView chatsList;
+    TextView noConversationsText;
 
     public final static int CHAT_ACTIVITY_REQUEST_CODE = 1;
 
@@ -67,12 +69,10 @@ public class ChatsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_chats, container, false);
 
         chatsList = (RecyclerView) rootView.findViewById(R.id.chats_list);
-        if (user.hasChatsLoaded()) {
-            chatsListAdapter = new ChatsListAdapter(this, user.getChats());
-            chatsList.setAdapter(chatsListAdapter);
-        } else {
-            AppServerRequest.getChats(user, new GetChatsCallback());
-        }
+        noConversationsText = (TextView) rootView.findViewById(R.id.no_conversations_text);
+
+        if (user.hasChatsLoaded()) setupView();
+        else AppServerRequest.getChats(user, new GetChatsCallback());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
@@ -93,6 +93,8 @@ public class ChatsFragment extends Fragment {
     /*************************************** PRIVATE STUFF ****************************************/
 
     private void setupView() {
+        if (user.getChats().size() > 0) noConversationsText.setVisibility(View.GONE);
+        else noConversationsText.setVisibility(View.VISIBLE);
         chatsListAdapter = new ChatsListAdapter(this, user.getChats());
         chatsList.setAdapter(chatsListAdapter);
     }

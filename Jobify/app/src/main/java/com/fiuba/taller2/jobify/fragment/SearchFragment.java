@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.User;
@@ -71,9 +72,12 @@ public class SearchFragment extends Fragment {
     private class OnSearchClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            /*
             resultsAdapter.clear();
             resultsLoader.setVisibility(View.VISIBLE);
             AppServerRequest.searchUsers(queryText.getText().toString(), new QueryResultsCallback());
+            */
+            Toast.makeText(getActivity(), "In building process, we apologize for the inconveniences caused :D", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -84,7 +88,7 @@ public class SearchFragment extends Fragment {
                 JSONArray usersArray = getJSONResponse().getJSONArray(JSONConstants.Arrays.CONTANCTS);
                 List<Contact> contacts = Contact.hydrate(usersArray);
                 getActivity().runOnUiThread(new SetResults(contacts));
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 Log.e("Users query", e.getMessage());
                 e.printStackTrace();
             }

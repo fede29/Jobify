@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.adapter.ContactsListAdapter;
@@ -15,7 +16,8 @@ import com.taller2.fiuba.jobify.R;
 
 public class ContactsFragment extends Fragment {
 
-    private User user;
+    User user;
+    TextView noContactsText;
 
     private class ExtrasKeys {
         public final static String USER = "user";
@@ -44,6 +46,11 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
         RecyclerView contactsList = (RecyclerView) rootView.findViewById(R.id.contacts_list);
+        noContactsText = (TextView) rootView.findViewById(R.id.no_contacts_text);
+
+        // TODO: Should do callback pattern and check if contacts are loaded as in ChatsFragment
+        if (user.getContacts().size() > 0) noContactsText.setVisibility(View.GONE);
+        else noContactsText.setVisibility(View.VISIBLE);
         contactsList.setAdapter(new ContactsListAdapter(getActivity(), user.getContacts()));
         contactsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 

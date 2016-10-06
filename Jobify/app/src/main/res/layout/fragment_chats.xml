@@ -5,6 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView android:id="@+id/no_conversations_text"
+        android:text="You have no conversations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chats_list"
         android:divider="@drawable/list_divider"
