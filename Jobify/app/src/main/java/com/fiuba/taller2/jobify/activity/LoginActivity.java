@@ -181,8 +181,9 @@ public class LoginActivity extends Activity {
         public void onResponse() {
             try {
                 JSONObject response = getJSONResponse();
-                AppServerRequest.updateToken(response.getString(JSONConstants.TOKEN));
                 User user = User.hydrate(response.getJSONObject(JSONConstants.User.USER));
+                AppServerRequest.updateToken(response.getString(JSONConstants.TOKEN));
+                AppServerRequest.setForUser(user);
                 startApplication(user);
             } catch (JSONException e) {
                 Log.e("Login", e.getMessage());

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Contact implements Serializable {
 
-    @Expose @SerializedName("user_id")      String userID;
+    @Expose @SerializedName("id")           String id;
     @Expose @SerializedName("first_name")   String firstName;
     @Expose @SerializedName("last_name")    String lastName;
     @Expose @SerializedName("profile_pic")  String pictureURL;
@@ -50,12 +50,12 @@ public class Contact implements Serializable {
         this.user = u;
     }
 
-    public void setUserID(String id) {
-        userID = id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getId() {
+        return id;
     }
 
     public User getUser() {

@@ -20,10 +20,16 @@ import okhttp3.RequestBody;
 
 public class AppServerRequest {
 
-    private static final String BASE_URL = "http://192.168.0.100:8081/api";
-    private static final OkHttpClient client = new OkHttpClient();
-    private static String token;
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    static final String BASE_URL = "http://192.168.0.100:8081/api";
+    static final OkHttpClient client = new OkHttpClient();
+    static String token;
+    static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    static User currentUser;
+
+
+    public static void setForUser(User u) {
+        currentUser = u;
+    }
 
     public static void updateToken(String t) {
         token = t;
@@ -121,6 +127,22 @@ public class AppServerRequest {
     public static void searchUsers(String query, Callback callback) {
         String route = addParameters(generateURL(RequestConstants.Routes.USERS), "query", query);
         get(route, callback);
+    }
+
+    public static void followUser(Object followedId, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS, currentUser.getID(),
+                RequestConstants.Routes.CONTACTS
+        );
+        JSONObject params = new JSONObject();
+        try {
+            params.put(RequestConstants.UserParams.EMAIL, followedId.toString());
+        } catch (JSONException e) {
+            Log.e("Follow request", e.getMessage());
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, params.toString());
+        post(route, callback, body);
     }
 
 

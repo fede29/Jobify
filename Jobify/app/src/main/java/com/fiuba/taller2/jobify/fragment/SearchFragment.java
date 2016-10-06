@@ -15,10 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fiuba.taller2.jobify.Contact;
-import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.adapter.QueryResultsAdapter;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
@@ -103,8 +101,8 @@ public class SearchFragment extends Fragment {
                 if (statusIs(200)) {
                     LinkedList<Contact> contactList = new LinkedList<>();
                     JSONObject jsonUser = getJSONResponse().getJSONObject(JSONConstants.User.USER);
-                    Conturtact c = Contact.hydrate(jsonUser);
-                    c.setUserID(queryText.getText().toString());
+                    Contact c = Contact.hydrate(jsonUser);
+                    c.setId(queryText.getText().toString());
                     contactList.add(c);
                     getActivity().runOnUiThread(new SetResults(contactList));
                 } else {
