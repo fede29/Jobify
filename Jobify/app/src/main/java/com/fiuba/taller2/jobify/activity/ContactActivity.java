@@ -39,10 +39,10 @@ public class ContactActivity extends Activity {
         setContentView(R.layout.activity_contact);
 
         contact = (Contact) getIntent().getExtras().getSerializable(ExtrasKeys.CONTACT);
-        if (contact.getUser() == null)
-            AppServerRequest.getUser(contact.getUserID(), new UserLoadCallback());
-        else
+        if (contact.hasUserLoaded())
             setupContactView();
+        else
+            AppServerRequest.getUser(contact.getUserID(), new UserLoadCallback());
 
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {

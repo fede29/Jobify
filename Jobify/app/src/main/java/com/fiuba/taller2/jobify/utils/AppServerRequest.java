@@ -20,7 +20,7 @@ import okhttp3.RequestBody;
 
 public class AppServerRequest {
 
-    private static final String BASE_URL = "http://192.168.0.105:8081/api";
+    private static final String BASE_URL = "http://192.168.0.100:8081/api";
     private static final OkHttpClient client = new OkHttpClient();
     private static String token;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -65,7 +65,11 @@ public class AppServerRequest {
         );
     }
 
-    public static void getUser(int userID, Callback callback) {
+    public static void getUser(User user, Callback callback) {
+        get(generateURL(RequestConstants.Routes.USERS, user.getID()), callback);
+    }
+
+    public static void getUser(Object userID, Callback callback) {
         get(generateURL(RequestConstants.Routes.USERS, userID), callback);
     }
 

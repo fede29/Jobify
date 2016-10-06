@@ -31,7 +31,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:inputType="textCapWords" />
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionSearch"/>
 
                 <ImageView android:id="@+id/search_btn"
                     android:padding="8dp"
@@ -50,6 +51,16 @@
             android:id="@+id/results_loader"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No results found"
+            android:id="@+id/no_results_text"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="18sp"
+            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/query_results"

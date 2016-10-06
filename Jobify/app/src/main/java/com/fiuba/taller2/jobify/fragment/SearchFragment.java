@@ -6,12 +6,15 @@ import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.taller2.jobify.Contact;
@@ -24,7 +27,9 @@ import com.taller2.fiuba.jobify.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -37,6 +42,7 @@ public class SearchFragment extends Fragment {
     RecyclerView resultsList;
     QueryResultsAdapter resultsAdapter;
     ProgressBar resultsLoader;
+    TextView noResultsText;
 
 
     public static SearchFragment newInstance() {
@@ -57,6 +63,14 @@ public class SearchFragment extends Fragment {
         searchButton = (ImageView) view.findViewById(R.id.search_btn);
         resultsList = (RecyclerView) view.findViewById(R.id.query_results);
         resultsLoader = (ProgressBar) view.findViewById(R.id.results_loader);
+        noResultsText = (TextView) view.findViewById(R.id.no_results_text);
+
+        queryText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
+                return action == EditorInfo.IME_ACTION_SEARCH && searchButton.callOnClick();
+            }
+        });
 
         resultsAdapter = new QueryResultsAdapter(this);
         resultsList.setAdapter(resultsAdapter);
@@ -72,12 +86,34 @@ public class SearchFragment extends Fragment {
     private class OnSearchClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            /*
             resultsAdapter.clear();
             resultsLoader.setVisibility(View.VISIBLE);
+            noResultsText.setVisibility(View.GONE);
+            /* TODO: Generalize search query
             AppServerRequest.searchUsers(queryText.getText().toString(), new QueryResultsCallback());
             */
-            Toast.makeText(getActivity(), "In building process, we apologize for the inconveniences caused :D", Toast.LENGTH_LONG).show();
+            AppServerRequest.getUser(queryText.getText().toString(), new SingleUserResultCallback());
+        }
+    }
+
+    private class SingleUserResultCallback extends HttpCallback {
+        @Override
+        public void onResponse() {
+            try {
+                if (statusIs(200)) {
+                    LinkedList<Contact> contactList = new LinkedList<>();
+                    JSONObject jsonUser = getJSONResponse().getJSONObject(JSONConstants.User.USER);
+                    Conturtact c = Contact.hydrate(jsonUser);
+                    c.setUserID(queryText.getText().toString());
+                    contactList.add(c);
+                    getActivity().runOnUiThread(new SetResults(contactList));
+                } else {
+                    getActivity().runOnUiThread(new SetResults(new LinkedList<Contact>()));
+                }
+            } catch (JSONException e) {
+                Log.e("Single user query", e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
@@ -93,19 +129,21 @@ public class SearchFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+    }
 
-        private class SetResults implements Runnable {
-            private List<Contact> contacts;
+    public class SetResults implements Runnable {
+        private List<Contact> contacts;
 
-            public SetResults(List<Contact> c) {
-                contacts = c;
-            }
+        public SetResults(List<Contact> c) {
+            contacts = c;
+        }
 
-            @Override
-            public void run() {
-                resultsLoader.setVisibility(View.GONE);
-                resultsAdapter.setResults(contacts);
-            }
+        @Override
+        public void run() {
+            resultsLoader.setVisibility(View.GONE);
+            resultsAdapter.setResults(contacts);
+            if (contacts.size() > 0) noResultsText.setVisibility(View.GONE);
+            else noResultsText.setVisibility(View.VISIBLE);
         }
     }
 }
