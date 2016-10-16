@@ -21,7 +21,7 @@ import okhttp3.RequestBody;
 
 public class AppServerRequest {
 
-    static final String BASE_URL = "http://192.168.0.100:8081/api";
+    static final String BASE_URL = "http://192.168.43.113:8081/api";
     static final OkHttpClient client = new OkHttpClient();
     static String token;
     static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
