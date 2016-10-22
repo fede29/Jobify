@@ -16,4 +16,11 @@ public class Location implements Serializable {
         return new LatLng(latitude, longitude);
     }
 
+    public Double getLat() {
+        return latitude;
+    }
+
+    public Double getLng() {
+        return longitude;
+    }
 }

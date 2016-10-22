@@ -3,21 +3,16 @@ package com.fiuba.taller2.jobify.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.app.Fragment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.EditProfileActivity;
-import com.fiuba.taller2.jobify.view.ProfileBasicLayout;
-import com.fiuba.taller2.jobify.view.ProfileExtendedLayout;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
@@ -54,21 +49,14 @@ public class ProfileSection extends RelativeLayout {
         ImageButton editProfile = (ImageButton) findViewById(R.id.edit_profile_btn);
         ProfileBasicLayout basicLayout = (ProfileBasicLayout) findViewById(R.id.basic_layout);
         ProfileExtendedLayout extendedLayout = (ProfileExtendedLayout) findViewById(R.id.extended_layout);
+        GoogleMap map = ((MapFragment) activity.getFragmentManager().findFragmentById(R.id.map)).getMap();
 
         basicLayout.setViews(user);
-        extendedLayout.setViews(user);
+        extendedLayout.setViews(activity, user, map);
         editProfile.setVisibility(View.VISIBLE);
         editProfile.setOnClickListener(new EditProfileOnClickListener());
         if (user.hasProfilePic())
             Picasso.with(getContext()).load(user.getPictureURL()).into(profilePic);
-    }
-
-    //@Override
-    public void onActivityResult(int request, int result, Intent resultIntent) {
-        if (result == Activity.RESULT_OK && request == EDIT_USER_REQUEST_CODE) {
-            //user = (User) resultIntent.getExtras().getSerializable(EditProfileActivity.ExtrasKeys.USER);
-            //setUserViews();
-        }
     }
 
 

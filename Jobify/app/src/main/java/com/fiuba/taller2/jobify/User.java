@@ -127,4 +127,8 @@ public class User implements Serializable {
     }
 
     public Location getLastLocation() { return lastLocation; }
+
+    public Boolean hasLastLocation() {
+        return lastLocation != null;
+    }
 }

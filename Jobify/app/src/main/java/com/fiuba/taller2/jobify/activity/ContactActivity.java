@@ -57,18 +57,7 @@ public class ContactActivity extends Activity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             //actionBar.setTitle(contact.getFullName() + "'s profile");
             actionBar.setTitle("Contact profile");
-
         }
-
-        // TODO: Move from here
-        //*
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMap().getUiSettings().setAllGesturesEnabled(false);
-        mapFragment.getMap().moveCamera(
-                CameraUpdateFactory.newLatLngZoom(new LatLng(-34.617841, -58.368551), 14.0f)
-        );
-        //*/
-        // mapFragment.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(xxxx,xxxx) , 14.0f) );
     }
 
     @Override
@@ -101,12 +90,16 @@ public class ContactActivity extends Activity {
         findViewById(R.id.progress_bar).setVisibility(View.GONE);
         findViewById(R.id.profile_layout).setVisibility(View.VISIBLE);
         findViewById(R.id.message_contact_btn).setVisibility(View.VISIBLE);
+        ProfileExtendedLayout profileExtendedLayout =
+                ((ProfileExtendedLayout) findViewById(R.id.extended_layout));
+
+        GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        profileExtendedLayout.setViews(this, contact.getUser(), map);
 
         followBtn.setVisibility(View.VISIBLE);
         followBtn.setOnClickListener(new OnFollowClickListener());
 
         ((ProfileBasicLayout) findViewById(R.id.basic_layout)).setViews(contact.getUser());
-        ((ProfileExtendedLayout) findViewById(R.id.extended_layout)).setViews(contact.getUser());
         CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
         if (contact.hasProfilePic())
             Picasso.with(this).load(contact.getPictureURL()).into(profilePic);
