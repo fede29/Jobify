@@ -17,6 +17,8 @@ import org.apmem.tools.layouts.FlowLayout;
 public class ProfileExtendedLayout extends RelativeLayout {
 
     FlowLayout skillsLayout;
+    TextView about;
+    ExperiencesLayout experiences;
 
 
     public ProfileExtendedLayout(Context context) {
@@ -35,6 +37,23 @@ public class ProfileExtendedLayout extends RelativeLayout {
     }
 
     public void setViews(User user) {
+        setSkills(user);
+        about.setText(user.getAbout());
+        experiences.setViews(user.getExperiences());
+    }
+
+
+    /*************************************** PRIVATE STUFF ****************************************/
+
+    private void initialize() {
+        inflate(getContext(), R.layout.view_profile_extended_info, this);
+        skillsLayout = (FlowLayout) findViewById(R.id.skills_layout);
+        about = (TextView) findViewById(R.id.about_text);
+        experiences = (ExperiencesLayout) findViewById(R.id.experiences_layout);
+    }
+
+    private void setSkills(User user) {
+        skillsLayout.removeAllViews();
         for (Skill skill : user.getSkills()) {
             View skillView =
                     LayoutInflater.from(getContext()).inflate(R.layout.view_skill, null);
@@ -44,12 +63,4 @@ public class ProfileExtendedLayout extends RelativeLayout {
         }
     }
 
-
-    /*************************************** PRIVATE STUFF ****************************************/
-
-    private void initialize() {
-        inflate(getContext(), R.layout.view_profile_extended_info, this);
-        skillsLayout = (FlowLayout) findViewById(R.id.skills_layout);
-
-    }
 }

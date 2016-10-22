@@ -35,6 +35,12 @@ public class LoaderLayout extends RelativeLayout {
         else setVisibility(View.GONE);
     }
 
+    public void setVisible(Boolean value) {
+        isVisible = value;
+        if (isVisible) setVisibility(View.VISIBLE);
+        else setVisibility(View.GONE);
+    }
+
 
     private void initialize() {
         isVisible = false;

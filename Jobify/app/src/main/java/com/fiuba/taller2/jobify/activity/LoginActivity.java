@@ -81,7 +81,7 @@ public class LoginActivity extends Activity {
             public void run() {
                 // TODO: if user is logged, loadApp() and startApplication(), else animateViews()
                 loadApplication();
-                animateViews();
+                //animateViews();
             }
         });
     }
@@ -168,8 +168,7 @@ public class LoginActivity extends Activity {
 
         @Override
         public void onFailure(Call call, IOException e) {
-            showLongToast("Connection fail. Loading dummy user");
-            startApplication(User._createDummyUser());
+            super.onFailure(call, e);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -182,8 +181,9 @@ public class LoginActivity extends Activity {
         public void onResponse() {
             try {
                 JSONObject response = getJSONResponse();
-                AppServerRequest.updateToken(response.getString(JSONConstants.TOKEN));
                 User user = User.hydrate(response.getJSONObject(JSONConstants.User.USER));
+                AppServerRequest.updateToken(response.getString(JSONConstants.TOKEN));
+                AppServerRequest.setForUser(user);
                 startApplication(user);
             } catch (JSONException e) {
                 Log.e("Login", e.getMessage());

@@ -3,17 +3,16 @@ package com.fiuba.taller2.jobify.utils;
 
 import android.util.Log;
 
-import com.fiuba.taller2.jobify.Contact;
+import com.fiuba.taller2.jobify.Chat;
+import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.User;
-import com.fiuba.taller2.jobify.fragment.ContactsFragment;
-import com.fiuba.taller2.jobify.fragment.NewCredentialsFragment;
+import com.fiuba.taller2.jobify.activity.EditProfileActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,10 +21,16 @@ import okhttp3.RequestBody;
 
 public class AppServerRequest {
 
-    private static final String BASE_URL = "http://192.168.0.109:5000/";
-    private static final OkHttpClient client = new OkHttpClient();
-    private static String token;
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    static final String BASE_URL = "http://192.168.0.109:8081/api";
+    static final OkHttpClient client = new OkHttpClient();
+    static String token;
+    static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    static User currentUser;
+
+
+    public static void setForUser(User u) {
+        currentUser = u;
+    }
 
     public static void updateToken(String t) {
         token = t;
@@ -60,15 +65,18 @@ public class AppServerRequest {
     public static void getContacts(int userID, Callback callback) {
         get(
                 generateURL(
-                        RequestConstants.Routes.USERS,
-                        userID,
+                        RequestConstants.Routes.USERS, userID,
                         RequestConstants.Routes.CONTACTS
                 ),
                 callback
         );
     }
 
-    public static void getUser(int userID, Callback callback) {
+    public static void getUser(User user, Callback callback) {
+        get(generateURL(RequestConstants.Routes.USERS, user.getID()), callback);
+    }
+
+    public static void getUser(Object userID, Callback callback) {
         get(generateURL(RequestConstants.Routes.USERS, userID), callback);
     }
 
@@ -81,13 +89,61 @@ public class AppServerRequest {
         );
     }
 
-    public static void getChats(int userID, Callback callback) {
+    public static void getChats(User user, Callback callback) {
         String route = generateURL(
-                RequestConstants.Routes.USERS,
-                userID,
+                RequestConstants.Routes.USERS, user.getID(),
                 RequestConstants.Routes.CHATS
         );
         get(route, callback);
+    }
+
+    public static void sendMessage(Chat chat, Message newMessage, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS, chat.getUserID(),
+                RequestConstants.Routes.CHATS, chat.getID(),
+                RequestConstants.Routes.MESSAGES
+        );
+        RequestBody body = RequestBody.create(JSON, newMessage.serialize());
+        post(route, callback, body);
+    }
+
+    public static void getMessages(Chat chat, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS, chat.getUserID(),
+                RequestConstants.Routes.CHATS, chat.getID(),
+                RequestConstants.Routes.MESSAGES
+        );
+        get(route, callback);
+    }
+
+    public static void updateLocation(User user, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS, user.getID(),
+                RequestConstants.Routes.LOCATION
+        );
+        RequestBody body = RequestBody.create(JSON, user.getPosition().serialize());
+        post(route, callback, body);
+    }
+
+    public static void searchUsers(String query, Callback callback) {
+        String route = addParameters(generateURL(RequestConstants.Routes.USERS), "query", query);
+        get(route, callback);
+    }
+
+    public static void followUser(Object followedId, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS, currentUser.getID(),
+                RequestConstants.Routes.CONTACTS
+        );
+        JSONObject params = new JSONObject();
+        try {
+            params.put(RequestConstants.UserParams.EMAIL, followedId.toString());
+        } catch (JSONException e) {
+            Log.e("Follow request", e.getMessage());
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, params.toString());
+        post(route, callback, body);
     }
 
 
@@ -118,15 +174,25 @@ public class AppServerRequest {
         call.enqueue(callback);
     }
 
+
     /************************************** PRIVATE STUFF *****************************************/
 
     private static String generateURL(Object... uris) {
         String url = BASE_URL;
-        for (Object uri : uris) {
-            if (uris[0] != uri) url += "/";
-            url += String.valueOf(uri);
-        }
+        for (Object uri : uris)
+            url += String.format("/%s", uri);
         return url;
+    }
+
+    private static String addParameters(String route, Object... params) {
+        route += "?";
+        for (int i = 0; i < params.length; i += 2)
+            route += String.format("%s=%s", params[i], params[i+1]);
+        return route;
+    }
+
+    public static void getSkills(Callback callback) {
+        get(generateURL(RequestConstants.Routes.SKILLS), callback);
     }
 
     private static class RequestConstants {
@@ -135,6 +201,9 @@ public class AppServerRequest {
             public final static String USERS = "users";
             public final static String CONTACTS = "contacts";
             public final static String CHATS = "chats";
+            public final static String MESSAGES = "messages";
+            public final static String LOCATION = "location";
+            public final static String SKILLS = "skills";
         }
 
         public class UserParams {

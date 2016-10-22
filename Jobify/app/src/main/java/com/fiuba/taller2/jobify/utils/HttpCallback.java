@@ -32,6 +32,7 @@ public abstract class HttpCallback implements Callback {
     Response httpResponse;
     Call call;
     int statusCode;
+    String responseBody;
 
 
     public HttpCallback () {}
@@ -67,7 +68,7 @@ public abstract class HttpCallback implements Callback {
 
     @Override
     public void onFailure(Call call, IOException e) {
-        Log.w("Request fail", e.getMessage());
+        Log.w("Request failure", e.getMessage());
         String message;
         if (e instanceof SocketTimeoutException) {
             message = "Connection failed. Please, check your Internet connection.";
@@ -81,10 +82,12 @@ public abstract class HttpCallback implements Callback {
     @Override
     public final void onResponse(Call call, Response response) throws IOException {
         try {
-            jsonResponse = new JSONObject(response.body().string()); // TODO: Only if metadata == application/json
             httpResponse = response;
             statusCode = response.code();
             this.call = call;
+            responseBody = response.body().string();
+            if (response.header("Content-Type").startsWith("application/json"))
+                jsonResponse = new JSONObject(responseBody);
         } catch (JSONException e) {
             Log.e("JSON Response", e.getMessage());
             e.printStackTrace();
@@ -110,7 +113,7 @@ public abstract class HttpCallback implements Callback {
                 }
             });
         } else {
-            Log.w("Wanting to show toast without activity set", "Implement acitivty ctor");
+            Log.w("No activity set", "Implement activity constructor");
         }
     }
 

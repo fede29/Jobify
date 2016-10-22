@@ -3,6 +3,9 @@
     package="com.taller2.fiuba.jobify" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
 
     <application
@@ -32,6 +35,10 @@
         <activity
             android:name="com.fiuba.taller2.jobify.activity.RegistrationActivity"
             android:label="@string/title_activity_registration" >
+        </activity>
+        <activity
+            android:name="com.fiuba.taller2.jobify.activity.ChatActivity"
+            android:label="@string/title_activity_chat" >
         </activity>
 
 

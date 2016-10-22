@@ -1,46 +1,67 @@
-<ScrollView
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.fiuba.taller2.jobify.fragment.ProfileFragment"
-    android:layout_height="wrap_content"
+    tools:context="com.fiuba.taller2.jobify.view.ProfileSection"
+    android:layout_height="match_parent"
     android:layout_width="match_parent" >
 
-    <LinearLayout android:orientation="vertical"
-        android:layout_width="match_parent"
+    <ScrollView
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:layout_width="match_parent" >
 
-        <RelativeLayout
+        <LinearLayout android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
-            <include layout="@layout/view_profile_pic"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ImageButton android:id="@+id/edit_profile_btn"
-                android:background="@drawable/round_btn"
-                android:src="@drawable/ic_edit_white"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="8dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                <include layout="@layout/view_profile_pic"/>
 
-            <ImageButton android:id="@+id/message_contact_btn"
-                android:background="@drawable/round_btn"
-                android:src="@drawable/ic_message_white"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="8dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:visibility="invisible" />
+                <ImageButton android:id="@+id/edit_profile_btn"
+                    android:background="@drawable/round_btn"
+                    android:src="@drawable/ic_edit_white"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="invisible"/>
 
-        </RelativeLayout>
+                <ImageButton android:id="@+id/message_contact_btn"
+                    android:background="@drawable/round_btn"
+                    android:src="@drawable/ic_message_white"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="invisible" />
 
-        <include layout="@layout/view_profile_basic_info"/>
+            </RelativeLayout>
 
-        <include layout="@layout/view_profile_extended_info"/>
+            <com.fiuba.taller2.jobify.view.FollowButton
+                android:id="@+id/follow_btn"
+                android:padding="4dp"
+                android:textSize="18sp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
-    </LinearLayout>
+            <com.fiuba.taller2.jobify.view.ProfileBasicLayout
+                android:id="@+id/basic_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-</ScrollView>
+            <com.fiuba.taller2.jobify.view.ProfileExtendedLayout
+                android:id="@+id/extended_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</merge>

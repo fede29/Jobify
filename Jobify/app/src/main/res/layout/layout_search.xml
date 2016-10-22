@@ -1,0 +1,73 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fiuba.taller2.jobify.view.SearchSection">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            card_view:cardCornerRadius="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="2dp"
+            card_view:cardBackgroundColor="@color/dirtywhite">
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+
+                <EditText
+                    android:id="@+id/query"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionSearch"/>
+
+                <ImageView android:id="@+id/search_btn"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_search_darkcyan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/results_loader"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No results found"
+            android:id="@+id/no_results_text"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/query_results"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+
+</merge>

@@ -1,35 +1,37 @@
 package com.fiuba.taller2.jobify;
 
-import android.util.Log;
-
-import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Contact implements Serializable {
 
-    @SerializedName("user_id")      int userID;
-    @SerializedName("first_name")   String firstName;
-    @SerializedName("last_name")    String lastName;
-    @SerializedName("profile_pic")  String pictureURL;
+    @Expose @SerializedName("id")           String email;
+    @Expose @SerializedName("first_name")   String firstName;
+    @Expose @SerializedName("last_name")    String lastName;
+    @Expose @SerializedName("profile_pic")  String pictureURL;
+    @Expose @SerializedName("job_position") JobPosition jobPosition;
 
-    @Expose(serialize = false, deserialize = false) User user;
+    private User user;
 
 
     public static Contact hydrate(JSONObject json) {
         return new Gson().fromJson(json.toString(), Contact.class);
+    }
+
+    public static List<Contact> hydrate(JSONArray array) {
+        Type listType = new TypeToken<ArrayList<Contact>>(){}.getType();
+        return new Gson().fromJson(array.toString(), listType);
     }
 
     public String getFullName() {
@@ -48,8 +50,12 @@ public class Contact implements Serializable {
         this.user = u;
     }
 
-    public Integer getUserID() {
-        return userID;
+    public void setId(String id) {
+        this.email = id;
+    }
+
+    public String getId() {
+        return email;
     }
 
     public User getUser() {
@@ -58,6 +64,14 @@ public class Contact implements Serializable {
 
     public String getFullname() {
         return firstName + " " + lastName;
+    }
+
+    public JobPosition getJobPosition() {
+        return jobPosition != null ? jobPosition : new JobPosition();
+    }
+
+    public Boolean hasUserLoaded() {
+        return user != null;
     }
 
 }
