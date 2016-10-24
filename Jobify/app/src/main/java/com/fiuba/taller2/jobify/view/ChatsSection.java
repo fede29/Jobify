@@ -4,8 +4,6 @@ package com.fiuba.taller2.jobify.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +11,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -70,7 +67,7 @@ public class ChatsSection extends RelativeLayout {
     /*************************************** PRIVATE STUFF ****************************************/
 
     private void initialize() {
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_chats, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.section_chats, this);
         chatsList = (RecyclerView) findViewById(R.id.chats_list);
         noConversationsText = (TextView) findViewById(R.id.no_conversations_text);
 

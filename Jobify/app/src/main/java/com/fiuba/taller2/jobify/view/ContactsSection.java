@@ -48,7 +48,7 @@ public class ContactsSection extends RelativeLayout {
     /************************************** PRIVATE STUFF *****************************************/
 
     private void initialize() {
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_contacts, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.section_contacts, this);
         contactsList = (RecyclerView) findViewById(R.id.contacts_list);
         noContactsText = (TextView) findViewById(R.id.no_contacts_text);
         contactsList.setLayoutManager(new LinearLayoutManager(getContext()));

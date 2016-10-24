@@ -8,7 +8,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/contact_pic"
         android:padding="4dp"
-        android:src="@drawable/default_user_pic"
+        android:src="@drawable/default_profile_pic"
         android:layout_width="48dp"
         android:layout_height="match_parent" />
 

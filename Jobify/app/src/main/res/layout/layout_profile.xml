@@ -1,46 +1,22 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:context="com.fiuba.taller2.jobify.view.ProfileSection"
     android:layout_height="match_parent"
     android:layout_width="match_parent" >
 
     <ScrollView
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" >
+        android:layout_width="match_parent">
 
         <LinearLayout android:orientation="vertical"
+            android:background="@color/unpure_white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <include layout="@layout/view_profile_pic"/>
-
-                <ImageButton android:id="@+id/edit_profile_btn"
-                    android:background="@drawable/round_btn"
-                    android:src="@drawable/ic_edit_white"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="8dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:visibility="invisible"/>
-
-                <ImageButton android:id="@+id/message_contact_btn"
-                    android:background="@drawable/round_btn"
-                    android:src="@drawable/ic_message_white"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="8dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:visibility="invisible" />
-
-            </RelativeLayout>
+            <include layout="@layout/view_profile_pic"/>
 
             <com.fiuba.taller2.jobify.view.FollowButton
                 android:id="@+id/follow_btn"
@@ -63,5 +39,21 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <com.software.shell.fab.ActionButton
+        android:id="@+id/edit_profile_btn"
+        style="@style/default_fab_style"
+        fab:image="@drawable/ic_edit_white"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="invisible"/>
+
+    <com.software.shell.fab.ActionButton
+        android:id="@+id/message_contact_btn"
+        style="@style/default_fab_style"
+        fab:image="@drawable/ic_message_white"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="invisible"/>
 
 </merge>

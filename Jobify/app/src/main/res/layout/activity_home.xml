@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         app:pstsIndicatorHeight="4dp"
         app:pstsDividerColor="#00000000"
-        app:pstsIndicatorColor="@color/darkercyan"
+        app:pstsIndicatorColor="@color/light_blue_900"
         android:layout_height="56dp" />
 
     <!-- Necessary layout if you want to add the PSTS shadow -->

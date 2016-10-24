@@ -13,7 +13,7 @@
 
     <RelativeLayout android:id="@+id/profile_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="gone">
 
         <include layout="@layout/layout_profile"/>
@@ -21,3 +21,4 @@
     </RelativeLayout>
 
 </RelativeLayout>
+

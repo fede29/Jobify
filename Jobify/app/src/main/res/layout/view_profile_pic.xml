@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <View android:layout_weight="1"
-            android:background="@color/cyan"
+            android:background="@color/light_blue_600"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -26,7 +26,7 @@
         android:layout_height="@dimen/profile_long"
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/default_user_pic"
+        android:src="@drawable/default_profile_pic"
         app:civ_border_width="2dp"
         app:civ_border_color="@android:color/black"/>
 

@@ -36,7 +36,7 @@ public class FollowButton extends TextView {
 
     private void initialize() {
         setText("Follow");
-        setTextColor(ContextCompat.getColor(getContext(), R.color.darkcyan));
+        setTextColor(ContextCompat.getColor(getContext(), R.color.light_blue_700));
         setGravity(Gravity.CENTER);
         setBackground(ContextCompat.getDrawable(getContext(), R.drawable.follow_button));
     }

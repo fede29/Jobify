@@ -13,6 +13,7 @@ import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.EditProfileActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.software.shell.fab.ActionButton;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
@@ -46,7 +47,7 @@ public class ProfileSection extends RelativeLayout {
     public void setViewsFrom(User u) {
         user = u;
         CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
-        ImageButton editProfile = (ImageButton) findViewById(R.id.edit_profile_btn);
+        ActionButton editProfile = (ActionButton) findViewById(R.id.edit_profile_btn);
         ProfileBasicLayout basicLayout = (ProfileBasicLayout) findViewById(R.id.basic_layout);
         ProfileExtendedLayout extendedLayout = (ProfileExtendedLayout) findViewById(R.id.extended_layout);
         GoogleMap map = ((MapFragment) activity.getFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -63,7 +64,7 @@ public class ProfileSection extends RelativeLayout {
     /************************************** PRIVATE STUFF *****************************************/
 
     private void initialize() {
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_profile, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.section_profile, this);
     }
 
     private class EditProfileOnClickListener implements View.OnClickListener {

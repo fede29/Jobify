@@ -51,7 +51,7 @@ public class HomeActivity extends Activity {
 
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(viewPager);
-        tabs.setIndicatorColor(ContextCompat.getColor(this, R.color.darkcyan));
+        tabs.setIndicatorColor(ContextCompat.getColor(this, R.color.light_blue_700));
 
         positionManager = new PositionManager
                 ((LocationManager) getSystemService(Context.LOCATION_SERVICE), user);

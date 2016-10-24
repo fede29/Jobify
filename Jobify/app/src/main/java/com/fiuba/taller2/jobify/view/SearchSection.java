@@ -62,7 +62,7 @@ public class SearchSection extends RelativeLayout {
     /**************************************** PRIVATE STUFF ***************************************/
 
     private void initialize() {
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_search, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.section_search, this);
         queryText = (EditText) findViewById(R.id.query);
         searchButton = (ImageView) findViewById(R.id.search_btn);
         resultsList = (RecyclerView) findViewById(R.id.query_results);

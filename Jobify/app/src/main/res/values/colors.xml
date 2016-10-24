@@ -3,13 +3,18 @@
 
     <color name="trasparent">#00000000</color>
 
-    <color name="cyan">#FF3498DB</color>
-    <color name="darkcyan">#FF2980B9</color>
-    <color name="darkercyan">#FF1E5675</color>
+    <color name="light_blue_100">#ffB3E5FC</color>
+    <color name="light_blue_200">#ff81D4FA</color>
+    <color name="light_blue_600">#ff039be5</color>
+    <color name="light_blue_700">#ff0288d1</color>
+    <color name="light_blue_800">#ff0277bd</color>
+    <color name="light_blue_860">#ff0164a9</color>
+    <color name="light_blue_900">#ff01579b</color>
 
-    <color name="opaqueblue">#3a71a0</color>
+    <color name="light_blue_a200">#ff40C4FF</color>
+    <color name="light_blue_a700">#ff0091EA</color>
 
-    <color name="dirtywhite">#ffEEEEEE</color>
+    <color name="unpure_white">#ffeeeeee</color>
     <color name="darkwhite">#ffDFDFDF</color>
     <color name="darkerwhite">#ffd0d0d0</color>
     <color name="lightestgrey">#ffb8b8b8</color>
