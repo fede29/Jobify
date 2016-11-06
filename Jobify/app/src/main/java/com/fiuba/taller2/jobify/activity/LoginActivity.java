@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,10 +35,6 @@ import java.io.IOException;
 import okhttp3.Call;
 
 
-/**
- * This activity acts as a splash screen if the user is already logged in.
- * Else, it acts as the name says.
- */
 public class LoginActivity extends Activity {
 
     ImageView logoName;
@@ -46,6 +43,11 @@ public class LoginActivity extends Activity {
     Button loginButton;
     LoaderLayout loaderLayout;
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        MultiDex.install(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

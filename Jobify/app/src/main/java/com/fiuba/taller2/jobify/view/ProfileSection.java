@@ -13,6 +13,7 @@ import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.EditProfileActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.software.shell.fab.ActionButton;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
@@ -46,18 +47,8 @@ public class ProfileSection extends RelativeLayout {
 
     public void setViewsFrom(User u) {
         user = u;
-        CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
-        ActionButton editProfile = (ActionButton) findViewById(R.id.edit_profile_btn);
-        ProfileBasicLayout basicLayout = (ProfileBasicLayout) findViewById(R.id.basic_layout);
-        ProfileExtendedLayout extendedLayout = (ProfileExtendedLayout) findViewById(R.id.extended_layout);
-        GoogleMap map = ((MapFragment) activity.getFragmentManager().findFragmentById(R.id.map)).getMap();
-
-        basicLayout.setViews(user);
-        extendedLayout.setViews(activity, user, map);
-        editProfile.setVisibility(View.VISIBLE);
-        editProfile.setOnClickListener(new EditProfileOnClickListener());
-        if (user.hasProfilePic())
-            Picasso.with(getContext()).load(user.getPictureURL()).into(profilePic);
+        ((MapFragment) activity.getFragmentManager().findFragmentById(R.id.map))
+                .getMapAsync(new OnLocationMapReady());
     }
 
 
@@ -74,6 +65,23 @@ public class ProfileSection extends RelativeLayout {
                     EditProfileActivity.createIntent(getContext(), user),
                     EDIT_USER_REQUEST_CODE
             );
+        }
+    }
+
+    private class OnLocationMapReady implements OnMapReadyCallback {
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
+            ActionButton editProfile = (ActionButton) findViewById(R.id.edit_profile_btn);
+            ProfileBasicLayout basicLayout = (ProfileBasicLayout) findViewById(R.id.basic_layout);
+            ProfileExtendedLayout extendedLayout = (ProfileExtendedLayout) findViewById(R.id.extended_layout);
+
+            basicLayout.setViews(user);
+            extendedLayout.setViews(activity, user, googleMap);
+            editProfile.setVisibility(View.VISIBLE);
+            editProfile.setOnClickListener(new EditProfileOnClickListener());
+            if (user.hasProfilePic())
+                Picasso.with(getContext()).load(user.getPictureURL()).into(profilePic);
         }
     }
 

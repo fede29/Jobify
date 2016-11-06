@@ -17,11 +17,9 @@ import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.view.FollowButton;
 import com.fiuba.taller2.jobify.view.ProfileBasicLayout;
 import com.fiuba.taller2.jobify.view.ProfileExtendedLayout;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
@@ -36,7 +34,7 @@ public class ContactActivity extends Activity {
     FollowButton followBtn;
 
     private static class ExtrasKeys {
-        public final static String CONTACT = "contact";
+        final static String CONTACT = "contact";
     }
 
 
@@ -46,9 +44,9 @@ public class ContactActivity extends Activity {
         setContentView(R.layout.activity_contact);
 
         contact = (Contact) getIntent().getExtras().getSerializable(ExtrasKeys.CONTACT);
-        if (contact.hasUserLoaded())
+        if (contact != null && contact.hasUserLoaded())
             setupContactView();
-        else
+        else if (contact != null)
             AppServerRequest.getUser(contact.getId(), new UserLoadCallback());
 
         final ActionBar actionBar = getActionBar();
@@ -86,23 +84,8 @@ public class ContactActivity extends Activity {
     /************************************** PRIVATE STUFF *****************************************/
 
     private void setupContactView() {
-        followBtn = (FollowButton) findViewById(R.id.follow_btn);
-        findViewById(R.id.progress_bar).setVisibility(View.GONE);
-        findViewById(R.id.profile_layout).setVisibility(View.VISIBLE);
-        findViewById(R.id.message_contact_btn).setVisibility(View.VISIBLE);
-        ProfileExtendedLayout profileExtendedLayout =
-                ((ProfileExtendedLayout) findViewById(R.id.extended_layout));
-
-        GoogleMap map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        profileExtendedLayout.setViews(this, contact.getUser(), map);
-
-        followBtn.setVisibility(View.VISIBLE);
-        followBtn.setOnClickListener(new OnFollowClickListener());
-
-        ((ProfileBasicLayout) findViewById(R.id.basic_layout)).setViews(contact.getUser());
-        CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
-        if (contact.hasProfilePic())
-            Picasso.with(this).load(contact.getPictureURL()).into(profilePic);
+        MapFragment mapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+        mapFragment.getMapAsync(new OnLocationMapReady());
     }
 
     private class OnFollowClickListener implements View.OnClickListener {
@@ -143,6 +126,28 @@ public class ContactActivity extends Activity {
                 Log.e("User json response", e.getMessage());
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class OnLocationMapReady implements OnMapReadyCallback {
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            followBtn = (FollowButton) findViewById(R.id.follow_btn);
+            findViewById(R.id.progress_bar).setVisibility(View.GONE);
+            findViewById(R.id.profile_layout).setVisibility(View.VISIBLE);
+            findViewById(R.id.message_contact_btn).setVisibility(View.VISIBLE);
+            ProfileExtendedLayout profileExtendedLayout =
+                    ((ProfileExtendedLayout) findViewById(R.id.extended_layout));
+
+            profileExtendedLayout.setViews(ContactActivity.this, contact.getUser(), googleMap);
+
+            followBtn.setVisibility(View.VISIBLE);
+            followBtn.setOnClickListener(new OnFollowClickListener());
+
+            ((ProfileBasicLayout) findViewById(R.id.basic_layout)).setViews(contact.getUser());
+            CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
+            if (contact.hasProfilePic())
+                Picasso.with(ContactActivity.this).load(contact.getPictureURL()).into(profilePic);
         }
     }
 }

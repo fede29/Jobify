@@ -11,6 +11,7 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -22,17 +23,18 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:support-v13:24.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.google.android.gms:play-services:8.3.0'
-    compile 'com.android.support:cardview-v7:21.0.+'
+    compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.google.android.gms:play-services:9.8.0'
+    compile 'com.android.support:cardview-v7:24.1.1'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.google.code.gson:gson:2.4'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.github.shell-software:fab:1.1.2'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:design:24.1.1'
 }

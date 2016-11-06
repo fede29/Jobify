@@ -27,3 +27,6 @@
 *.exe
 *.out
 *.app
+
+# Specific files
+Jobify/.idea/runConfigurations.xml
