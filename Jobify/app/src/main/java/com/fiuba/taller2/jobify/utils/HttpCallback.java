@@ -50,7 +50,7 @@ public abstract class HttpCallback implements Callback {
     }
 
     public String getErrorMessage() throws JSONException {
-        return jsonResponse.getString(JSONConstants.ERROR_MESSAGE);
+        return jsonResponse != null ? jsonResponse.getString(JSONConstants.ERROR_MESSAGE) : "Internal error";
     }
 
     public String getToken() throws JSONException {
