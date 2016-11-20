@@ -37,4 +37,8 @@ dependencies {
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.github.shell-software:fab:1.1.2'
     compile 'com.android.support:design:24.1.1'
+    compile 'com.google.firebase:firebase-auth:9.8.0'
+    compile 'com.firebaseui:firebase-ui-database:1.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

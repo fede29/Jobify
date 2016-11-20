@@ -33,10 +33,11 @@ public class ChatsSection extends RelativeLayout {
     RecyclerView chatsList;
     TextView noConversationsText;
 
+
     public final static int CHAT_ACTIVITY_REQUEST_CODE = 1;
 
-    public ChatsSection(Context context) {
-        super(context);
+    public ChatsSection(Context ctx) {
+        super(ctx);
         initialize();
     }
 
@@ -52,17 +53,8 @@ public class ChatsSection extends RelativeLayout {
 
     public void setViewsFrom(@NonNull User u) {
         user = u;
-        if (user.hasChatsLoaded()) setupView();
-        else AppServerRequest.getChats(user, new GetChatsCallback());
+        setupView();
     }
-
-    public void onActivityResult(int reqCode, int result, Intent data) {
-        if (reqCode == CHAT_ACTIVITY_REQUEST_CODE && result == Activity.RESULT_OK) {
-            Chat modifiedChat = (Chat) data.getExtras().getSerializable(ChatActivity.ExtrasKeys.CHAT);
-            chatsListAdapter.update(modifiedChat);
-        }
-    }
-
 
     /*************************************** PRIVATE STUFF ****************************************/
 
@@ -78,9 +70,7 @@ public class ChatsSection extends RelativeLayout {
     }
 
     private void setupView() {
-        if (user.getChats().size() > 0) noConversationsText.setVisibility(View.GONE);
-        else noConversationsText.setVisibility(View.VISIBLE);
-        chatsListAdapter = new ChatsListAdapter(user.getChats());
+        chatsListAdapter = new ChatsListAdapter(getContext());
         chatsList.setAdapter(chatsListAdapter);
     }
 

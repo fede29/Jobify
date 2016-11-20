@@ -35,8 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textCapSentences|textMultiLine"
-            android:maxLines="4"
-            android:singleLine="false" />
+            android:maxLines="4" />
 
         <ImageButton android:id="@+id/send_btn"
             android:background="@color/trasparent"

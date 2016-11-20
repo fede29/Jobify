@@ -31,7 +31,7 @@ public class SectionsPagerAdapter extends PagerAdapter
     public SectionsPagerAdapter(Activity activity, User user) {
         context = activity;
         profileSection = new ProfileSection(activity);
-        chatsSection = new ChatsSection(context);
+        chatsSection = new ChatsSection(activity);
         contactsSection = new ContactsSection(context);
         searchSection = new SearchSection(activity);
         profileSection.setViewsFrom(user);

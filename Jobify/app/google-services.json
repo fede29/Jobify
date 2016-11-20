@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "151656704409",
+    "firebase_url": "https://jobify-4de11.firebaseio.com",
+    "project_id": "jobify-4de11",
+    "storage_bucket": "jobify-4de11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151656704409:android:11171f3dbb0d4e0f",
+        "android_client_info": {
+          "package_name": "com.taller2.fiuba.jobify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151656704409-72u6pcg1l1j2bqrdb869kc7n4kfstm3p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taller2.fiuba.jobify",
+            "certificate_hash": "0BAB02A3CC552FAF0AE5969FC555EE550FC52E67"
+          }
+        },
+        {
+          "client_id": "151656704409-4d57ga4lecvq1k6sll46ih3agulf35b6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5uPI26mO0UHgRHRCGSIxUJlhwJl1-Kvk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "151656704409-4d57ga4lecvq1k6sll46ih3agulf35b6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

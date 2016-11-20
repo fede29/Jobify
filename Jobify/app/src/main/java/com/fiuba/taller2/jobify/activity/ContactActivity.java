@@ -53,7 +53,7 @@ public class ContactActivity extends Activity {
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            //actionBar.setTitle(contact.getFullName() + "'s profile");
+            //actionBar.setTitle(contact.getFullname() + "'s profile");
             actionBar.setTitle("Contact profile");
         }
     }

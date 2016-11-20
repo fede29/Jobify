@@ -8,25 +8,31 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
 
-    @SerializedName("id")           int id;
     @SerializedName("text")         String text;
-    @SerializedName("from_user")    Boolean sentByUser;
+    @SerializedName("from")         String from;
+    @SerializedName("to")           String to;
 
-    public static Message newFromUser(String text) {
-        Message msg = new Message();
-        msg.text = text;
-        msg.sentByUser = true;
-        return msg;
+
+    public Message() {}
+
+    public Message(String text, String from, String to) {
+        this.text = text;
+        this.from = from;
+        this.to = to;
     }
 
     public String toString() { return text; }
 
-    public Boolean sentByUser() {
-        return sentByUser;
-    }
-
     public String getText() {
         return text;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public String getTo() {
+        return to;
     }
 
     public String serialize() {

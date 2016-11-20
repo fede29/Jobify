@@ -19,6 +19,9 @@ import com.fiuba.taller2.jobify.PositionManager;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.adapter.SectionsPagerAdapter;
 import com.fiuba.taller2.jobify.view.ProfileSection;
+import com.google.android.gms.auth.api.Auth;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.taller2.fiuba.jobify.R;
 
 
@@ -27,6 +30,8 @@ public class HomeActivity extends Activity {
     User user;
     PositionManager positionManager;
     SectionsPagerAdapter sectionsPagerAdapter;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     public final static int LOCATION_PERMISSION_CODE = 1;
 

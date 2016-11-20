@@ -87,8 +87,8 @@ public class NewUserFragment extends Fragment {
      * to the activity and potentially other fragments contained in that activity.
      */
     public interface OnUserEditListener {
-        public void onUserEdit(User user);
-        public void toggleLoader();
+        void onUserEdit(User user);
+        void toggleLoader();
     }
 
 

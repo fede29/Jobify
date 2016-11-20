@@ -1,29 +1,29 @@
 package com.fiuba.taller2.jobify.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.fiuba.taller2.jobify.Chat;
+import com.fiuba.taller2.jobify.activity.ChatActivity;
+import com.fiuba.taller2.jobify.utils.FirebaseHelper;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
-
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.ViewHolder> {
+public class ChatsListAdapter extends FirebaseRecyclerAdapter<Chat, ChatsListAdapter.ViewHolder> {
 
-    List<Chat> chats;
+    private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View itemView;
-        public CircleImageView chatPic;
-        public TextView contactName, lastMessage;
+        View itemView;
+        CircleImageView chatPic;
+        TextView contactName, lastMessage;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -39,50 +39,18 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.View
     }
 
 
-    public ChatsListAdapter(List<Chat> chats) {
-        this.chats = chats;
+    public ChatsListAdapter(Context ctx) {
+        super(Chat.class, R.layout.view_chat, ViewHolder.class, FirebaseHelper.getChatsReference());
+        context = ctx;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-        View view = LayoutInflater.from(parent.getContext())
-                                  .inflate(R.layout.view_chat, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int i) {
-        Chat chat = chats.get(i);
-        Context context = holder.chatPic.getContext();
-
-        holder.contactName.setText(chat.getContact().getFullName());
-        holder.lastMessage.setText(chat.getLastMessage());
-        if (chat.getContact().hasProfilePic())
-            Picasso.with(context).load(chat.getContact().getPictureURL()).into(holder.chatPic);
-
-        /*
-        Enhancement:
-        if (! chat.isRead()) {
-            holder.chatPic.setBorderColor(ContextCompat.getColor(context, R.color.darkercyan));
-            holder.contactName.setTextColor(ContextCompat.getColor(context, R.color.darkcyan));
-        }
-        */
-
-        holder.setOnClickListener(new OnChatClickListener(chat));
-    }
-
-    @Override
-    public int getItemCount() {
-        return chats.size();
-    }
-
-    public void update(Chat modifiedChat) {
-        for (Chat chat : chats)
-            if (chat.equals(modifiedChat)) {
-                chats.set(chats.indexOf(chat), modifiedChat);
-                break; // OMG! Tengo miedo
-            }
-        notifyDataSetChanged();
+    protected void populateViewHolder(ViewHolder viewHolder, Chat model, int position) {
+        Picasso.with(viewHolder.itemView.getContext()).load(model.getContact().getPictureURL())
+                .into(viewHolder.chatPic);
+        viewHolder.contactName.setText(model.getContact().getFullname());
+        viewHolder.setOnClickListener(new OnChatClickListener(model));
+        viewHolder.lastMessage.setText(model.getLastMessage().getText());
     }
 
 
@@ -97,12 +65,7 @@ public class ChatsListAdapter extends RecyclerView.Adapter<ChatsListAdapter.View
 
         @Override
         public void onClick(View view) {
-            /*
-            parentFragment.startActivityForResult(
-                    ChatActivity.createIntent(parentFragment.getActivity(), chat),
-                    ChatsFragment.CHAT_ACTIVITY_REQUEST_CODE
-            );
-            */
+            context.startActivity(ChatActivity.createIntent(context, chat));
         }
     }
 

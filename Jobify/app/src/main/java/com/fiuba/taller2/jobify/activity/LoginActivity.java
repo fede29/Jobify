@@ -6,23 +6,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fiuba.taller2.jobify.utils.FirebaseHelper;
 import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
-import com.fiuba.taller2.jobify.listener.VisibilityAnimationListener;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.view.LoaderLayout;
 import com.taller2.fiuba.jobify.R;
@@ -53,6 +50,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        FirebaseHelper.initialize(this);
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.hide();
 
@@ -68,24 +66,14 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                 loaderLayout.toggleVisibility();
-                AppServerRequest.login(
-                        emailEntry.getText().toString(),
-                        passEntry.getText().toString(),
-                        new LoginCallback()
-                );
+                String email = emailEntry.getText().toString(),
+                        password = passEntry.getText().toString();
+                AppServerRequest.login(email, password, new LoginCallback());
+                FirebaseHelper.login(email, password);
             }
         });
 
         createAccountText.setOnClickListener(new OnCreateAccountClickListener());
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                // TODO: if user is logged, loadApp() and startApplication(), else animateViews()
-                loadApplication();
-                //animateViews();
-            }
-        });
     }
 
     public void startApplication (User user) {
@@ -122,16 +110,6 @@ public class LoginActivity extends Activity {
 
     /*************************************** PRIVATE STUFF: ***************************************/
 
-    private void loadApplication() {
-    }
-
-    private void animateViews() {
-        Animation logoAnim = AnimationUtils.loadAnimation(this, R.anim.login_logo);
-        logoAnim.setAnimationListener(new LogoNameAnimation());
-        logoAnim.setFillAfter(true);
-        logoName.startAnimation(logoAnim);
-    }
-
     private class OnCreateAccountClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -140,33 +118,9 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private class LogoNameAnimation implements Animation.AnimationListener {
-        @Override
-        public void onAnimationStart(Animation animation) {}
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            View[] views = {
-                    emailEntry, passEntry, loginButton, findViewById(R.id.or_layout_2),
-                    createAccountText
-            };
-            int delaySum = 0;
-            for (View view : views) {
-                Animation anim = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.login_view);
-                anim.setStartOffset(anim.getStartOffset() + delaySum);
-                delaySum += 100;
-                anim.setAnimationListener(new VisibilityAnimationListener(view));
-                view.startAnimation(anim);
-            }
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {}
-    }
-
     private class LoginCallback extends HttpCallback {
 
-        public LoginCallback() { super(LoginActivity.this); }
+        LoginCallback() { super(LoginActivity.this); }
 
         @Override
         public void onFailure(Call call, IOException e) {
