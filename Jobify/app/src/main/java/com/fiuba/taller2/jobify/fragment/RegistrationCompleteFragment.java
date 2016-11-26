@@ -80,7 +80,7 @@ public class RegistrationCompleteFragment extends Fragment {
      * to the activity and potentially other fragments contained in that activity.
      */
     public interface OnRegistrationCompleteListener {
-        public void onRegistrationComplete();
+        void onRegistrationComplete();
     }
 
 

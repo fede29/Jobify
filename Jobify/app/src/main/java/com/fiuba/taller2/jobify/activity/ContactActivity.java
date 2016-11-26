@@ -14,8 +14,12 @@ import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
+import com.fiuba.taller2.jobify.view.FollowButton;
 import com.fiuba.taller2.jobify.view.ProfileBasicLayout;
 import com.fiuba.taller2.jobify.view.ProfileExtendedLayout;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
@@ -27,9 +31,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ContactActivity extends Activity {
 
     private Contact contact;
+    FollowButton followBtn;
 
     private static class ExtrasKeys {
-        public final static String CONTACT = "contact";
+        final static String CONTACT = "contact";
     }
 
 
@@ -39,16 +44,17 @@ public class ContactActivity extends Activity {
         setContentView(R.layout.activity_contact);
 
         contact = (Contact) getIntent().getExtras().getSerializable(ExtrasKeys.CONTACT);
-        if (contact.getUser() == null)
-            AppServerRequest.getUser(contact.getUserID(), new UserLoadCallback());
-        else
+        if (contact != null && contact.hasUserLoaded())
             setupContactView();
+        else if (contact != null)
+            AppServerRequest.getUser(contact.getId(), new UserLoadCallback());
 
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(contact.getFullName() + "'s profile");
+            //actionBar.setTitle(contact.getFullname() + "'s profile");
+            actionBar.setTitle("Contact profile");
         }
     }
 
@@ -78,14 +84,29 @@ public class ContactActivity extends Activity {
     /************************************** PRIVATE STUFF *****************************************/
 
     private void setupContactView() {
-        findViewById(R.id.progress_bar).setVisibility(View.GONE);
-        findViewById(R.id.profile_layout).setVisibility(View.VISIBLE);
-        findViewById(R.id.message_contact_btn).setVisibility(View.VISIBLE);
-        ((ProfileBasicLayout) findViewById(R.id.basic_layout)).setViews(contact.getUser());
-        ((ProfileExtendedLayout) findViewById(R.id.extended_layout)).setViews(contact.getUser());
-        CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
-        if (contact.hasProfilePic())
-            Picasso.with(this).load(contact.getPictureURL()).into(profilePic);
+        MapFragment mapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+        mapFragment.getMapAsync(new OnLocationMapReady());
+    }
+
+    private class OnFollowClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            AppServerRequest.followUser(contact.getId(), new UserFollowCallback());
+        }
+    }
+
+    private class UserFollowCallback extends HttpCallback {
+        @Override
+        public void onResponse() {
+            if (statusIs(200)) runOnUiThread(new SetFollowing());
+        }
+
+        private class SetFollowing implements Runnable {
+            @Override
+            public void run() {
+                followBtn.setFollowing();
+            }
+        }
     }
 
     private class UserLoadCallback extends HttpCallback {
@@ -105,6 +126,28 @@ public class ContactActivity extends Activity {
                 Log.e("User json response", e.getMessage());
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class OnLocationMapReady implements OnMapReadyCallback {
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            followBtn = (FollowButton) findViewById(R.id.follow_btn);
+            findViewById(R.id.progress_bar).setVisibility(View.GONE);
+            findViewById(R.id.profile_layout).setVisibility(View.VISIBLE);
+            findViewById(R.id.message_contact_btn).setVisibility(View.VISIBLE);
+            ProfileExtendedLayout profileExtendedLayout =
+                    ((ProfileExtendedLayout) findViewById(R.id.extended_layout));
+
+            profileExtendedLayout.setViews(ContactActivity.this, contact.getUser(), googleMap);
+
+            followBtn.setVisibility(View.VISIBLE);
+            followBtn.setOnClickListener(new OnFollowClickListener());
+
+            ((ProfileBasicLayout) findViewById(R.id.basic_layout)).setViews(contact.getUser());
+            CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
+            if (contact.hasProfilePic())
+                Picasso.with(ContactActivity.this).load(contact.getPictureURL()).into(profilePic);
         }
     }
 }

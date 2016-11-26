@@ -6,12 +6,17 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name="android.support.multidex.MultiDexApplication">
+        <activity android:name="com.fiuba.taller2.jobify.activity.HomeActivity" >
+        </activity>
         <activity
             android:name="com.fiuba.taller2.jobify.activity.LoginActivity"
             android:label="@string/app_name" >
@@ -21,17 +26,33 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.fiuba.taller2.jobify.activity.HomeActivity" />
-        <activity android:name="com.fiuba.taller2.jobify.activity.EditProfileActivity" />
-        <activity android:name="com.fiuba.taller2.jobify.activity.ContactActivity"/>
-        <activity android:name="com.fiuba.taller2.jobify.activity.RegistrationActivity"/>
-        <activity android:name="com.fiuba.taller2.jobify.activity.ChatActivity" />
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <activity
+            android:name="com.fiuba.taller2.jobify.activity.EditProfileActivity">
+        </activity>
+        <activity
+            android:name="com.fiuba.taller2.jobify.activity.ContactActivity">
+        </activity>
+        <activity
+            android:name="com.fiuba.taller2.jobify.activity.RegistrationActivity" >
+        </activity>
+        <activity android:name="com.fiuba.taller2.jobify.activity.ChatActivity"/>
+
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!--Google MAP API key-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDYEHWhpobIUdWb-VQPdK7cX0N-2pND38g" />
+
     </application>
 
 </manifest>

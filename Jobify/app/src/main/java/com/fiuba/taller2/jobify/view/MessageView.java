@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.Message;
+import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.taller2.fiuba.jobify.R;
 
 /**
@@ -38,6 +39,10 @@ public class MessageView extends LinearLayout {
 
     public void setupView(Message message) {
         ((TextView) findViewById(R.id.message_text)).setText(message.getText());
+        if (AppServerRequest.getCurrentUser().getID().equals(message.getFrom()))
+            setupAsUsers();
+        else
+            setupAsContacts();
     }
 
     public void setupAsContacts() {

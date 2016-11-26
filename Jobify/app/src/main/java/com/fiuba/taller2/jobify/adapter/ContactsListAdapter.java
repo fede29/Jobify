@@ -55,8 +55,8 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Contact contact = contacts.get(position);
-        holder.name.setText(contact.getFullName());
-        // holder.jobPosition.setText(contact.getJobPosition().toString());
+        holder.name.setText(contact.getId());
+        holder.jobPosition.setText(contact.getJobPosition().toString());
         if (contact.hasProfilePic())
             Picasso.with(context).load(contact.getPictureURL()).into(holder.contactPic);
         holder.setOnClickListener(new OnContactClickListener(contact));
@@ -64,7 +64,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
 
     @Override
     public int getItemCount() {
-        return contacts.size();
+        return contacts == null ? 0 : contacts.size();
     }
 
 

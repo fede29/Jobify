@@ -50,7 +50,7 @@ public abstract class HttpCallback implements Callback {
     }
 
     public String getErrorMessage() throws JSONException {
-        return jsonResponse.getString(JSONConstants.ERROR_MESSAGE);
+        return jsonResponse != null ? jsonResponse.getString(JSONConstants.ERROR_MESSAGE) : "Internal error";
     }
 
     public String getToken() throws JSONException {
@@ -68,7 +68,7 @@ public abstract class HttpCallback implements Callback {
 
     @Override
     public void onFailure(Call call, IOException e) {
-        Log.w("Request fail", e.getMessage());
+        Log.w("Request failure", e.getMessage());
         String message;
         if (e instanceof SocketTimeoutException) {
             message = "Connection failed. Please, check your Internet connection.";

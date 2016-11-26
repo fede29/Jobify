@@ -3,6 +3,7 @@ package com.fiuba.taller2.jobify.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +17,10 @@ import android.widget.Toast;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
+import com.fiuba.taller2.jobify.utils.FirebaseHelper;
 import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.view.LoaderLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.taller2.fiuba.jobify.R;
 
 import org.json.JSONException;
@@ -28,6 +31,8 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+
+import static java.security.AccessController.getContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +46,7 @@ public class NewCredentialsFragment extends Fragment {
 
     private OnRegistrationListener mListener;
     private EditText emailEntry, passwordEntry;
+    String email, password;
 
     public static NewCredentialsFragment newInstance() {
         return new NewCredentialsFragment();
@@ -89,8 +95,8 @@ public class NewCredentialsFragment extends Fragment {
      * to the activity and potentially other fragments contained in that activity.
      */
     public interface OnRegistrationListener {
-        public void onRegistration(User u, String e, String pass);
-        public void toggleLoader();
+        void onRegistration(User u, String e, String pass);
+        void toggleLoader();
     }
 
 
@@ -125,11 +131,10 @@ public class NewCredentialsFragment extends Fragment {
         @Override
         public void onClick(View view) {
             mListener.toggleLoader();
-            AppServerRequest.register(
-                    emailEntry.getText().toString(),
-                    passwordEntry.getText().toString(),
-                    new RegisterCallback()
-            );
+            email = emailEntry.getText().toString();
+            password = passwordEntry.getText().toString();
+            AppServerRequest.register(email, password, new RegisterCallback());
+            FirebaseHelper.register(email, password);
         }
     }
 
@@ -148,6 +153,7 @@ public class NewCredentialsFragment extends Fragment {
             try {
                 if (statusIs(200)) {
                     AppServerRequest.updateToken(getToken());
+                    FirebaseHelper.register(email, password);
                     onRegistrationAccepted();
                 } else {
                     showLongToast(getErrorMessage());
@@ -164,8 +170,12 @@ public class NewCredentialsFragment extends Fragment {
                 @Override
                 public void run() {
                     try {
+                        User newUser = new User(emailEntry.getText().toString());
+                        String deviceId = Settings.Secure.getString(getActivity().getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
+                        newUser.setDeviceId(deviceId);
                         mListener.onRegistration(
-                                User.hydrate(getJSONObject(JSONConstants.User.USER)),
+                                newUser,
                                 emailEntry.getText().toString(),
                                 passwordEntry.getText().toString()
                         );

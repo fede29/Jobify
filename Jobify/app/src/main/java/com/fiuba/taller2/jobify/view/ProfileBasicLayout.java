@@ -29,7 +29,7 @@ public class ProfileBasicLayout extends RelativeLayout {
 
     public void setViews(User user) {
         name.setText(user.getFullname());
-        jobPosition.setText(user.getJobPosition());
+        jobPosition.setText(user.getJobPosition().toString());
         contactsNumber.setText(String.valueOf(user.getContacts().size()) + " contacts");
     }
 

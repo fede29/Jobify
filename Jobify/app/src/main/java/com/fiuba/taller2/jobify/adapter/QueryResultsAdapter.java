@@ -1,6 +1,5 @@
 package com.fiuba.taller2.jobify.adapter;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.Contact;
-import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.ContactActivity;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -22,8 +20,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapter.ViewHolder> {
 
-    private List<Contact> results;
-    private Fragment parentFragment;
+    Context context;
+    List<Contact> results;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -42,14 +40,10 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
         }
     }
 
-    public QueryResultsAdapter(Fragment f) {
-        parentFragment = f;
-        setResults(new ArrayList<Contact>());
-    }
 
-    public QueryResultsAdapter(Fragment f, List<Contact> results) {
-        parentFragment = f;
-        setResults(results);
+    public QueryResultsAdapter(Context ctx) {
+        context = ctx;
+        results = new LinkedList<>();
     }
 
     public void setResults(List<Contact> results) {
@@ -74,7 +68,7 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
         Contact contact = results.get(position);
         Context context = holder.contactPic.getContext();
 
-        holder.contactName.setText(contact.getFullName());
+        holder.contactName.setText(contact.getFullname());
         holder.jobPosition.setText(contact.getJobPosition().getName());
         if (contact.hasProfilePic())
             Picasso.with(context).load(contact.getPictureURL()).into(holder.contactPic);
@@ -84,7 +78,7 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
 
     @Override
     public int getItemCount() {
-        return results.size();
+        return results != null ? results.size() : 0;
     }
 
 
@@ -99,8 +93,7 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
 
         @Override
         public void onClick(View view) {
-            parentFragment.startActivity
-                    (ContactActivity.createIntent(parentFragment.getActivity(), contact));
+            context.startActivity(ContactActivity.createIntent(context, contact));
         }
     }
 

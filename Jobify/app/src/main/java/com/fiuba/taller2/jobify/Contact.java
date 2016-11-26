@@ -1,5 +1,7 @@
 package com.fiuba.taller2.jobify;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.PropertyName;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -16,10 +18,13 @@ import java.util.List;
 
 public class Contact implements Serializable {
 
-    @Expose @SerializedName("user_id")      int userID;
-    @Expose @SerializedName("first_name")   String firstName;
-    @Expose @SerializedName("last_name")    String lastName;
-    @Expose @SerializedName("profile_pic")  String pictureURL;
+    @Expose @SerializedName("id")           String email;
+    @Expose @SerializedName("first_name")
+    @PropertyName("first_name")             public String firstName;
+    @Expose @SerializedName("last_name")
+    @PropertyName("last_name")              public String lastName;
+    @Expose @SerializedName("profile_pic")
+    @PropertyName("profile_pic")            public String pictureURL;
     @Expose @SerializedName("job_position") JobPosition jobPosition;
 
     private User user;
@@ -34,38 +39,40 @@ public class Contact implements Serializable {
         return new Gson().fromJson(array.toString(), listType);
     }
 
-    public String getFullName() {
-        return firstName + ' ' + lastName;
+    public String getFullname() {
+        return String.format("%s %s", firstName, lastName);
     }
 
     public String getPictureURL() {
         return pictureURL;
     }
 
-    public Boolean hasProfilePic() {
-        return pictureURL != null;
-    }
-
-    public void setUser(User u) {
-        this.user = u;
-    }
-
-    public Integer getUserID() {
-        return userID;
+    public String getId() {
+        return email;
     }
 
     public User getUser() {
         return user;
     }
 
-    public String getFullname() {
-        return firstName + " " + lastName;
+    public JobPosition getJobPosition() {
+        return jobPosition != null ? jobPosition : new JobPosition();
     }
 
-    public Boolean equals(Contact that) {
-        return this.userID == that.userID;
+    public void setUser(User u) {
+        this.user = u;
     }
 
-    public JobPosition getJobPosition() { return jobPosition; }
+    public void setId(String id) {
+        this.email = id;
+    }
+
+    public Boolean hasUserLoaded() {
+        return user != null;
+    }
+
+    public Boolean hasProfilePic() {
+        return pictureURL != null;
+    }
 
 }

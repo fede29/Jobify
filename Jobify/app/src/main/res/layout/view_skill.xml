@@ -7,7 +7,7 @@
         android:background="@drawable/skill_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/cyan"
+        android:textColor="@color/light_blue_600"
         android:textSize="16sp"
         android:padding="6dp"
         android:layout_margin="4dp"/>

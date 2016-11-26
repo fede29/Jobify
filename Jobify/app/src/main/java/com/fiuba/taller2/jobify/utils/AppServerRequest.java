@@ -3,13 +3,13 @@ package com.fiuba.taller2.jobify.utils;
 
 import android.util.Log;
 
-import com.fiuba.taller2.jobify.Chat;
-import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -17,14 +17,21 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class AppServerRequest {
 
-    private static final String BASE_URL = "http://192.168.0.100:5000";
+    private static final String BASE_URL = "http://192.168.0.106:8081/api";
     private static final OkHttpClient client = new OkHttpClient();
     private static String token;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static User currentUser;
+
+
+    public static void setForUser(User u) {
+        currentUser = u;
+    }
 
     public static void updateToken(String t) {
         token = t;
@@ -40,9 +47,7 @@ public class AppServerRequest {
     }
 
     public static void facebookLogin(String fbToken, Callback callback) {
-        JSONObject params = generateJSON(RequestConstants.UserParams.FB_TOKEN, fbToken);
-        RequestBody body = RequestBody.create(JSON, params.toString());
-        post(generateURL(RequestConstants.Routes.LOGIN), callback, body);
+        get(generateURL(RequestConstants.Routes.LOGIN), callback);
     }
 
     public static void register(String email, String password, Callback callback) {
@@ -54,6 +59,10 @@ public class AppServerRequest {
         post(generateURL(RequestConstants.Routes.USERS), callback, body);
     }
 
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
     public static void getContacts(int userID, Callback callback) {
         String route = generateURL(
                 RequestConstants.Routes.USERS, userID,
@@ -62,42 +71,14 @@ public class AppServerRequest {
         get(route, callback);
     }
 
-    public static void getUser(int userID, Callback callback) {
-        String route = generateURL(RequestConstants.Routes.USERS, userID);
-        get(route, callback);
+    public static void getUser(Object userID, Callback callback) {
+        get(generateURL(RequestConstants.Routes.USERS, userID), callback);
     }
 
     public static void updateUser(User user, Callback callback) {
         String route = generateURL(RequestConstants.Routes.USERS, String.valueOf(user.getID()));
         RequestBody body = RequestBody.create(JSON, user.serialize());
         put(route, callback, body);
-    }
-
-    public static void getChats(int userID, Callback callback) {
-        String route = generateURL(
-                RequestConstants.Routes.USERS, userID,
-                RequestConstants.Routes.CHATS
-        );
-        get(route, callback);
-    }
-
-    public static void sendMessage(Chat chat, Message newMessage, Callback callback) {
-        String route = generateURL(
-                RequestConstants.Routes.USERS, chat.getUserID(),
-                RequestConstants.Routes.CHATS, chat.getID(),
-                RequestConstants.Routes.MESSAGES
-        );
-        RequestBody body = RequestBody.create(JSON, newMessage.serialize());
-        post(route, callback, body);
-    }
-
-    public static void getMessages(Chat chat, Callback callback) {
-        String route = generateURL(
-                RequestConstants.Routes.USERS, chat.getUserID(),
-                RequestConstants.Routes.CHATS, chat.getID(),
-                RequestConstants.Routes.MESSAGES
-        );
-        get(route, callback);
     }
 
     public static void updateLocation(User user, Callback callback) {
@@ -112,6 +93,26 @@ public class AppServerRequest {
     public static void searchUsers(String query, Callback callback) {
         String route = addParameters(generateURL(RequestConstants.Routes.USERS), "query", query);
         get(route, callback);
+    }
+
+    public static void followUser(Object followedId, Callback callback) {
+        String route = generateURL(
+                RequestConstants.Routes.USERS, currentUser.getID(),
+                RequestConstants.Routes.CONTACTS
+        );
+        JSONObject params = new JSONObject();
+        try {
+            params.put(RequestConstants.UserParams.EMAIL, followedId.toString());
+        } catch (JSONException e) {
+            Log.e("Follow request", e.getMessage());
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, params.toString());
+        post(route, callback, body);
+    }
+
+    public static void getSkills(Callback callback) {
+        get(generateURL(RequestConstants.Routes.SKILLS), callback);
     }
 
 
@@ -155,7 +156,7 @@ public class AppServerRequest {
     private static String addParameters(String route, Object... params) {
         route += "?";
         for (int i = 0; i < params.length; i += 2)
-            route += String.format("%s=%s", params[i], params[i+1]);
+            route += String.format("%s=%s", params[i], params[i + 1]);
         return route;
     }
 
@@ -172,19 +173,19 @@ public class AppServerRequest {
     }
 
     private static class RequestConstants {
-        public class Routes {
-            public final static String LOGIN = "session";
-            public final static String USERS = "users";
-            public final static String CONTACTS = "contacts";
-            public final static String CHATS = "chats";
-            public final static String MESSAGES = "messages";
-            public final static String LOCATION = "location";
+        class Routes {
+            final static String LOGIN = "session";
+            final static String USERS = "users";
+            final static String CONTACTS = "contacts";
+            final static String LOCATION = "location";
+            final static String SKILLS = "skills";
         }
 
-        public class UserParams {
-            public final static String EMAIL = "email";
-            public final static String PASSWORD = "password";
-            public final static String FB_TOKEN = "token";
+        class UserParams {
+            final static String EMAIL = "email";
+            final static String PASSWORD = "password";
+            final static String FB_TOKEN = "token";
         }
     }
+
 }

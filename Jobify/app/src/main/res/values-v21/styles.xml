@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme" parent="android:Theme.Material.Light">
         <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
-        <item name="android:colorPrimaryDark">@color/darkercyan</item>
-        <item name="android:windowContentOverlay">@drawable/action_bar_shadow</item>
+        <item name="android:colorPrimaryDark">@color/light_blue_900</item>
+        <!--item name="android:windowContentOverlay">@drawable/action_bar_shadow</item-->
+        <item name="android:elevation">1dp</item>
     </style>
     
     <style name="AppTheme.ActionBar" parent="android:Widget.Material.Light">
-        <item name="android:background">@color/darkcyan</item>
+        <item name="android:background">@color/light_blue_700</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_left_white</item>
         <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>
     </style>
@@ -16,4 +18,23 @@
         <item name="android:textColor">@color/darkwhite</item>
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="button_next_style">
+        <item name="android:background">@color/light_blue_860</item>
+        <item name="android:textColor">@color/darkerwhite</item>
+    </style>
+
+    <style name="light_blue_background_style">
+        <item name="android:background">@color/light_blue_600</item>
+    </style>
+
+    <style name="default_fab_style">
+        <item name="button_color">@color/light_blue_600</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">@dimen/fab_margin</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginEnd">@dimen/fab_margin</item>
+        <item name="android:elevation">6dp</item>
+    </style>
+
 </resources>
