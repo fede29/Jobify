@@ -18,4 +18,12 @@ public class Experience implements Serializable {
     public JobPosition getJobPosition() {
         return jobPosition;
     }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public void setJobPosition(JobPosition pos) {
+        jobPosition = pos;
+    }
 }

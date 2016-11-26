@@ -107,6 +107,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <com.fiuba.taller2.jobify.view.EditExperiencesLayout
+                android:id="@+id/edit_experiences_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp" />
+
         </LinearLayout>
 
     </ScrollView>

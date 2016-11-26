@@ -21,12 +21,16 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.fiuba.taller2.jobify.Experience;
 import com.fiuba.taller2.jobify.Skill;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.adapter.SkillsSpinnerAdapter;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.utils.HttpCallback;
+import com.fiuba.taller2.jobify.view.EditExperience;
+import com.fiuba.taller2.jobify.view.EditExperiencesLayout;
+import com.fiuba.taller2.jobify.view.ExperiencesLayout;
 import com.fiuba.taller2.jobify.view.LoaderLayout;
 import com.fiuba.taller2.jobify.view.NewSkillLayout;
 import com.squareup.picasso.Picasso;
@@ -40,6 +44,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -56,6 +61,7 @@ public class EditProfileActivity extends Activity {
     FlowLayout skillsLayout;
     ArrayList<Skill> addedSkills;
     SkillsSpinnerAdapter skillsAdapter;
+    EditExperiencesLayout experiences;
 
     public int PICK_PHOTO_REQUEST_CODE = 1;
 
@@ -100,6 +106,10 @@ public class EditProfileActivity extends Activity {
         View.OnClickListener profileClickListener = new OnProfileClickListener();
         profilePic.setOnClickListener(profileClickListener);
         editProfile.setOnClickListener(profileClickListener);
+        experiences = (EditExperiencesLayout) findViewById(R.id.edit_experiences_layout);
+        experiences.setupView(user.getExperiences());
+        experiences.setOnNewExperienceListener(new OnNewExperienceListener());
+        experiences.setOnDeleteExperienceListener(new OnDeleteExperienceListener());
     }
 
 
@@ -117,10 +127,14 @@ public class EditProfileActivity extends Activity {
                 askConfirmation();
                 return true;
             case R.id.save_edit:
-                editUser();
-                // TODO: upload image
-                AppServerRequest.updateUser(user, new EditUserCallback(this));
-                loader.setVisible(true);
+                if (validExperiences()) {
+                    editUser();
+                    // TODO: upload image
+                    AppServerRequest.updateUser(user, new EditUserCallback(this));
+                    loader.setVisible(true);
+                } else {
+                    Toast.makeText(this, "Invalid experiences", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -177,6 +191,7 @@ public class EditProfileActivity extends Activity {
         user.setLastName(lastName.getText().toString());
         user.setAbout(about.getText().toString());
         user.addSkills(addedSkills);
+        user.setExperiences(generateExperiences());
     }
 
     private void finishForEdit() {
@@ -190,6 +205,14 @@ public class EditProfileActivity extends Activity {
         skillsAdapter = new SkillsSpinnerAdapter(this, list);
         skillsSpinner.setAdapter(skillsAdapter);
         skillsSpinner.setSelection(skillsAdapter.getCount());
+    }
+
+    private List<Experience> generateExperiences() {
+        return experiences.generateModels();
+    }
+
+    private Boolean validExperiences() {
+        return experiences.areValid();
     }
 
     private class EditUserCallback extends HttpCallback {
@@ -298,4 +321,18 @@ public class EditProfileActivity extends Activity {
 
     }
 
+    private class OnDeleteExperienceListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            experiences.removeViewAt((Integer) view.getTag());
+        }
+    }
+
+    private class OnNewExperienceListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            experiences.addNewExperience();
+            experiences.setOnDeleteExperienceListener(new OnDeleteExperienceListener());
+        }
+    }
 }

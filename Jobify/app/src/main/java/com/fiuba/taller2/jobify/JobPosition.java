@@ -13,6 +13,12 @@ public class JobPosition implements Serializable {
     @Expose @SerializedName("category")     String category;
 
 
+    public JobPosition() {}
+
+    public JobPosition(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
