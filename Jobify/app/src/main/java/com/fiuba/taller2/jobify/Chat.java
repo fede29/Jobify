@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +33,9 @@ public class Chat implements Serializable {
     }
 
     public Message getLastMessage() {
-        return new LinkedList<>(messages.values()).getLast();
+        LinkedList list = new LinkedList<>(messages.keySet());
+        Collections.sort(list);
+        return messages.get(list.getLast());
     }
 
     public LinkedList<Message> getMessages() {

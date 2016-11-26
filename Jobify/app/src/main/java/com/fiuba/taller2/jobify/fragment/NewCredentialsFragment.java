@@ -3,6 +3,7 @@ package com.fiuba.taller2.jobify.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,8 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+
+import static java.security.AccessController.getContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -167,8 +170,12 @@ public class NewCredentialsFragment extends Fragment {
                 @Override
                 public void run() {
                     try {
+                        User newUser = new User(emailEntry.getText().toString());
+                        String deviceId = Settings.Secure.getString(getActivity().getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
+                        newUser.setDeviceId(deviceId);
                         mListener.onRegistration(
-                                new User(emailEntry.getText().toString()),
+                                newUser,
                                 emailEntry.getText().toString(),
                                 passwordEntry.getText().toString()
                         );

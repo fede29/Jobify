@@ -1,6 +1,14 @@
 package com.fiuba.taller2.jobify;
 
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.provider.Settings;
+import android.util.Log;
+
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
@@ -10,10 +18,13 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 
 public class User implements Serializable {
@@ -29,6 +40,7 @@ public class User implements Serializable {
     @Expose(serialize = false)  @SerializedName("contacts")     ArrayList<Contact> contacts;
     @Expose                     @SerializedName("skills")       ArrayList<Skill> skills;
     @Expose(serialize = false)  @SerializedName("experiences")  ArrayList<Experience> experiences;
+    @Expose                     @SerializedName("device_id")    String deviceId;
 
     private ArrayList<Chat> chats;
 
@@ -87,14 +99,6 @@ public class User implements Serializable {
         return pictureURL != null && !pictureURL.isEmpty();
     }
 
-    public Boolean hasChatsLoaded() {
-        return chats != null;
-    }
-
-    public ArrayList<Chat> getChats() {
-        return chats;
-    }
-
     public ArrayList<Skill> getSkills() {
         return skills != null ? skills : new ArrayList<Skill>();
     }
@@ -130,5 +134,9 @@ public class User implements Serializable {
 
     public Boolean hasLastLocation() {
         return lastLocation != null;
+    }
+
+    public void setDeviceId(String device) {
+        deviceId = device;
     }
 }
