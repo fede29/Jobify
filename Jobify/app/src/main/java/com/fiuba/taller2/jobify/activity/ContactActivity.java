@@ -53,9 +53,10 @@ public class ContactActivity extends Activity {
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            //actionBar.setTitle(contact.getFullname() + "'s profile");
-            actionBar.setTitle("Contact profile");
+            actionBar.setTitle(contact.fullname() + "'s profile");
         }
+
+        findViewById(R.id.message_contact_btn).setOnClickListener(new OnOpenChatListener());
     }
 
     @Override
@@ -92,6 +93,13 @@ public class ContactActivity extends Activity {
         @Override
         public void onClick(View view) {
             AppServerRequest.followUser(contact.getId(), new UserFollowCallback());
+        }
+    }
+
+    private class OnOpenChatListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            startActivity(ChatActivity.createIntent(ContactActivity.this, contact));
         }
     }
 
@@ -139,12 +147,12 @@ public class ContactActivity extends Activity {
             ProfileExtendedLayout profileExtendedLayout =
                     ((ProfileExtendedLayout) findViewById(R.id.extended_layout));
 
-            profileExtendedLayout.setViews(ContactActivity.this, contact.getUser(), googleMap);
+            profileExtendedLayout.setViews(ContactActivity.this, contact.haveUser(), googleMap);
 
             followBtn.setVisibility(View.VISIBLE);
             followBtn.setOnClickListener(new OnFollowClickListener());
 
-            ((ProfileBasicLayout) findViewById(R.id.basic_layout)).setViews(contact.getUser());
+            ((ProfileBasicLayout) findViewById(R.id.basic_layout)).setViews(contact.haveUser());
             CircleImageView profilePic = (CircleImageView) findViewById(R.id.profile_pic);
             if (contact.hasProfilePic())
                 Picasso.with(ContactActivity.this).load(contact.getPictureURL()).into(profilePic);

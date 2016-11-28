@@ -68,7 +68,7 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
         Contact contact = results.get(position);
         Context context = holder.contactPic.getContext();
 
-        holder.contactName.setText(contact.getFullname());
+        holder.contactName.setText(contact.fullname());
         holder.jobPosition.setText(contact.getJobPosition().getName());
         if (contact.hasProfilePic())
             Picasso.with(context).load(contact.getPictureURL()).into(holder.contactPic);

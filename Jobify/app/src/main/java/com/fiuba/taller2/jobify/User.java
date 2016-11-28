@@ -47,6 +47,8 @@ public class User implements Serializable {
     private ArrayList<Chat> chats;
 
 
+    public User() {}
+
     public User(String email) {
         this.email = email;
     }
@@ -146,5 +148,9 @@ public class User implements Serializable {
         if (experiences != null) experiences.clear();
         else experiences = new LinkedList<>();
         experiences.addAll(xps);
+    }
+
+    public Contact toContact() {
+        return Contact.fromUser(this);
     }
 }

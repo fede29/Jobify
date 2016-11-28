@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.fiuba.taller2.jobify.Chat;
+import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.Message;
 import com.fiuba.taller2.jobify.adapter.MessagesListAdapter;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
@@ -21,13 +21,13 @@ import com.taller2.fiuba.jobify.R;
 
 public class ChatActivity extends Activity {
 
-    Chat chat;
+    Contact contact;
     RecyclerView messagesList;
     EditText newMessage;
     MessagesListAdapter messagesAdapter;
 
     public static class ExtrasKeys {
-        public final static String CHAT = "chat";
+        public final static String CONTACT = "contact";
     }
 
 
@@ -35,14 +35,14 @@ public class ChatActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        chat = (Chat) getIntent().getExtras().getSerializable(ExtrasKeys.CHAT);
+        contact = (Contact) getIntent().getExtras().getSerializable(ExtrasKeys.CONTACT);
 
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(chat.getContact().getFullname());
+            actionBar.setTitle(contact.fullname());
         }
 
         newMessage = (EditText) findViewById(R.id.new_message_text);
@@ -53,7 +53,7 @@ public class ChatActivity extends Activity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
         messagesList.setLayoutManager(layoutManager);
-        messagesAdapter = new MessagesListAdapter(chat.getContact());
+        messagesAdapter = new MessagesListAdapter(contact);
         messagesAdapter.registerDataObserver(messagesList);
         messagesList.setAdapter(messagesAdapter);
     }
@@ -71,34 +71,29 @@ public class ChatActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        setChatResult();
         finish();
     }
 
-    public static Intent createIntent(Context ctx, Chat chat) {
+    public static Intent createIntent(Context ctx, Contact contact) {
         Intent intent = new Intent(ctx, ChatActivity.class);
-        intent.putExtra(ExtrasKeys.CHAT, chat);
+        intent.putExtra(ExtrasKeys.CONTACT, contact);
         return intent;
     }
 
 
     /*************************************** PRIVATE STUFF ****************************************/
 
-    private void setChatResult() {
-        Intent chatIntent = new Intent();
-        chatIntent.putExtra(ExtrasKeys.CHAT, chat);
-        setResult(Activity.RESULT_OK, chatIntent);
-    }
-
-
     private class SendMessageListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            if (messagesAdapter.getItemCount() == 0)
+                FirebaseHelper.createChat(AppServerRequest.getCurrentUser().toContact(), contact);
+
             String text = newMessage.getText().toString();
             if (! text.isEmpty()) {
                 Message sentMessage = new Message(text,
                         AppServerRequest.getCurrentUser().getID(),
-                        chat.getContact().getId());
+                        contact.getId());
                 FirebaseHelper.sendMessage(sentMessage);
                 newMessage.setText("");
             }

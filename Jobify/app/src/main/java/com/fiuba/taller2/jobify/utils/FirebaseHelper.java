@@ -73,6 +73,19 @@ public class FirebaseHelper {
                 .child(sanitizeKey(AppServerRequest.getCurrentUser().getID()));
     }
 
+    public static void createChat(Contact contact1, Contact contact2) {
+        FirebaseDatabase.getInstance().getReference().child("chats")
+                .child(sanitizeKey(contact1.getId()))
+                .child(sanitizeKey(contact2.getId()))
+                .child("contact")
+                .setValue(contact2);
+        FirebaseDatabase.getInstance().getReference().child("chats")
+                .child(sanitizeKey(contact2.getId()))
+                .child(sanitizeKey(contact1.getId()))
+                .child("contact")
+                .setValue(contact1);
+    }
+
     public static void sendMessage(Message message) {
         FirebaseDatabase.getInstance().getReference().child("chats")
                 .child(sanitizeKey(message.getFrom()))

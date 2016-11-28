@@ -1,6 +1,7 @@
 package com.fiuba.taller2.jobify;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -8,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -16,18 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@IgnoreExtraProperties
 public class Contact implements Serializable {
 
     @Expose @SerializedName("id")           String email;
-    @Expose @SerializedName("first_name")
-    @PropertyName("first_name")             public String firstName;
-    @Expose @SerializedName("last_name")
-    @PropertyName("last_name")              public String lastName;
+    @Expose @SerializedName("first_name")   String firstName;
+    @Expose @SerializedName("last_name")    String lastName;
     @Expose @SerializedName("profile_pic")
-    @PropertyName("profile_pic")            public String pictureURL;
+    @PropertyName("profile_pic")            String pictureURL;
     @Expose @SerializedName("job_position") JobPosition jobPosition;
 
-    private User user;
+    @Exclude private User user;
 
 
     public static Contact hydrate(JSONObject json) {
@@ -39,7 +40,20 @@ public class Contact implements Serializable {
         return new Gson().fromJson(array.toString(), listType);
     }
 
-    public String getFullname() {
+    static Contact fromUser(User u) {
+        JSONObject jsonContact = new JSONObject();
+        try {
+            jsonContact.put("id", u.getID());
+            jsonContact.put("first_name", u.getFirstName());
+            jsonContact.put("last_name", u.getLastName());
+            jsonContact.put("profile_pic", u.getPictureURL());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return hydrate(jsonContact);
+    }
+
+    public String fullname() {
         return String.format("%s %s", firstName, lastName);
     }
 
@@ -51,7 +65,7 @@ public class Contact implements Serializable {
         return email;
     }
 
-    public User getUser() {
+    public User haveUser() {
         return user;
     }
 
