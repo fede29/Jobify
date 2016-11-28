@@ -16,10 +16,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fiuba.taller2.jobify.utils.FirebaseHelper;
@@ -30,10 +32,11 @@ import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.view.LoaderLayout;
 import com.taller2.fiuba.jobify.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.Call;
 
@@ -71,7 +74,9 @@ public class LoginActivity extends Activity {
         createAccountText = (TextView) findViewById(R.id.create_account_text);
 
         callbackManager = CallbackManager.Factory.create();
+        fbLoginButton.setReadPermissions(getPermissions());
         fbLoginButton.registerCallback(callbackManager, new FacebookLoginCallback());
+        fbLoginButton.setOnClickListener(new OnFBLoginClickListener());
         createAccountText.setPaintFlags(createAccountText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +90,11 @@ public class LoginActivity extends Activity {
         });
 
         createAccountText.setOnClickListener(new OnCreateAccountClickListener());
+
+        if (AccessToken.getCurrentAccessToken() != null) {
+            loaderLayout.toggleVisibility();
+            LoginManager.getInstance().logInWithReadPermissions(this, getPermissions());
+        }
     }
 
     public void startApplication (User user) {
@@ -126,11 +136,23 @@ public class LoginActivity extends Activity {
 
     /*************************************** PRIVATE STUFF: ***************************************/
 
+    private List<String> getPermissions() {
+        return Arrays.asList("email");
+    }
+
     private class OnCreateAccountClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             startActivity(RegistrationActivity.createIntent(LoginActivity.this));
             finish();
+        }
+    }
+
+    private class OnFBLoginClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            loaderLayout.toggleVisibility();
+            LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, getPermissions());
         }
     }
 
@@ -157,7 +179,7 @@ public class LoginActivity extends Activity {
                 AppServerRequest.updateToken(response.getString(JSONConstants.TOKEN));
                 AppServerRequest.setForUser(user);
                 startApplication(user);
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 Log.e("Login", e.getMessage());
                 e.printStackTrace();
             } finally {

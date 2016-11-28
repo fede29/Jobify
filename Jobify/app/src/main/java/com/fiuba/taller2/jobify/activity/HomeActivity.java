@@ -19,7 +19,6 @@ import com.fiuba.taller2.jobify.PositionManager;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.adapter.SectionsPagerAdapter;
 import com.fiuba.taller2.jobify.view.ProfileSection;
-import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.taller2.fiuba.jobify.R;
@@ -37,7 +36,6 @@ public class HomeActivity extends Activity {
 
     private static class ExtrasKeys {
         public final static String USER = "user";
-
     }
 
 
@@ -60,7 +58,7 @@ public class HomeActivity extends Activity {
 
         positionManager = new PositionManager
                 ((LocationManager) getSystemService(Context.LOCATION_SERVICE), user);
-        askLocationPermission();
+        initiateLocationTracker();
     }
 
 
@@ -114,15 +112,18 @@ public class HomeActivity extends Activity {
 
     /**********************************************************************************************/
 
-    private void askLocationPermission() {
+    private void initiateLocationTracker() {
         int permission = ActivityCompat.checkSelfPermission
                 (this, android.Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (permission != PackageManager.PERMISSION_GRANTED)
+            // Acceptance of permission initiates tracking at onRequestPermissionsResult(...)
             ActivityCompat.requestPermissions(
                     this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_CODE
             );
+        else positionManager.initiate();
+
     }
 
 }

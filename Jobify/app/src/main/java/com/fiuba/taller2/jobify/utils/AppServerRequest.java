@@ -47,7 +47,14 @@ public class AppServerRequest {
     }
 
     public static void facebookLogin(String fbToken, Callback callback) {
-        get(generateURL(RequestConstants.Routes.LOGIN), callback);
+        String url = generateURL(RequestConstants.Routes.LOGIN);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(JSON, "{}"))
+                .addHeader("Authorization", fbToken)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(callback);
     }
 
     public static void register(String email, String password, Callback callback) {

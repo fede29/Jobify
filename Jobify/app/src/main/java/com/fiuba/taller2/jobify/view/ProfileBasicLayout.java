@@ -29,8 +29,15 @@ public class ProfileBasicLayout extends RelativeLayout {
 
     public void setViews(User user) {
         name.setText(user.getFullname());
-        jobPosition.setText(user.getJobPosition().toString());
-        contactsNumber.setText(String.valueOf(user.getContacts().size()) + " contacts");
+
+        String pos = user.getJobPosition().toString();
+        if (! pos.isEmpty()) jobPosition.setText(pos);
+        else jobPosition.setVisibility(GONE);
+
+        int contactsNo = user.getContacts().size();
+        if (contactsNo > 0) contactsNumber.setText(String.valueOf(contactsNo) + " contacts");
+        else contactsNumber.setVisibility(GONE);
+
     }
 
     /************************************** PRIVATE STUFF *****************************************/

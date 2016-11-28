@@ -3,14 +3,18 @@ package com.fiuba.taller2.jobify.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import com.facebook.login.LoginManager;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.EditProfileActivity;
+import com.fiuba.taller2.jobify.activity.LoginActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -55,7 +59,21 @@ public class ProfileSection extends RelativeLayout {
     /************************************** PRIVATE STUFF *****************************************/
 
     private void initialize() {
+        setBackgroundColor(ContextCompat.getColor(getContext(), R.color.unpure_white));
         LayoutInflater.from(getContext()).inflate(R.layout.section_profile, this);
+        findViewById(R.id.layout_logout_btn).setVisibility(VISIBLE);
+        Button logout = (Button) findViewById(R.id.log_out_btn);
+        logout.setVisibility(VISIBLE);
+        logout.setOnClickListener(new OnLogoutListener());
+    }
+
+    private class OnLogoutListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            LoginManager.getInstance().logOut();
+            activity.finish();
+            activity.startActivity(LoginActivity.createIntent(getContext()));
+        }
     }
 
     private class EditProfileOnClickListener implements View.OnClickListener {

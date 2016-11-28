@@ -11,7 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fiuba.taller2.jobify.Location;
+import com.fiuba.taller2.jobify.Experience;
+import com.fiuba.taller2.jobify.Position;
 import com.fiuba.taller2.jobify.Skill;
 import com.fiuba.taller2.jobify.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,6 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.taller2.fiuba.jobify.R;
 
 import org.apmem.tools.layouts.FlowLayout;
+
+import java.util.List;
 
 public class ProfileExtendedLayout extends RelativeLayout {
 
@@ -46,10 +49,25 @@ public class ProfileExtendedLayout extends RelativeLayout {
 
     public void setViews(Activity act, User user, GoogleMap map) {
         setSkills(user);
+
         if (user.hasLastLocation()) setupMap(act, map, user);
-        else locationLayout.setVisibility(GONE);
-        about.setText(user.getAbout());
-        experiences.setViews(user.getExperiences());
+        else findViewById(R.id.location_card).setVisibility(GONE);
+
+        String aboutText = user.getAbout();
+        if (! aboutText.isEmpty()) about.setText(user.getAbout());
+        else findViewById(R.id.about_card).setVisibility(GONE);
+
+        List<Experience> xps = user.getExperiences();
+        if (xps.size() > 0) experiences.setViews(xps);
+        else findViewById(R.id.experience_card).setVisibility(GONE);
+
+        if (profileTooEmpty()) findViewById(R.id.empty_profile_text).setVisibility(VISIBLE);
+    }
+
+    public Boolean profileTooEmpty() {
+        return findViewById(R.id.skills_card).getVisibility() == GONE &&
+                findViewById(R.id.experience_card).getVisibility() == GONE &&
+                findViewById(R.id.about_card).getVisibility() == GONE;
     }
 
 
@@ -65,6 +83,7 @@ public class ProfileExtendedLayout extends RelativeLayout {
 
     private void setSkills(User user) {
         skillsLayout.removeAllViews();
+        if (user.getSkills().isEmpty()) findViewById(R.id.skills_card).setVisibility(GONE);
         for (Skill skill : user.getSkills()) {
             View skillView =
                     LayoutInflater.from(getContext()).inflate(R.layout.view_skill, null);
@@ -76,11 +95,11 @@ public class ProfileExtendedLayout extends RelativeLayout {
 
     private void setupMap(final Activity activity, GoogleMap map, final User user) {
         map.getUiSettings().setAllGesturesEnabled(false);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(user.getLastLocation().getLatLng(), 14.0f));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(user.getPosition().getLatLng(), 14.0f));
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                Location lastLocation = user.getLastLocation();
+                Position lastLocation = user.getPosition();
                 String uri = String.format("geo:%f,%f", lastLocation.getLat(), lastLocation.getLng());
                 Uri gmmIntentUri = Uri.parse(uri);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);

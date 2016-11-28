@@ -4,6 +4,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.utils.NonResponsiveCallback;
@@ -24,8 +26,12 @@ public class PositionManager {
     }
 
     public void initiate() {
-        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REFRESH_TIME, 0, listener);
-        locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, REFRESH_TIME, 0, listener);
+        try {
+            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, REFRESH_TIME, 0, listener);
+            locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, REFRESH_TIME, 0, listener);
+        } catch (SecurityException e) {
+            Log.w("Position permission", e.getMessage());
+        }
     }
 
 

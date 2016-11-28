@@ -29,12 +29,21 @@
             <com.fiuba.taller2.jobify.view.ProfileBasicLayout
                 android:id="@+id/basic_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"/>
 
             <com.fiuba.taller2.jobify.view.ProfileExtendedLayout
                 android:id="@+id/extended_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+            <include layout="@layout/layout_logout_btn"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/layout_logout_btn"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

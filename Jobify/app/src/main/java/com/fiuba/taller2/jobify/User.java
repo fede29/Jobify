@@ -36,9 +36,8 @@ public class User implements Serializable {
     @Expose                     @SerializedName("last_name")    String lastName;
     @Expose                     @SerializedName("about")        String about;
     @Expose                     @SerializedName("profile_pic")  String pictureURL;
-    @Expose(serialize = false)  @SerializedName("last_location")Location lastLocation;
-    @Expose                     @SerializedName("job_position") JobPosition jobPosition;
     @Expose(serialize = false)  @SerializedName("location")     Position position;
+    @Expose                     @SerializedName("job_position") JobPosition jobPosition;
     @Expose(serialize = false)  @SerializedName("contacts")     LinkedList<Contact> contacts;
     @Expose                     @SerializedName("skills")       LinkedList<Skill> skills;
     @Expose(serialize = false)  @SerializedName("experiences")  LinkedList<Experience> experiences;
@@ -54,6 +53,9 @@ public class User implements Serializable {
     }
 
     public static User hydrate (JSONObject json) {
+        try {
+            if (json.getString("job_position").isEmpty()) json.remove("job_position");
+        } catch (Exception e) { throw new RuntimeException(e); }
         return new Gson().fromJson(json.toString(), User.class);
     }
 
@@ -123,8 +125,6 @@ public class User implements Serializable {
         position = new Position(latitude, longitude);
     }
 
-    public Position getPosition() { return position; }
-
     public LinkedList<Experience> getExperiences() {
         return experiences != null ? experiences : new LinkedList<Experience>();
     }
@@ -134,10 +134,10 @@ public class User implements Serializable {
         else skills = new LinkedList<>(newSkills);
     }
 
-    public Location getLastLocation() { return lastLocation; }
+    public Position getPosition() { return position; }
 
     public Boolean hasLastLocation() {
-        return lastLocation != null;
+        return position != null;
     }
 
     public void setDeviceId(String device) {

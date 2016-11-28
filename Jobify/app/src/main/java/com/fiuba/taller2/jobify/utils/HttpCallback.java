@@ -86,7 +86,8 @@ public abstract class HttpCallback implements Callback {
             statusCode = response.code();
             this.call = call;
             responseBody = response.body().string();
-            if (response.header("Content-Type").startsWith("application/json"))
+            if (response.header("Content-Type") != null &&
+                    response.header("Content-Type").startsWith("application/json"))
                 jsonResponse = new JSONObject(responseBody);
         } catch (JSONException e) {
             Log.e("JSON Response", e.getMessage());
