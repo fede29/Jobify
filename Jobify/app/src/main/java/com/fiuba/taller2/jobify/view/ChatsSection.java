@@ -34,8 +34,6 @@ public class ChatsSection extends RelativeLayout {
     TextView noConversationsText;
 
 
-    public final static int CHAT_ACTIVITY_REQUEST_CODE = 1;
-
     public ChatsSection(Context ctx) {
         super(ctx);
         initialize();
@@ -72,26 +70,6 @@ public class ChatsSection extends RelativeLayout {
     private void setupView() {
         chatsListAdapter = new ChatsListAdapter(getContext());
         chatsList.setAdapter(chatsListAdapter);
-    }
-
-    private class GetChatsCallback extends HttpCallback {
-        @Override
-        public void onResponse() {
-            try {
-                user.hydrateChats(getJSONResponse().getJSONArray(JSONConstants.Chat.CHATS));
-                //getContext().runOnUiThread(new SetupView());
-            } catch (JSONException e) {
-                Log.e("Chats deserialization", e.getMessage());
-                e.printStackTrace();
-            }
-        }
-
-        private class SetupView implements Runnable {
-            @Override
-            public void run() {
-                setupView();
-            }
-        }
     }
 
 }

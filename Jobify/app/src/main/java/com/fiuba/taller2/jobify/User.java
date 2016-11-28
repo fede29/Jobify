@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import static java.security.AccessController.getContext;
@@ -37,13 +39,15 @@ public class User implements Serializable {
     @Expose(serialize = false)  @SerializedName("last_location")Location lastLocation;
     @Expose                     @SerializedName("job_position") JobPosition jobPosition;
     @Expose(serialize = false)  @SerializedName("location")     Position position;
-    @Expose(serialize = false)  @SerializedName("contacts")     ArrayList<Contact> contacts;
-    @Expose                     @SerializedName("skills")       ArrayList<Skill> skills;
-    @Expose(serialize = false)  @SerializedName("experiences")  ArrayList<Experience> experiences;
+    @Expose(serialize = false)  @SerializedName("contacts")     LinkedList<Contact> contacts;
+    @Expose                     @SerializedName("skills")       LinkedList<Skill> skills;
+    @Expose(serialize = false)  @SerializedName("experiences")  LinkedList<Experience> experiences;
     @Expose                     @SerializedName("device_id")    String deviceId;
 
     private ArrayList<Chat> chats;
 
+
+    public User() {}
 
     public User(String email) {
         this.email = email;
@@ -99,8 +103,8 @@ public class User implements Serializable {
         return pictureURL != null && !pictureURL.isEmpty();
     }
 
-    public ArrayList<Skill> getSkills() {
-        return skills != null ? skills : new ArrayList<Skill>();
+    public LinkedList<Skill> getSkills() {
+        return skills != null ? skills : new LinkedList<Skill>();
     }
 
     public void setAbout(String about) {
@@ -121,13 +125,13 @@ public class User implements Serializable {
 
     public Position getPosition() { return position; }
 
-    public ArrayList<Experience> getExperiences() {
-        return experiences != null ? experiences : new ArrayList<Experience>();
+    public LinkedList<Experience> getExperiences() {
+        return experiences != null ? experiences : new LinkedList<Experience>();
     }
 
-    public void addSkills(ArrayList<Skill> newSkills) {
+    public void addSkills(Collection<Skill> newSkills) {
         if (skills != null) skills.addAll(newSkills);
-        else skills = newSkills;
+        else skills = new LinkedList<>(newSkills);
     }
 
     public Location getLastLocation() { return lastLocation; }
@@ -138,5 +142,15 @@ public class User implements Serializable {
 
     public void setDeviceId(String device) {
         deviceId = device;
+    }
+
+    public void setExperiences(Collection<Experience> xps) {
+        if (experiences != null) experiences.clear();
+        else experiences = new LinkedList<>();
+        experiences.addAll(xps);
+    }
+
+    public Contact toContact() {
+        return Contact.fromUser(this);
     }
 }

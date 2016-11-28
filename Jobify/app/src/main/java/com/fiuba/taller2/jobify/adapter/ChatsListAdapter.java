@@ -1,6 +1,5 @@
 package com.fiuba.taller2.jobify.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +7,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.fiuba.taller2.jobify.Chat;
+import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.activity.ChatActivity;
 import com.fiuba.taller2.jobify.utils.FirebaseHelper;
 import com.squareup.picasso.Picasso;
@@ -48,8 +48,8 @@ public class ChatsListAdapter extends FirebaseRecyclerAdapter<Chat, ChatsListAda
     protected void populateViewHolder(ViewHolder viewHolder, Chat model, int position) {
         Picasso.with(viewHolder.itemView.getContext()).load(model.getContact().getPictureURL())
                 .into(viewHolder.chatPic);
-        viewHolder.contactName.setText(model.getContact().getFullname());
-        viewHolder.setOnClickListener(new OnChatClickListener(model));
+        viewHolder.contactName.setText(model.getContact().fullname());
+        viewHolder.setOnClickListener(new OnChatClickListener(model.getContact()));
         viewHolder.lastMessage.setText(model.getLastMessage().getText());
     }
 
@@ -57,15 +57,15 @@ public class ChatsListAdapter extends FirebaseRecyclerAdapter<Chat, ChatsListAda
     /**************************************** PRIVATE STUFF ***************************************/
 
     private class OnChatClickListener implements View.OnClickListener {
-        private Chat chat;
+        private Contact contact;
 
-        public OnChatClickListener(Chat chat) {
-            this.chat = chat;
+        public OnChatClickListener(Contact contact) {
+            this.contact = contact;
         }
 
         @Override
         public void onClick(View view) {
-            context.startActivity(ChatActivity.createIntent(context, chat));
+            context.startActivity(ChatActivity.createIntent(context, contact));
         }
     }
 
