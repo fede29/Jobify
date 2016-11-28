@@ -1,14 +1,8 @@
 package com.fiuba.taller2.jobify;
 
 
-import android.content.ContentResolver;
-import android.content.Context;
-import android.provider.Settings;
 import android.util.Log;
 
-import com.google.android.gms.ads.identifier.AdvertisingIdClient;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
@@ -18,15 +12,12 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 
 public class User implements Serializable {
@@ -57,6 +48,15 @@ public class User implements Serializable {
             if (json.getString("job_position").isEmpty()) json.remove("job_position");
         } catch (Exception e) { throw new RuntimeException(e); }
         return new Gson().fromJson(json.toString(), User.class);
+    }
+
+    public static List<User> hydrate(JSONArray jsons) {
+        LinkedList<User> users = new LinkedList<>();
+        for(int i = 0; i < jsons.length(); ++i) {
+            try { users.add(User.hydrate(jsons.getJSONObject(i))); }
+            catch (Exception e) { Log.e("Users load", e.getMessage()); }
+        }
+        return users;
     }
 
     public String serialize() {

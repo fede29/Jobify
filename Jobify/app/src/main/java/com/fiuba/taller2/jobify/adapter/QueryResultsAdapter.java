@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fiuba.taller2.jobify.Contact;
+import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.ContactActivity;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
@@ -21,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapter.ViewHolder> {
 
     Context context;
-    List<Contact> results;
+    List<User> results;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -46,7 +47,7 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
         results = new LinkedList<>();
     }
 
-    public void setResults(List<Contact> results) {
+    public void setResults(List<User> results) {
         this.results = results;
         notifyDataSetChanged();
     }
@@ -65,15 +66,15 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
 
     @Override
     public void onBindViewHolder(QueryResultsAdapter.ViewHolder holder, int position) {
-        Contact contact = results.get(position);
+        User user = results.get(position);
         Context context = holder.contactPic.getContext();
 
-        holder.contactName.setText(contact.fullname());
-        holder.jobPosition.setText(contact.getJobPosition().getName());
-        if (contact.hasProfilePic())
-            Picasso.with(context).load(contact.getPictureURL()).into(holder.contactPic);
+        holder.contactName.setText(user.getFullname());
+        holder.jobPosition.setText(user.getJobPosition().getName());
+        if (user.hasProfilePic())
+            Picasso.with(context).load(user.getPictureURL()).into(holder.contactPic);
 
-        holder.setOnClickListener(new OnContactClickListener(contact));
+        holder.setOnClickListener(new OnContactClickListener(user));
     }
 
     @Override
@@ -85,15 +86,15 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
     /**************************************** PRIVATE STUFF ***************************************/
 
     private class OnContactClickListener implements View.OnClickListener {
-        private Contact contact;
+        private User user;
 
-        public OnContactClickListener(Contact c) {
-            contact = c;
+        public OnContactClickListener(User c) {
+            user = c;
         }
 
         @Override
         public void onClick(View view) {
-            context.startActivity(ContactActivity.createIntent(context, contact));
+            context.startActivity(ContactActivity.createIntent(context, user.toContact()));
         }
     }
 

@@ -1,21 +1,12 @@
 package com.fiuba.taller2.jobify;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.SortedMap;
 
 
 public class Chat implements Serializable {

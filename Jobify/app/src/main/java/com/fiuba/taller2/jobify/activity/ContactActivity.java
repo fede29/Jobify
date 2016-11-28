@@ -10,8 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fiuba.taller2.jobify.Contact;
-import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.User;
+import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.view.FollowButton;

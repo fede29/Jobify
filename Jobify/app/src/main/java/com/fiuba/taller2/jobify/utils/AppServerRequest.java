@@ -98,7 +98,7 @@ public class AppServerRequest {
     }
 
     public static void searchUsers(String query, Callback callback) {
-        String route = addParameters(generateURL(RequestConstants.Routes.USERS), "query", query);
+        String route = addParameters(generateURL(RequestConstants.Routes.USERS), "user", query);
         get(route, callback);
     }
 

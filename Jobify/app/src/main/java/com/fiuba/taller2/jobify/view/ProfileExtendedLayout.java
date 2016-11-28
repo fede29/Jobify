@@ -60,14 +60,16 @@ public class ProfileExtendedLayout extends RelativeLayout {
         List<Experience> xps = user.getExperiences();
         if (xps.size() > 0) experiences.setViews(xps);
         else findViewById(R.id.experience_card).setVisibility(GONE);
-
-        if (profileTooEmpty()) findViewById(R.id.empty_profile_text).setVisibility(VISIBLE);
     }
 
     public Boolean profileTooEmpty() {
         return findViewById(R.id.skills_card).getVisibility() == GONE &&
                 findViewById(R.id.experience_card).getVisibility() == GONE &&
                 findViewById(R.id.about_card).getVisibility() == GONE;
+    }
+
+    public void showEmptyMessage() {
+        findViewById(R.id.empty_profile_text).setVisibility(VISIBLE);
     }
 
 
