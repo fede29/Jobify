@@ -15,10 +15,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.fiuba.taller2.jobify.Filter;
 import com.fiuba.taller2.jobify.PositionManager;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.adapter.SectionsPagerAdapter;
 import com.fiuba.taller2.jobify.view.ProfileSection;
+import com.fiuba.taller2.jobify.view.SearchSection;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.taller2.fiuba.jobify.R;
@@ -100,6 +102,9 @@ public class HomeActivity extends Activity {
         if (result == Activity.RESULT_OK && request == ProfileSection.EDIT_USER_REQUEST_CODE) {
             user = (User) resultIntent.getExtras().getSerializable(EditProfileActivity.ExtrasKeys.USER);
             sectionsPagerAdapter.setProfileViewFrom(user);
+        } else if (result == Activity.RESULT_OK && request == SearchSection.FILTERS_REQUEST_CODE) {
+            Filter filter = (Filter) resultIntent.getExtras().getSerializable("filter");
+            sectionsPagerAdapter.setFilterToSearch(filter);
         }
     }
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.fiuba.taller2.jobify.Filter;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.view.SearchSection;
 import com.fiuba.taller2.jobify.view.ContactsSection;
@@ -102,4 +103,7 @@ public class SectionsPagerAdapter extends PagerAdapter
         profileSection.setViewsFrom(u);
     }
 
+    public void setFilterToSearch(Filter f) {
+        searchSection.setFilter(f);
+    }
 }

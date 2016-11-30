@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.taller2.fiuba.jobify" >
+    package="com.taller2.fiuba.jobify">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -8,51 +8,47 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name="android.support.multidex.MultiDexApplication">
-        <activity android:name="com.fiuba.taller2.jobify.activity.HomeActivity" >
-        </activity>
+        android:theme="@style/AppTheme">
+        <activity android:name="com.fiuba.taller2.jobify.activity.HomeActivity"></activity>
         <activity
             android:name="com.fiuba.taller2.jobify.activity.LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity
-            android:name="com.fiuba.taller2.jobify.activity.EditProfileActivity">
-        </activity>
-        <activity
-            android:name="com.fiuba.taller2.jobify.activity.ContactActivity">
-        </activity>
-        <activity
-            android:name="com.fiuba.taller2.jobify.activity.RegistrationActivity" >
-        </activity>
-        <activity android:name="com.fiuba.taller2.jobify.activity.ChatActivity"/>
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity android:name="com.fiuba.taller2.jobify.activity.EditProfileActivity"></activity>
+        <activity android:name="com.fiuba.taller2.jobify.activity.ContactActivity"></activity>
+        <activity android:name="com.fiuba.taller2.jobify.activity.RegistrationActivity"></activity>
+        <activity android:name="com.fiuba.taller2.jobify.activity.ChatActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <!--Google MAP API key-->
+        <!-- Google MAP API key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDYEHWhpobIUdWb-VQPdK7cX0N-2pND38g" />
 
+        <activity android:name="com.fiuba.taller2.jobify.activity.FiltersActivity"></activity>
     </application>
 
 </manifest>

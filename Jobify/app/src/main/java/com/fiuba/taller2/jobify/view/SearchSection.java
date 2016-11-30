@@ -18,8 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fiuba.taller2.jobify.Contact;
+import com.fiuba.taller2.jobify.Filter;
 import com.fiuba.taller2.jobify.User;
+import com.fiuba.taller2.jobify.activity.FiltersActivity;
 import com.fiuba.taller2.jobify.adapter.QueryResultsAdapter;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
@@ -28,6 +29,7 @@ import com.taller2.fiuba.jobify.R;
 
 import org.json.JSONArray;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -35,11 +37,15 @@ public class SearchSection extends RelativeLayout {
 
     Activity activity;
     EditText queryText;
-    ImageView searchButton;
+    ImageView searchButton, filtersButton;
     RecyclerView resultsList;
     QueryResultsAdapter resultsAdapter;
     ProgressBar resultsLoader;
     TextView noResultsText;
+    Filter filter;
+
+    public final static int FILTERS_REQUEST_CODE = 2;
+
 
     public SearchSection(Activity act) {
         super(act);
@@ -57,13 +63,19 @@ public class SearchSection extends RelativeLayout {
         initialize();
     }
 
+    public void setFilter(Filter f) {
+        filter = f;
+    }
+
 
     /**************************************** PRIVATE STUFF ***************************************/
 
     private void initialize() {
         LayoutInflater.from(getContext()).inflate(R.layout.section_search, this);
+        filter = new Filter();
         queryText = (EditText) findViewById(R.id.query);
         searchButton = (ImageView) findViewById(R.id.search_btn);
+        filtersButton = (ImageView) findViewById(R.id.filters_btn);
         resultsList = (RecyclerView) findViewById(R.id.query_results);
         resultsLoader = (ProgressBar) findViewById(R.id.results_loader);
         noResultsText = (TextView) findViewById(R.id.no_results_text);
@@ -80,6 +92,7 @@ public class SearchSection extends RelativeLayout {
 
         resultsList.setLayoutManager(new LinearLayoutManager(getContext()));
         searchButton.setOnClickListener(new OnSearchClickListener());
+        filtersButton.setOnClickListener(new OnFiltersClickListener());
     }
 
     private void setResults(List<User> users) {
@@ -96,7 +109,16 @@ public class SearchSection extends RelativeLayout {
             resultsAdapter.clear();
             resultsLoader.setVisibility(View.VISIBLE);
             noResultsText.setVisibility(View.GONE);
-            AppServerRequest.searchUsers(queryText.getText().toString(), new QueryResultsCallback());
+            filter.query = queryText.getText().toString();
+            AppServerRequest.searchUsers(filter, new QueryResultsCallback());
+        }
+    }
+
+    private class OnFiltersClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            activity.startActivityForResult(FiltersActivity.createIntent(getContext(), filter),
+                    FILTERS_REQUEST_CODE);
         }
     }
 
@@ -104,8 +126,13 @@ public class SearchSection extends RelativeLayout {
         @Override
         public void onResponse() {
             try {
-                JSONArray usersArray = getJSONResponse().getJSONArray(JSONConstants.Arrays.USERS);
-                List<User> users = User.hydrate(usersArray);
+                List<User> users;
+                if (getJSONResponse().get("users").equals(null)) {
+                    users = new LinkedList<>();
+                } else {
+                    JSONArray usersArray = getJSONResponse().getJSONArray(JSONConstants.Arrays.USERS);
+                    users = User.hydrate(usersArray);
+                }
                 activity.runOnUiThread(new SetResults(users));
             } catch (Exception e) {
                 Log.e("Users query", e.getMessage());
@@ -119,7 +146,7 @@ public class SearchSection extends RelativeLayout {
     public class SetResults implements Runnable {
         private List<User> users;
 
-        public SetResults(List<User> c) {
+        SetResults(List<User> c) {
             users = c;
         }
 

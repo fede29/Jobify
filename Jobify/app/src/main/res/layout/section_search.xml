@@ -33,6 +33,12 @@
                     android:inputType="textEmailAddress"
                     android:imeOptions="actionSearch"/>
 
+                <ImageView android:id="@+id/filters_btn"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_filter_darkcyan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <ImageView android:id="@+id/search_btn"
                     android:padding="8dp"
                     android:src="@drawable/ic_search_darkcyan"

@@ -3,6 +3,7 @@ package com.fiuba.taller2.jobify.utils;
 
 import android.util.Log;
 
+import com.fiuba.taller2.jobify.Filter;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.LoginActivity;
 
@@ -97,8 +98,8 @@ public class AppServerRequest {
         post(route, callback, body);
     }
 
-    public static void searchUsers(String query, Callback callback) {
-        String route = addParameters(generateURL(RequestConstants.Routes.USERS), "user", query);
+    public static void searchUsers(Filter filter, Callback callback) {
+        String route = generateURL(RequestConstants.Routes.USERS + "?" + filter.toQuery(currentUser));
         get(route, callback);
     }
 
@@ -120,6 +121,10 @@ public class AppServerRequest {
 
     public static void getSkills(Callback callback) {
         get(generateURL(RequestConstants.Routes.SKILLS), callback);
+    }
+
+    public static void getJobPositions(Callback callback) {
+        get(generateURL(RequestConstants.Routes.JOB_POSITIONS), callback);
     }
 
 
@@ -186,6 +191,7 @@ public class AppServerRequest {
             final static String CONTACTS = "contacts";
             final static String LOCATION = "location";
             final static String SKILLS = "skills";
+            final static String JOB_POSITIONS = "job_positions";
         }
 
         class UserParams {

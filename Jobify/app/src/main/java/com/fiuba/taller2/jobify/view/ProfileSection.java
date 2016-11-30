@@ -98,6 +98,7 @@ public class ProfileSection extends RelativeLayout {
             extendedLayout.setViews(activity, user, googleMap);
             if (extendedLayout.profileTooEmpty())
                 extendedLayout.showEmptyMessage();
+            editProfile.setVisibility(VISIBLE);
             editProfile.setOnClickListener(new EditProfileOnClickListener());
             if (user.hasProfilePic())
                 Picasso.with(getContext()).load(user.getPictureURL()).into(profilePic);

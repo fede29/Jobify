@@ -88,8 +88,8 @@ public class ProfileExtendedLayout extends RelativeLayout {
         if (user.getSkills().isEmpty()) findViewById(R.id.skills_card).setVisibility(GONE);
         for (Skill skill : user.getSkills()) {
             View skillView =
-                    LayoutInflater.from(getContext()).inflate(R.layout.view_skill, null);
-            TextView skillText = (TextView) skillView.findViewById(R.id.skill_text);
+                    LayoutInflater.from(getContext()).inflate(R.layout.view_round_text, null);
+            TextView skillText = (TextView) skillView.findViewById(R.id.text);
             skillText.setText(skill.getName());
             skillsLayout.addView(skillView);
         }

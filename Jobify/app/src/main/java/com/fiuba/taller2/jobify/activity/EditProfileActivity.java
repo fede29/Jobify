@@ -12,10 +12,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -28,11 +26,9 @@ import com.fiuba.taller2.jobify.adapter.SkillsSpinnerAdapter;
 import com.fiuba.taller2.jobify.constant.JSONConstants;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
 import com.fiuba.taller2.jobify.utils.HttpCallback;
-import com.fiuba.taller2.jobify.view.EditExperience;
 import com.fiuba.taller2.jobify.view.EditExperiencesLayout;
-import com.fiuba.taller2.jobify.view.ExperiencesLayout;
 import com.fiuba.taller2.jobify.view.LoaderLayout;
-import com.fiuba.taller2.jobify.view.NewSkillLayout;
+import com.fiuba.taller2.jobify.view.SkillsLayout;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
@@ -44,7 +40,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -298,7 +293,7 @@ public class EditProfileActivity extends Activity {
             if (i < adapterView.getCount()) {
                 Skill skill = (Skill) adapterView.getItemAtPosition(i);
                 addedSkills.add(skill);
-                NewSkillLayout newSkillLayout = new NewSkillLayout(EditProfileActivity.this);
+                SkillsLayout newSkillLayout = new SkillsLayout(EditProfileActivity.this);
                 newSkillLayout.setOnClickListener(new OnSkillClickListener());
                 newSkillLayout.setSkill(skill);
                 skillsLayout.addView(newSkillLayout);
@@ -312,7 +307,7 @@ public class EditProfileActivity extends Activity {
         private class OnSkillClickListener implements View.OnClickListener {
             @Override
             public void onClick(View view) {
-                Skill skill = ((NewSkillLayout) view).getSkill();
+                Skill skill = ((SkillsLayout) view).getSkill();
                 addedSkills.remove(skill);
                 skillsLayout.removeView(view);
                 skillsSpinner.setSelection(skillsAdapter.getCount());
