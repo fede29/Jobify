@@ -1,6 +1,9 @@
 package com.fiuba.taller2.jobify;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -12,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -26,12 +30,12 @@ public class User implements Serializable {
     @Expose                     @SerializedName("first_name")   String firstName;
     @Expose                     @SerializedName("last_name")    String lastName;
     @Expose                     @SerializedName("about")        String about;
-    @Expose                     @SerializedName("profile_pic")  String pictureURL;
+    @Expose                     @SerializedName("pic")          String picture;
     @Expose(serialize = false)  @SerializedName("location")     Position position;
     @Expose                     @SerializedName("job_position") JobPosition jobPosition;
     @Expose(serialize = false)  @SerializedName("contacts")     LinkedList<Contact> contacts;
     @Expose                     @SerializedName("skills")       LinkedList<Skill> skills;
-    @Expose(serialize = false)  @SerializedName("experiences")  LinkedList<Experience> experiences;
+    @Expose                     @SerializedName("experiences")  LinkedList<Experience> experiences;
     @Expose                     @SerializedName("device_id")    String deviceId;
 
     private ArrayList<Chat> chats;
@@ -47,7 +51,10 @@ public class User implements Serializable {
         try {
             if (json.getString("job_position").isEmpty()) json.remove("job_position");
         } catch (Exception e) { throw new RuntimeException(e); }
-        return new Gson().fromJson(json.toString(), User.class);
+        User newUser = new Gson().fromJson(json.toString(), User.class);
+        if (Math.abs(newUser.getPosition().getLat()) < 1 && Math.abs(newUser.getPosition().getLng()) < 1)
+            newUser.position = null;
+        return newUser;
     }
 
     public static List<User> hydrate(JSONArray jsons) {
@@ -81,8 +88,18 @@ public class User implements Serializable {
         return email;
     }
 
-    public String getPictureURL() {
-        return pictureURL;
+    public Bitmap getPicture() {
+        byte[] pictureBytes = Base64.decode(picture, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);
+    }
+
+    public void setPicture(Bitmap imageBitmap) {
+        if (imageBitmap != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] byteArray = baos.toByteArray();
+            picture = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        }
     }
 
     public JobPosition getJobPosition() {
@@ -102,7 +119,7 @@ public class User implements Serializable {
     }
 
     public Boolean hasProfilePic() {
-        return pictureURL != null && !pictureURL.isEmpty();
+        return picture != null && picture.length() > 0;
     }
 
     public LinkedList<Skill> getSkills() {
@@ -129,15 +146,22 @@ public class User implements Serializable {
         return experiences != null ? experiences : new LinkedList<Experience>();
     }
 
-    public void addSkills(Collection<Skill> newSkills) {
-        if (skills != null) skills.addAll(newSkills);
-        else skills = new LinkedList<>(newSkills);
+    public void setSkills(Collection<Skill> newSkills) {
+        skills = new LinkedList<>(newSkills);
+    }
+
+    public void setJobPosition(JobPosition jobPosition) {
+        this.jobPosition = jobPosition;
     }
 
     public Position getPosition() { return position; }
 
     public Boolean hasLastLocation() {
         return position != null;
+    }
+
+    public Boolean hasJobPosition() {
+        return jobPosition != null;
     }
 
     public void setDeviceId(String device) {
@@ -153,4 +177,5 @@ public class User implements Serializable {
     public Contact toContact() {
         return Contact.fromUser(this);
     }
+
 }

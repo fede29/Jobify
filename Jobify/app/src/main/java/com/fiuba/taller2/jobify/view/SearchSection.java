@@ -136,8 +136,6 @@ public class SearchSection extends RelativeLayout {
                 activity.runOnUiThread(new SetResults(users));
             } catch (Exception e) {
                 Log.e("Users query", e.getMessage());
-                resultsLoader.setVisibility(View.GONE);
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
         }

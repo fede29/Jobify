@@ -1,11 +1,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.fiuba.taller2.jobify.activity.EditProfileActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ScrollView
+    <ScrollView android:id="@+id/edit_profile_container"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,8 +28,11 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_pic"
+                    android:src="@drawable/default_profile_pic"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@android:color/black"/>
 
                 <ImageView android:id="@+id/edit_profile_btn"
                     android:src="@drawable/ic_edit_cyan"
@@ -65,6 +70,36 @@
 
 
 
+            <TextView android:text="Job position"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <TextView android:id="@+id/job_position"
+                    android:layout_marginLeft="16dp"
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@android:drawable/ic_delete" />
+
+                <Spinner android:id="@+id/job_positions_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+
+
             <TextView android:text="About"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -73,7 +108,7 @@
                 android:layout_height="wrap_content" />
 
             <EditText android:id="@+id/about"
-                android:hint="About"
+                android:hint="Tell us something about you..."
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,5 +156,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/loader_layout" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar" />
 
 </RelativeLayout>

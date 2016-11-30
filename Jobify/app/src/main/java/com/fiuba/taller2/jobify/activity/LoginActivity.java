@@ -182,6 +182,7 @@ public class LoginActivity extends Activity {
             } catch (Exception e) {
                 Log.e("Login", e.getMessage());
                 e.printStackTrace();
+                announceError("Incorrect email or passowrd");
             } finally {
                 runOnUiThread(new Runnable() {
                     @Override

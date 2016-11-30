@@ -58,7 +58,10 @@ public class ProfileExtendedLayout extends RelativeLayout {
         else findViewById(R.id.about_card).setVisibility(GONE);
 
         List<Experience> xps = user.getExperiences();
-        if (xps.size() > 0) experiences.setViews(xps);
+        if (xps.size() > 0) {
+            experiences.setViews(xps);
+            findViewById(R.id.experience_card).setVisibility(VISIBLE);
+        }
         else findViewById(R.id.experience_card).setVisibility(GONE);
     }
 
@@ -86,6 +89,7 @@ public class ProfileExtendedLayout extends RelativeLayout {
     private void setSkills(User user) {
         skillsLayout.removeAllViews();
         if (user.getSkills().isEmpty()) findViewById(R.id.skills_card).setVisibility(GONE);
+        else findViewById(R.id.skills_card).setVisibility(VISIBLE);
         for (Skill skill : user.getSkills()) {
             View skillView =
                     LayoutInflater.from(getContext()).inflate(R.layout.view_round_text, null);

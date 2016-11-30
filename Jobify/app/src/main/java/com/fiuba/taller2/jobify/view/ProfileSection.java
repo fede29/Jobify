@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.facebook.login.LoginManager;
@@ -100,8 +99,7 @@ public class ProfileSection extends RelativeLayout {
                 extendedLayout.showEmptyMessage();
             editProfile.setVisibility(VISIBLE);
             editProfile.setOnClickListener(new EditProfileOnClickListener());
-            if (user.hasProfilePic())
-                Picasso.with(getContext()).load(user.getPictureURL()).into(profilePic);
+            if (user.hasProfilePic()) profilePic.setImageBitmap(user.getPicture());
         }
     }
 

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.activity.ContactActivity;
 import com.squareup.picasso.Picasso;
@@ -71,8 +70,7 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
 
         holder.contactName.setText(user.getFullname());
         holder.jobPosition.setText(user.getJobPosition().getName());
-        if (user.hasProfilePic())
-            Picasso.with(context).load(user.getPictureURL()).into(holder.contactPic);
+        if (user.hasProfilePic()) holder.contactPic.setImageBitmap(user.getPicture());
 
         holder.setOnClickListener(new OnContactClickListener(user));
     }

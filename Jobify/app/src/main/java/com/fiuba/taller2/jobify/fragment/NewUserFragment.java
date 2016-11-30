@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.fiuba.taller2.jobify.User;
 import com.fiuba.taller2.jobify.utils.AppServerRequest;
@@ -97,10 +98,16 @@ public class NewUserFragment extends Fragment {
     private class OnNextClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            newUser.setFirstName(firstName.getText().toString());
-            newUser.setLastName(lastName.getText().toString());
-            AppServerRequest.updateUser(newUser, new EditUserCallback());
-            mListener.toggleLoader();
+            String fname = firstName.getText().toString();
+            String lname = lastName.getText().toString();
+            if (fname.isEmpty() || lname.isEmpty()) {
+                Toast.makeText(getActivity(), "Fill the fields", Toast.LENGTH_LONG).show();
+            } else {
+                newUser.setFirstName(firstName.getText().toString());
+                newUser.setLastName(lastName.getText().toString());
+                AppServerRequest.updateUser(newUser, new EditUserCallback());
+                mListener.toggleLoader();
+            }
         }
     }
 

@@ -59,4 +59,12 @@ public class JobPosition implements Serializable {
 
     public String toString() { return name; }
 
+    @Override
+    public boolean equals(Object jp) {
+        JobPosition other = (JobPosition) jp;
+        return this.name.equals(other.name) &&
+                this.description.equals(other.description) &&
+                this.category.equals(other.category);
+    }
+
 }

@@ -16,7 +16,7 @@ public class PositionManager {
     User user;
     PositionListener listener;
 
-    public final static int REFRESH_TIME = 60000;
+    public final static int REFRESH_TIME = 5000;
 
 
     public PositionManager(LocationManager lm, User user) {

@@ -46,7 +46,7 @@ public class Contact implements Serializable {
             jsonContact.put("id", u.getID());
             jsonContact.put("first_name", u.getFirstName());
             jsonContact.put("last_name", u.getLastName());
-            jsonContact.put("profile_pic", u.getPictureURL());
+            jsonContact.put("profile_pic", u.getPicture());
         } catch (JSONException e) {
             e.printStackTrace();
         }
