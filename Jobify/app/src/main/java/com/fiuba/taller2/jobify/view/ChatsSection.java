@@ -1,29 +1,24 @@
 package com.fiuba.taller2.jobify.view;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.User;
-import com.fiuba.taller2.jobify.activity.ChatActivity;
 import com.fiuba.taller2.jobify.adapter.ChatsListAdapter;
-import com.fiuba.taller2.jobify.constant.JSONConstants;
-import com.fiuba.taller2.jobify.utils.AppServerRequest;
-import com.fiuba.taller2.jobify.utils.HttpCallback;
+import com.fiuba.taller2.jobify.utils.FirebaseHelper;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.taller2.fiuba.jobify.R;
-
-import org.json.JSONException;
 
 
 public class ChatsSection extends RelativeLayout {
@@ -54,6 +49,7 @@ public class ChatsSection extends RelativeLayout {
         setupView();
     }
 
+
     /*************************************** PRIVATE STUFF ****************************************/
 
     private void initialize() {
@@ -68,8 +64,24 @@ public class ChatsSection extends RelativeLayout {
     }
 
     private void setupView() {
-        chatsListAdapter = new ChatsListAdapter(getContext());
+        Query query = FirebaseHelper.getChatsReference();
+        query.addValueEventListener(new OnChatsLoadedListener());
+        chatsListAdapter = new ChatsListAdapter(getContext(), query);
         chatsList.setAdapter(chatsListAdapter);
+    }
+
+    private class OnChatsLoadedListener implements ValueEventListener {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            findViewById(R.id.progress_bar).setVisibility(GONE);
+            if (dataSnapshot.getValue() == null) findViewById(R.id.no_conversations_text).setVisibility(VISIBLE);
+            else findViewById(R.id.no_conversations_text).setVisibility(GONE);
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
     }
 
 }

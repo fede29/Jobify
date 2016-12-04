@@ -10,7 +10,7 @@
         android:visibility="gone"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:text="Your profile is empty. Complete it to connect with more people!"
+        android:text="Your profile is pretty empty :(\nComplete it to connect with more people!"
         android:textStyle="italic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

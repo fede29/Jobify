@@ -23,7 +23,7 @@ import okhttp3.Response;
 
 public class AppServerRequest {
 
-    private static final String BASE_URL = "http://192.168.0.107:8081/api";
+    private static final String BASE_URL = "http://192.168.43.238:8081/api";
     private static final OkHttpClient client = new OkHttpClient();
     private static String token;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -132,6 +132,7 @@ public class AppServerRequest {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
+                .addHeader("token", token != null ? token : "")
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);
@@ -141,6 +142,7 @@ public class AppServerRequest {
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
+                .addHeader("token", token != null ? token : "")
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);
@@ -150,6 +152,7 @@ public class AppServerRequest {
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
+                .addHeader("token", token != null ? token : "")
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);

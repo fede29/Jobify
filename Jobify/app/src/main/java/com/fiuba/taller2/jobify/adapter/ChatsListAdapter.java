@@ -10,6 +10,8 @@ import com.fiuba.taller2.jobify.Chat;
 import com.fiuba.taller2.jobify.Contact;
 import com.fiuba.taller2.jobify.activity.ChatActivity;
 import com.fiuba.taller2.jobify.utils.FirebaseHelper;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
@@ -39,8 +41,8 @@ public class ChatsListAdapter extends FirebaseRecyclerAdapter<Chat, ChatsListAda
     }
 
 
-    public ChatsListAdapter(Context ctx) {
-        super(Chat.class, R.layout.view_chat, ViewHolder.class, FirebaseHelper.getChatsReference());
+    public ChatsListAdapter(Context ctx, Query reference) {
+        super(Chat.class, R.layout.view_chat, ViewHolder.class, reference);
         context = ctx;
     }
 
@@ -48,7 +50,7 @@ public class ChatsListAdapter extends FirebaseRecyclerAdapter<Chat, ChatsListAda
     protected void populateViewHolder(ViewHolder viewHolder, Chat model, int position) {
         Picasso.with(viewHolder.itemView.getContext()).load(model.getContact().getPictureURL())
                 .into(viewHolder.chatPic);
-        viewHolder.contactName.setText(model.getContact().fullname());
+        viewHolder.contactName.setText(model.getContact().getId());
         viewHolder.setOnClickListener(new OnChatClickListener(model.getContact()));
         viewHolder.lastMessage.setText(model.getLastMessage().getText());
     }

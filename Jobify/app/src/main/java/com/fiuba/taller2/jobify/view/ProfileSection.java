@@ -95,11 +95,11 @@ public class ProfileSection extends RelativeLayout {
 
             basicLayout.setViews(user);
             extendedLayout.setViews(activity, user, googleMap);
-            if (extendedLayout.profileTooEmpty())
-                extendedLayout.showEmptyMessage();
             editProfile.setVisibility(VISIBLE);
             editProfile.setOnClickListener(new EditProfileOnClickListener());
-            if (user.hasProfilePic()) profilePic.setImageBitmap(user.getPicture());
+            if (user.hasPictureLoaded()) profilePic.setImageBitmap(user.getPictureBitmap());
+            else if (user.hasPictureURL())
+                Picasso.with(getContext()).load(user.getPictureURL()).into(profilePic);
         }
     }
 

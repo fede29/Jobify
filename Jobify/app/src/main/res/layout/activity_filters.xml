@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.fiuba.taller2.jobify.activity.FiltersActivity">
+
+    <LinearLayout android:id="@+id/filters_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+        <TextView android:text="Range"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:paddingTop="8dp"
+            android:paddingBottom="24dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <SeekBar android:id="@+id/range_seekbar"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView android:id="@+id/range_text"
+                android:layout_gravity="center_vertical"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <TextView android:text="Job positions"
+            android:paddingTop="18dp"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="88dp">
+
+            <TextView android:id="@+id/job_position"
+                android:visibility="gone"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@android:drawable/ic_delete"/>
+
+            <Spinner android:id="@+id/job_positions_spinner"
+                android:paddingTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="24dp" />
+
+        </RelativeLayout>
+
+        <TextView android:text="Skills"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <org.apmem.tools.layouts.FlowLayout
+            android:id="@+id/skills_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|top" />
+
+        <Spinner android:id="@+id/skills_spinner"
+            android:paddingTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar" />
+
+</RelativeLayout>

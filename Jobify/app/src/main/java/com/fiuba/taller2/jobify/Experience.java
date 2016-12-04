@@ -9,13 +9,13 @@ public class Experience implements Serializable {
 
     @Expose @SerializedName("id")           int id;
     @Expose @SerializedName("where")        String place;
-    @Expose @SerializedName("job_position") JobPosition jobPosition;
+    @Expose @SerializedName("job_position") String jobPosition;
 
     public String getPlace() {
         return place;
     }
 
-    public JobPosition getJobPosition() {
+    public String getJobPosition() {
         return jobPosition;
     }
 
@@ -23,7 +23,7 @@ public class Experience implements Serializable {
         this.place = place;
     }
 
-    public void setJobPosition(JobPosition pos) {
+    public void setJobPosition(String pos) {
         jobPosition = pos;
     }
 }

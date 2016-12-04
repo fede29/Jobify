@@ -32,6 +32,7 @@ import com.fiuba.taller2.jobify.utils.HttpCallback;
 import com.fiuba.taller2.jobify.view.EditExperiencesLayout;
 import com.fiuba.taller2.jobify.view.LoaderLayout;
 import com.fiuba.taller2.jobify.view.SkillsLayout;
+import com.squareup.picasso.Picasso;
 import com.taller2.fiuba.jobify.R;
 
 import org.apmem.tools.layouts.FlowLayout;
@@ -108,7 +109,8 @@ public class EditProfileActivity extends Activity {
         firstName.setText(user.getFirstName());
         lastName.setText(user.getLastName());
         about.setText(user.getAbout());
-        if (user.hasProfilePic()) profilePic.setImageBitmap(user.getPicture());
+        if (user.hasPictureLoaded()) profilePic.setImageBitmap(user.getPictureBitmap());
+        else if (user.hasPictureURL()) Picasso.with(this).load(user.getPictureURL()).into(profilePic);
         View.OnClickListener profileClickListener = new OnProfileClickListener();
         profilePic.setOnClickListener(profileClickListener);
         editProfile.setOnClickListener(profileClickListener);

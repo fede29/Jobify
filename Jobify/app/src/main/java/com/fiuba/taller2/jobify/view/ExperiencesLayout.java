@@ -35,7 +35,7 @@ public class ExperiencesLayout extends LinearLayout {
             if (++xpNo % 2 == 1) view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.light_blue_200));
             else view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.light_blue_100));
             ((TextView) view.findViewById(R.id.where)).setText(experience.getPlace());
-            ((TextView) view.findViewById(R.id.job_position)).setText(experience.getJobPosition().getName());
+            ((TextView) view.findViewById(R.id.job_position)).setText(experience.getJobPosition());
             addView(view);
         }
     }

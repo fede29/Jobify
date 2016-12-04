@@ -31,6 +31,7 @@ public class User implements Serializable {
     @Expose                     @SerializedName("last_name")    String lastName;
     @Expose                     @SerializedName("about")        String about;
     @Expose                     @SerializedName("pic")          String picture;
+    @Expose                     @SerializedName("fb_pic")       Boolean hasFBPic;
     @Expose(serialize = false)  @SerializedName("location")     Position position;
     @Expose                     @SerializedName("job_position") JobPosition jobPosition;
     @Expose(serialize = false)  @SerializedName("contacts")     LinkedList<Contact> contacts;
@@ -88,9 +89,13 @@ public class User implements Serializable {
         return email;
     }
 
-    public Bitmap getPicture() {
-        byte[] pictureBytes = Base64.decode(picture, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);
+    public Bitmap getPictureBitmap() {
+        if (hasPictureLoaded()) {
+            byte[] pictureBytes = Base64.decode(picture, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);
+        } else {
+            return BitmapFactory.decodeByteArray("".getBytes(), 0, 0);
+        }
     }
 
     public void setPicture(Bitmap imageBitmap) {
@@ -118,8 +123,16 @@ public class User implements Serializable {
         return firstName;
     }
 
-    public Boolean hasProfilePic() {
-        return picture != null && picture.length() > 0;
+    public Boolean hasPictureLoaded() {
+        return picture != null && picture.length() > 0 && !picture.startsWith("http");
+    }
+
+    public Boolean hasPictureURL() {
+        return picture != null && picture.startsWith("http");
+    }
+
+    public String getPictureURL() {
+        return hasPictureURL() ? picture : "";
     }
 
     public LinkedList<Skill> getSkills() {
@@ -154,7 +167,7 @@ public class User implements Serializable {
         this.jobPosition = jobPosition;
     }
 
-    public Position getPosition() { return position; }
+    public Position getPosition() { return position != null ? position : new Position(0,0); }
 
     public Boolean hasLastLocation() {
         return position != null;

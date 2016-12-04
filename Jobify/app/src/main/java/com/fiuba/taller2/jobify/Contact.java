@@ -25,8 +25,8 @@ public class Contact implements Serializable {
     @Expose @SerializedName("first_name")   String firstName;
     @Expose @SerializedName("last_name")    String lastName;
     @Expose @SerializedName("profile_pic")
-    @PropertyName("profile_pic")            String pictureURL;
-    @Expose @SerializedName("job_position") JobPosition jobPosition;
+    @PropertyName("pic")                    String pictureURL;
+    @Expose(deserialize  = false) @SerializedName("job_position") JobPosition jobPosition;
 
     @Exclude private User user;
 
@@ -46,11 +46,27 @@ public class Contact implements Serializable {
             jsonContact.put("id", u.getID());
             jsonContact.put("first_name", u.getFirstName());
             jsonContact.put("last_name", u.getLastName());
-            jsonContact.put("profile_pic", u.getPicture());
+            jsonContact.put("profile_pic", u.getPictureBitmap());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return hydrate(jsonContact);
+    }
+
+    public void setFirstName(String fn) {
+        firstName = fn;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setLastName(String ln) {
+        lastName = ln;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String fullname() {

@@ -50,11 +50,17 @@ public class ProfileExtendedLayout extends RelativeLayout {
     public void setViews(Activity act, User user, GoogleMap map) {
         setSkills(user);
 
-        if (user.hasLastLocation()) setupMap(act, map, user);
+        if (user.hasLastLocation()) {
+            setupMap(act, map, user);
+            findViewById(R.id.location_card).setVisibility(VISIBLE);
+        }
         else findViewById(R.id.location_card).setVisibility(GONE);
 
         String aboutText = user.getAbout();
-        if (! aboutText.isEmpty()) about.setText(user.getAbout());
+        if (! aboutText.isEmpty()) {
+            about.setText(user.getAbout());
+            findViewById(R.id.about_card).setVisibility(VISIBLE);
+        }
         else findViewById(R.id.about_card).setVisibility(GONE);
 
         List<Experience> xps = user.getExperiences();
@@ -63,16 +69,15 @@ public class ProfileExtendedLayout extends RelativeLayout {
             findViewById(R.id.experience_card).setVisibility(VISIBLE);
         }
         else findViewById(R.id.experience_card).setVisibility(GONE);
+
+        if (profileTooEmpty()) findViewById(R.id.empty_profile_text).setVisibility(VISIBLE);
+        else findViewById(R.id.empty_profile_text).setVisibility(GONE);
     }
 
     public Boolean profileTooEmpty() {
         return findViewById(R.id.skills_card).getVisibility() == GONE &&
                 findViewById(R.id.experience_card).getVisibility() == GONE &&
                 findViewById(R.id.about_card).getVisibility() == GONE;
-    }
-
-    public void showEmptyMessage() {
-        findViewById(R.id.empty_profile_text).setVisibility(VISIBLE);
     }
 
 

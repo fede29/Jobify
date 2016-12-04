@@ -70,7 +70,9 @@ public class QueryResultsAdapter extends RecyclerView.Adapter<QueryResultsAdapte
 
         holder.contactName.setText(user.getFullname());
         holder.jobPosition.setText(user.getJobPosition().getName());
-        if (user.hasProfilePic()) holder.contactPic.setImageBitmap(user.getPicture());
+        if (user.hasPictureLoaded()) holder.contactPic.setImageBitmap(user.getPictureBitmap());
+        else if (user.hasPictureURL())
+            Picasso.with(context).load(user.getPictureURL()).into(holder.contactPic);
 
         holder.setOnClickListener(new OnContactClickListener(user));
     }

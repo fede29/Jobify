@@ -38,4 +38,12 @@ public class Skill implements Serializable {
 
     public String toString() { return name; }
 
+    @Override
+    public boolean equals(Object skill) {
+        Skill other = (Skill) skill;
+        return this.name.equals(other.name) &&
+                this.description.equals(other.description) &&
+                this.category.equals(other.category);
+    }
+
 }

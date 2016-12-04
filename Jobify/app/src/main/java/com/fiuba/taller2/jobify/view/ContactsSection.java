@@ -39,7 +39,6 @@ public class ContactsSection extends RelativeLayout {
 
     public void setViewsFrom(@NonNull User u) {
         user = u;
-        // TODO: Should do callback pattern and check if contacts are loaded as in ChatsFragment
         if (user.getContacts().size() > 0) noContactsText.setVisibility(View.GONE);
         else noContactsText.setVisibility(View.VISIBLE);
         contactsList.setAdapter(new ContactsListAdapter(getContext(), user.getContacts()));
